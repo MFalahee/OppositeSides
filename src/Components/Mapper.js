@@ -1,10 +1,11 @@
 import React from 'react'
+import GoogleMap from 'index'
 
 export default function Mapper(props) {
     // this will be the landing page
     return (
         <>
-            <h1>this will be google map</h1>
+            <GoogleMap />
         </>
     )
     }
