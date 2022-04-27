@@ -1,11 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-import landingPage from './Views/landingPage';
+import LandingPageView from './Views/LandingPageView';
+import {
+  React,
+} from 'react'
 
 function App() {
-  return (
-    <div className="App">
-      <landingPage />
+  return ( 
+    <div className = "App" >
+    <LandingPageView />
     </div>
   );
 }
