@@ -17,14 +17,17 @@ const LandingPageView = props => {
         console.log('PROD ENVIRONMENT SHOULD NOT BE HERE')
     } }, [])
 
-
-    return (
-        <div>
-            <h1>Opposite Sides</h1>
-            <GoogleMap ApiKey={key}/>
-        </div>
+    if (key === '') {
+        return <div>Waiting for API Key from google....</div>
+    } else {
+        return(
+            <div> 
+                <h1 style={{color:"red", background:"blue"}}>opposite sides</h1>
+                <GoogleMap api={key} />
+            </div>
         )
     }
+}
 
 
 export default LandingPageView
