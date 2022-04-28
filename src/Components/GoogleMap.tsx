@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent } from './index';
+import { MapComponent, Marker, GeolocateButton } from './index';
 import { isPropertySignature } from 'typescript';
 
 
@@ -31,26 +31,32 @@ const GoogleMap: React.VFC<WrapperProps> = ({api}) => {
         setClicks([...clicks, event.latLng]);
     };
 
+    const geolocate = (event: React.MouseEvent) => {
+        
+    }
+
     const onIdle = (map: google.maps.Map) => {
         console.log('onIdle')
         setZoom(map.getZoom());
         setCenter(map.getCenter().toJSON());
     }
-    //need to check if api key is valid
     
     if (api === ''){
         return <div>not set</div>;
     } else {
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
-                <Wrapper apiKey={api} render={render} >
-                    <MapComponent
-                    onClick={onClick}
-                    onIdle={onIdle}
-                    center={center} 
-                    zoom={zoom} 
-                    style={style}
-                    >
+                <Wrapper apiKey={api} render={render}>
+                    <MapComponent 
+                        onClick={onClick} 
+                        onIdle={onIdle} 
+                        center={center} 
+                        zoom={zoom} 
+                        style={style}>
+                        <GeolocateButton />
+                        {clicks.map((latLng, i) => (
+                            <Marker key={i} position={latLng} />
+                        ))}
                     </MapComponent>
                 </Wrapper>
             </div>

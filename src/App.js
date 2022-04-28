@@ -1,8 +1,6 @@
 import './App.css';
 import LandingPageView from './Views/LandingPageView';
-import {
-  React,
-} from 'react'
+import * as React from 'react'
 
 function App() {
   return ( 

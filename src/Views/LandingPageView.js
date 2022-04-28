@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GoogleMap } from '../Components/index'
+import { GoogleMap } from '../Components/index.tsx'
 import axios from 'axios'
 
 const LandingPageView = props => {

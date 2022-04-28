@@ -8,6 +8,9 @@ interface MapProps extends google.maps.MapOptions {
     onIdle?: (map: google.maps.Map) => void
 }
 
+
+//I don't know exactly how the deepCompareEquals works yet.
+//Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
 const deepCompareEqualsForMaps = createCustomEqual(
     (deepEqual) => (a: any, b: any) => {
       if (
@@ -108,6 +111,7 @@ const MapComponent : React.FC<MapProps> = ({
     <div ref={ref} style={style}/>
     {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
+          //sets the map prop on the child component
             return React.cloneElement(child, { map })
         }
     })}
