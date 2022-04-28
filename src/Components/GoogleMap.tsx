@@ -3,7 +3,6 @@
 import * as React from 'react'
 
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 import { MapComponent } from './index';
 import { isPropertySignature } from 'typescript';
 
@@ -17,26 +16,46 @@ interface WrapperProps{
 }
 
 const GoogleMap: React.VFC<WrapperProps> = ({api}) => {
-    // const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
+    const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
     const [zoom, setZoom] = React.useState(4);
-    const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
-    const [style, setStyle] = React.useState({})
+    const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({ lat: -25.344, lng: 131.031 });
+    const [style, setStyle] = React.useState({
+            width: '100%',
+            height: '100%',
+            flexGrow: '1',
+    })
 
-    if (api != '') {
-        console.log(api)
+    const onClick = (event: google.maps.MapMouseEvent) => { 
+        console.log('onClick')
+        //google says to avoid directly mutating state
+        setClicks([...clicks, event.latLng]);
+    };
+
+    const onIdle = (map: google.maps.Map) => {
+        console.log('onIdle')
+        setZoom(map.getZoom());
+        setCenter(map.getCenter().toJSON());
+    }
+    //need to check if api key is valid
+    
+    if (api === ''){
+        return <div>not set</div>;
+    } else {
         return (
-            <div style={{display: "flex", height:"100vh", width:"100vw"}}>
-                <Wrapper apiKey={api} render={render}>
-                    <MapComponent center={center} zoom={zoom} style={style} />
+            <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
+                <Wrapper apiKey={api} render={render} >
+                    <MapComponent
+                    onClick={onClick}
+                    onIdle={onIdle}
+                    center={center} 
+                    zoom={zoom} 
+                    style={style}
+                    >
+                    </MapComponent>
                 </Wrapper>
             </div>
         )
-    } else {
-        return (
-            <h1>waiting on API Key.</h1>
-        )
-    }
-  
+    } 
 }
 
 

@@ -6,27 +6,19 @@ const LandingPageView = props => {
     const [key, setKey] = useState('')
 
     useEffect(() => {
-    if (process.env.NODE_ENV != 'production') {
+        console.log('Retrieving Key... stand by')
         axios.get(`http://localhost:5555/api`)
             .then(res => {
                 setKey(res.data)
-                console.log('key acquired')
-                console.log("API KEY: ", res.data)
+                console.log("API KEY SET")
             })
-    } else {
-        console.log('PROD ENVIRONMENT SHOULD NOT BE HERE')
-    } }, [])
-
-    if (key === '') {
-        return <div>Waiting for API Key from google....</div>
-    } else {
+    }, [])
         return(
             <div> 
                 <h1 style={{color:"red", background:"blue"}}>opposite sides</h1>
-                <GoogleMap api={key} />
+                <GoogleMap api={key}/>
             </div>
         )
-    }
 }
 
 

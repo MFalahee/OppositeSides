@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 
 export default function InputField(props) {
     // this will be the input field for your address/clicking find my location
