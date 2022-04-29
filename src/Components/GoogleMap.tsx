@@ -31,6 +31,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         });
   
         // infoWindow = new google.maps.InfoWindow();
+        function initInfoWindow() {
+            infoWindow = new google.maps.InfoWindow()
+         }
 
         const onClick = (event: google.maps.MapMouseEvent) => {
             console.log('onClick')
@@ -58,6 +61,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         longitude
                     } = position.coords;
 
+                    infoWindow = new google.maps.InfoWindow()
                     infoWindow.setPosition({
                         lat: latitude,
                         lng: longitude
@@ -84,11 +88,13 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             setCenter(map.getCenter().toJSON());
         }
 
+    
+
     if (api === ''){
         return <div>not set</div>;
     } else {
         // if we have an api key, try to render the map
-        infoWindow = new google.maps.InfoWindow();
+        // infoWindow needs to be created AFTER the wrapper is mounted so google obj is available
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>

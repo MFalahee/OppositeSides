@@ -2,6 +2,8 @@ import * as React from 'react'
 import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 import { createCustomEqual } from "fast-equals";
 
+
+
 interface MapProps extends google.maps.MapOptions {
     style: {[key: string]: string}
     onClick?: (event: google.maps.MapMouseEvent) => void
@@ -57,7 +59,6 @@ const MapComponent : React.FC<MapProps> = ({
 }) => {
     const [map, setMap] = React.useState<google.maps.Map>()
     const ref = React.useRef<HTMLDivElement>(null)
-
     React.useEffect(() => {
         //this uses the google maps api to load the map only when the ref has changed
         if (ref.current && !map) {
@@ -90,21 +91,6 @@ const MapComponent : React.FC<MapProps> = ({
             }
           }, [map, onClick, onIdle]);
 
-          React.useEffect(() => {
-            if (map) {
-              ["click", "idle"].forEach((eventName) =>
-                google.maps.event.clearListeners(map, eventName)
-              );
-        
-              if (onClick) {
-                map.addListener("click", onClick);
-              }
-        
-              if (onIdle) {
-                map.addListener("idle", () => onIdle(map));
-              }
-            }
-          }, [map, onClick, onIdle])
           
     return ( 
     <>
