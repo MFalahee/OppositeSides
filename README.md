@@ -9,16 +9,15 @@ Hopefully by the end of it, I'll have something that's made with many mistakes, 
 
 ### Currently built with:
 
-| -------------------------------------------------------------------------------------------------- |
-|[Typescript](https://www.npmjs.com/package/typescript)|Language built on top of JS that adds a whole new ballgame with types. |
-|[React](https://www.npmjs.com/package/react)|React? I know of it, yeah. I use it. |
-|[React-DOM](https://www.npmjs.com/package/react-dom)|^ I had a good buddy named Dom once, nice guy. |
-|Google Maps [React-Wrapper](https://www.npmjs.com/package/@googlemaps/react-wrapper)|Wrapper and Status components that allow smooth rendering of a Google Map react component |
-|[SASS](https://www.npmjs.com/package/sass)|Styling styling styling - ain't nobody got time for vanilla css |
-|[Axios](https://www.npmjs.com/package/axios)|Used for HTTP requests to local backend API key storage for now |
-|[fast-equals](https://www.npmjs.com/package/fast-equals)| allows for fast equality comparisons on two objects (Google made me) |
-| ----------------------------- |
-
+| Dependency       	|                                                                               	|
+|------------------	|--------------------------------------------------------------------------------	|
+| [Typescript](https://www.npmjs.com/package/typescript)       	| Language built on top of JS that adds a whole new ballgame with optional types 	|
+| [React](https://www.npmjs.com/package/react)| React? I know of it, yeah. I use it.                                           	|
+| [React-DOM](https://www.npmjs.com/package/react-dom)       	| ^ I had a good buddy named Dom once, nice guy.                                 	|
+| Google Maps [React-Wrapper](https://www.npmjs.com/package/@googlemaps/react-wrapper) 	| Google Maps wrapper that allows for pretty easy react component Map use        	|
+| [SASS](https://www.npmjs.com/package/sass)             	| Styling! Ain't nobody got time for it.                                         	|
+| [Axios](https://www.npmjs.com/package/axios)            	| Used for HTTP requests to local backend API key storage for now                	|
+| [fast-equals](https://www.npmjs.com/package/fast-equals)      	| fast equality comparisons (google made me)                                     	|
 ---
 
 If you have comments or want to contribute to the project, please contact me!
