@@ -10,21 +10,6 @@ interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void
 }
 
-function handleLocationError(
-    browserHasGeolocation : boolean,
-    infoWindow : google.maps.InfoWindow,
-    pos: google.maps.LatLng,
-    /*potential issue */ 
-    map : google.maps.Map
-    ){
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
-
-
 const GeolocateButton : React.FC<ButtonProps> = ({onClick}) => {
     return (
         //this is the button that will be rendered
