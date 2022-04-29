@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { GoogleMap } from '../Components/index.tsx'
+import * as React from 'react'
+import { GoogleMap } from '../Components/index'
 import axios from 'axios'
 
-const LandingPageView = props => {
-    const [key, setKey] = useState('')
-
-    useEffect(() => {
+const MainView : React.FC = (props) => {
+    const [key, setKey] = React.useState('')
+    React.useEffect(() => {
         console.log('Retrieving Key... stand by')
         axios.get(`http://localhost:5555/api`)
             .then(res => {
@@ -14,12 +13,12 @@ const LandingPageView = props => {
             })
     }, [])
         return(
-            <div> 
-                <h1 style={{color:"red", background:"blue"}}>opposite sides</h1>
+            <div className="view-wrapper">
+                <h1>yo</h1>
                 <GoogleMap api={key}/>
             </div>
         )
 }
 
 
-export default LandingPageView
+export default MainView

@@ -9,7 +9,7 @@ interface MapProps extends google.maps.MapOptions {
 }
 
 
-//I don't know exactly how the deepCompareEquals works yet.
+//I don't know exactly how deepCompareEquals works yet.
 //Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
 const deepCompareEqualsForMaps = createCustomEqual(
     (deepEqual) => (a: any, b: any) => {

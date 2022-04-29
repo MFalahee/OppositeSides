@@ -1,7 +1,4 @@
-// I'm going to copy the code from the tutorial here for now
-// It won't work at all until I setup the node backend with my api key stored there.
 import * as React from 'react'
-
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { MapComponent, Marker, GeolocateButton } from './index';
 import { isPropertySignature } from 'typescript';
@@ -21,9 +18,9 @@ let map: google.maps.Map;
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
     }) => {
-        const [clicks, setClicks] = React.useState < google.maps.LatLng[] > ([]);
+        const [clicks, setClicks] = React.useState <google.maps.LatLng[]> ([]);
         const [zoom, setZoom] = React.useState(4);
-        const [center, setCenter] = React.useState < google.maps.LatLngLiteral > ({
+        const [center, setCenter] = React.useState <google.maps.LatLngLiteral> ({
             lat: -25.344,
             lng: 131.031
         });
@@ -31,10 +28,10 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             width: '100%',
             height: '100%',
             flexGrow: '1',
-        })
+        });
   
-        infoWindow = new google.maps.InfoWindow();
-        
+        // infoWindow = new google.maps.InfoWindow();
+
         const onClick = (event: google.maps.MapMouseEvent) => {
             console.log('onClick')
             //google says to avoid directly mutating state
@@ -62,9 +59,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         latitude,
                         longitude
                     } = position.coords;
-                    console.log(position)
-                    console.log(latitude)
-                    console.log(longitude)
 
                     infoWindow.setPosition({
                         lat: latitude,
@@ -95,6 +89,8 @@ const GoogleMap: React.VFC < WrapperProps > = ({
     if (api === ''){
         return <div>not set</div>;
     } else {
+
+        infoWindow = new google.maps.InfoWindow();
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>
