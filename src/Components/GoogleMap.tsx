@@ -42,8 +42,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             browserHasGeolocation: boolean,
             infoWindow: google.maps.InfoWindow,
             pos: google.maps.LatLng,
-            /*potential issue */
-
         ) {
             infoWindow.setPosition(pos);
             infoWindow.setContent(browserHasGeolocation ?
@@ -89,7 +87,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
     if (api === ''){
         return <div>not set</div>;
     } else {
-
+        // if we have an api key, try to render the map
         infoWindow = new google.maps.InfoWindow();
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
