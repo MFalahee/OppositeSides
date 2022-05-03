@@ -10,9 +10,17 @@ interface MapProps extends google.maps.MapOptions {
     onIdle?: (map: google.maps.Map) => void
 }
 
-
+/*
 //I don't know exactly how deepCompareEquals works yet.
-//Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
+useEffect info : https://reactjs.org/docs/hooks-effect.html
+custom hooks info: https://reactjs.org/docs/hooks-custom.html
+Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
+
+the gist (I think) of these functions is that they are doing deeper comparisons than the useEffect function normally does between component renders
+This allows for the map to update when the map changes
+
+I need to take a closer look at this stuff to really learn this type of fix and the limitations of useEffect
+*/
 const deepCompareEqualsForMaps = createCustomEqual(
     (deepEqual) => (a: any, b: any) => {
       if (

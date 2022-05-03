@@ -10,6 +10,7 @@ const render = (status: Status) => {
 
 interface WrapperProps {
     api: string;
+    weather: string;
 }
 
 let infoWindow: google.maps.InfoWindow;
