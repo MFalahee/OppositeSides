@@ -1,8 +1,15 @@
 import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton } from './index';
+import { MapComponent, Marker, GeolocateButton, Weather } from './index';
 import { isPropertySignature } from 'typescript';
 
+
+/*
+
+Weather will be pulled into this component from Weather.tsx
+Not sure what to do with that yet
+
+*/
 
 const render = (status: Status) => {
     return <h1>{status}</h1>;

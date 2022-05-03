@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { GoogleMap } from '../Components/index'
-import axios from 'axios'
+import { axiosWithAuth } from '../Helpers/axiosWithAuth';
 
 let link : string = process.env.REACT_APP_API_URL
 
@@ -9,15 +9,17 @@ const MainView : React.FC = (props) => {
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')
     React.useEffect(() => {
-        axios.get(`${link}/api`)
+
+        // get the maps key from the backend
+        axiosWithAuth.get(`/api`)
             .then(res => {
                 setMapsKey(res.data)
                 console.log("API KEY SET")
             }).catch(err => {
                 console.error(err)
             })
-            
-            axios.get(`${link}/api/weather`).then(res => {
+        // get the weather key from the backend
+            axiosWithAuth.get(`/api/weather`).then(res => {
                 setWeatherKey(res.data)
                 console.log("WEATHER KEY SET")
             }).catch(err => {
