@@ -1,5 +1,6 @@
-import * as React from 'react'
-import { ButtonProps } from '../Helpers/CustomTypesIndex'
+import * as React from "react"
+import { ButtonProps } from "../Helpers/CustomTypesIndex"
+
 
 const AntipodeButton : React.FC<ButtonProps> = (props) => {
     console.log(props)

@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton } from './index';
 import { WrapperProps } from '../Helpers/CustomTypesIndex'
+
+
 /*
 
 Weather will be pulled into this component from Weather.tsx
@@ -15,6 +17,7 @@ const render = (status: Status) => {
 
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
+let customDependencies = {};
 
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
@@ -60,44 +63,47 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow.open(map);
         }
 
-        // React.useEffect(() => {
-        //     console.log('LOG EFFECT CALLED')
-        //     console.log('ANTIPODE')
-        //     console.log(antipode)
-        //     console.log('CENTER')
-        //     console.log(center)
-        // }, [antipode, center])
+        /*this is just a template for my learning for a custom useEffect*/
+        const customLogEffect : React.EffectCallback = () => {
+            console.log('customLogEffect')
 
-        // I want to add a glide effect to this function
-        // I'd like to have the map smoothly slide to the user's location from the center of the map
-        const geolocate = (event: React.MouseEvent) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-                    const {
-                        latitude,
-                        longitude
-                    } = position.coords;
-
-                    infoWindow = new google.maps.InfoWindow()
-                    infoWindow.setPosition({
-                        lat: latitude,
-                        lng: longitude
-                    });
-                    infoWindow.setContent('Location found.');
-                    infoWindow.open(map);
-                    setCenter({
-                        lat: latitude,
-                        lng: longitude
-                    });
-
-                }, () => {
-                    handleLocationError(true, infoWindow, map.getCenter()!)
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter()!)
-            }
         }
+
+        customDependencies = {}
+        React.useEffect(customLogEffect, [customDependencies])
+
+       const geolocate = (event: React.MouseEvent) => {
+           if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+                   const {
+                       latitude,
+                       longitude
+                   } = position.coords;
+
+                   infoWindow = new google.maps.InfoWindow()
+                   infoWindow.setPosition({
+                       lat: latitude,
+                       lng: longitude
+                   });
+                   infoWindow.setContent('Location found.');
+                   infoWindow.open(map);
+
+
+                   // I want to add a glide effect to this function
+                   // I'd like to have the map smoothly slide to the user's location from the center of the map
+                   setCenter({
+                       lat: latitude,
+                       lng: longitude
+                   });
+
+               }, () => {
+                   handleLocationError(true, infoWindow, map.getCenter() !)
+               });
+           } else {
+               // Browser doesn't support Geolocation
+               handleLocationError(false, infoWindow, map.getCenter() !)
+           }
+       }
 
 
         const findAntipode = (event: React.MouseEvent) => {

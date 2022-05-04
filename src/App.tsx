@@ -1,4 +1,4 @@
-import './App.css';
+import './Styles/root.scss'
 import * as React from 'react'
 import { MainView } from './Views/index'
 
