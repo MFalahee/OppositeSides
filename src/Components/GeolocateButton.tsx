@@ -5,10 +5,10 @@ import * as React from 'react'
 //google.maps.Map can be used to change the lng and lat values based on the user's location
 //this shouldn't be as hard as setting up the map itself! so that's a plus
 
-//need to make buttonProps interface that 
 interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void
 }
+
 
 const GeolocateButton : React.FC<ButtonProps> = ({onClick}) => {
     return (

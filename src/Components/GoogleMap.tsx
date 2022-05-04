@@ -1,8 +1,15 @@
 import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton } from './index';
-import { isPropertySignature } from 'typescript';
+import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton } from './index';
 
+
+
+/*
+
+Weather will be pulled into this component from Weather.tsx
+Not sure what to do with that yet
+
+*/
 
 const render = (status: Status) => {
     return <h1>{status}</h1>;
@@ -10,7 +17,9 @@ const render = (status: Status) => {
 
 interface WrapperProps {
     api: string;
+    weather: string;
 }
+
 
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
@@ -24,6 +33,11 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             lat: -25.344,
             lng: 131.031
         });
+        const [weather, setWeather] = React.useState <string> ('');
+        const [antipode, setAntipode] = React.useState <google.maps.LatLngLiteral> ({
+            lat: 0,
+            lng: 0
+        });
         const [style, setStyle] = React.useState({
             width: '100%',
             height: '100%',
@@ -31,6 +45,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         });
   
         // infoWindow = new google.maps.InfoWindow();
+        function initInfoWindow() {
+            infoWindow = new google.maps.InfoWindow()
+         }
 
         const onClick = (event: google.maps.MapMouseEvent) => {
             console.log('onClick')
@@ -50,6 +67,16 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow.open(map);
         }
 
+        React.useEffect(() => {
+            console.log('LOG EFFECT CALLED')
+            console.log('ANTIPODE')
+            console.log(antipode)
+            console.log('CENTER')
+            console.log(center)
+        }, [antipode, center])
+
+        // I want to add a glide effect to this function
+        // I'd like to have the map smoothly slide to the user's location from the center of the map
         const geolocate = (event: React.MouseEvent) => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
@@ -58,6 +85,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         longitude
                     } = position.coords;
 
+                    infoWindow = new google.maps.InfoWindow()
                     infoWindow.setPosition({
                         lat: latitude,
                         lng: longitude
@@ -78,17 +106,30 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             }
         }
 
+
+        const findAntipode = (event: React.MouseEvent) => {
+            let antipodeLngSuppAng = 180 - Math.abs(center.lng)
+            let antipodeLng = (center.lng > 0 ? -1 : 1) * antipodeLngSuppAng
+            let antipodeLat = center.lat * -1
+            setAntipode({ 
+                lat: antipodeLat,
+                lng: antipodeLng
+            })
+        }
+
         const onIdle = (map: google.maps.Map) => {
             console.log('onIdle')
             setZoom(map.getZoom());
             setCenter(map.getCenter().toJSON());
         }
 
+    
+
     if (api === ''){
-        return <div>not set</div>;
+        return <div>Not Chill</div>;
     } else {
         // if we have an api key, try to render the map
-        infoWindow = new google.maps.InfoWindow();
+        // infoWindow needs to be created AFTER the wrapper is mounted so google obj is available
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>
@@ -99,6 +140,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         zoom={zoom} 
                         style={style}>
                         <GeolocateButton onClick={geolocate}/>
+                        <AntipodeButton onClick={findAntipode}/>
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />
                         ))}

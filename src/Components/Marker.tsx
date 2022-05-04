@@ -7,6 +7,7 @@ const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
     //sets a marker on the map, or updates it. Markers get cleared on unmount
     //this component can return null because google.maps.Map is handling the DOM manipulation
 
+
     React.useEffect(() => {
         if (!marker){
             setMarker(new google.maps.Marker());

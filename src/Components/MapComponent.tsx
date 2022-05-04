@@ -2,15 +2,25 @@ import * as React from 'react'
 import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 import { createCustomEqual } from "fast-equals";
 
+
+
 interface MapProps extends google.maps.MapOptions {
     style: {[key: string]: string}
     onClick?: (event: google.maps.MapMouseEvent) => void
     onIdle?: (map: google.maps.Map) => void
 }
 
+/*
+I don't know exactly how deepCompareEquals works yet.
+useEffect info : https://reactjs.org/docs/hooks-effect.html
+custom hooks info: https://reactjs.org/docs/hooks-custom.html
+Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
 
-//I don't know exactly how deepCompareEquals works yet.
-//Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
+the gist (I think) of these functions is that they are doing deeper comparisons than the useEffect function normally does between component renders
+This allows for the map to update when the map changes
+
+I need to take a closer look at this stuff to really learn this type of fix for the limitations of useEffect
+*/
 const deepCompareEqualsForMaps = createCustomEqual(
     (deepEqual) => (a: any, b: any) => {
       if (
@@ -57,7 +67,6 @@ const MapComponent : React.FC<MapProps> = ({
 }) => {
     const [map, setMap] = React.useState<google.maps.Map>()
     const ref = React.useRef<HTMLDivElement>(null)
-
     React.useEffect(() => {
         //this uses the google maps api to load the map only when the ref has changed
         if (ref.current && !map) {
@@ -90,21 +99,6 @@ const MapComponent : React.FC<MapProps> = ({
             }
           }, [map, onClick, onIdle]);
 
-          React.useEffect(() => {
-            if (map) {
-              ["click", "idle"].forEach((eventName) =>
-                google.maps.event.clearListeners(map, eventName)
-              );
-        
-              if (onClick) {
-                map.addListener("click", onClick);
-              }
-        
-              if (onIdle) {
-                map.addListener("idle", () => onIdle(map));
-              }
-            }
-          }, [map, onClick, onIdle])
           
     return ( 
     <>

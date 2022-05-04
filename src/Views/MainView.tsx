@@ -1,24 +1,36 @@
 import * as React from 'react'
 import { GoogleMap } from '../Components/index'
-import axios from 'axios'
+import { axiosWithAuth } from '../Helpers/axiosWithAuth';
 
 const MainView : React.FC = (props) => {
-    const [key, setKey] = React.useState('')
+
+    const [mapsKey, setMapsKey] = React.useState('')
+    const [weatherKey, setWeatherKey] = React.useState('')
+
     React.useEffect(() => {
-        console.log('Retrieving Key... stand by')
-        axios.get(`http://localhost:5555/api`)
+
+        axiosWithAuth.get(`/api`)
             .then(res => {
-                setKey(res.data)
+                setMapsKey(res.data)
                 console.log("API KEY SET")
+            }).catch(err => {
+                console.error(err)
+            })
+            axiosWithAuth.get(`/api/weather`).then(res => {
+                setWeatherKey(res.data)
+                console.log("WEATHER KEY SET")
+            }).catch(err => {
+                console.error(err)
             })
     }, [])
+
         return(
+            
             <div className="view-wrapper">
                 <h1>yo</h1>
-                <GoogleMap api={key}/>
+                <GoogleMap api={mapsKey} weather={weatherKey} />
             </div>
         )
 }
-
 
 export default MainView
