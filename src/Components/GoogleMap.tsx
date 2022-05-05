@@ -1,7 +1,8 @@
 import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton } from './index';
-
+import { MapComponent, Marker, GeolocateButton,AntipodeButton, MapControl } from './index';
+import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
 
 
 /*
@@ -15,14 +16,21 @@ const render = (status: Status) => {
     return <h1>{status}</h1>;
 };
 
-interface WrapperProps {
-    api: string;
-    weather: string;
+let infoWindow: google.maps.InfoWindow;
+let map: google.maps.Map;
+let customDependencies = {};
+let ui = true;
+
+let uiOptions = {
+    zoomControl: true,
+    streetViewcontrol: true,
+    fullscreenControl: true,
+    rotateControl: true
 }
 
 
-let infoWindow: google.maps.InfoWindow;
-let map: google.maps.Map;
+
+ 
 
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
@@ -33,6 +41,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             lat: -25.344,
             lng: 131.031
         });
+        const [buttonToggle, setButtonToggle] = React.useState<Boolean>(true);
         const [weather, setWeather] = React.useState <string> ('');
         const [antipode, setAntipode] = React.useState <google.maps.LatLngLiteral> ({
             lat: 0,
@@ -43,14 +52,20 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             height: '100%',
             flexGrow: '1',
         });
-  
+
+        const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
+            controlLabel: 'Geolocate',
+            controlToggle: true,
+            controlClick: () => geolocate
+        });
+        
         // infoWindow = new google.maps.InfoWindow();
         function initInfoWindow() {
             infoWindow = new google.maps.InfoWindow()
          }
 
         const onClick = (event: google.maps.MapMouseEvent) => {
-            console.log('onClick')
+            // console.log('onClick')
             //google says to avoid directly mutating state
             setClicks([...clicks, event.latLng]);
         };
@@ -67,44 +82,49 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow.open(map);
         }
 
-        React.useEffect(() => {
-            console.log('LOG EFFECT CALLED')
-            console.log('ANTIPODE')
-            console.log(antipode)
-            console.log('CENTER')
-            console.log(center)
-        }, [antipode, center])
+        /*this is just a template for my learning for a custom useEffect*/
+        const customLogEffect : React.EffectCallback = () => {
+            // console.log('customLogEffect')
 
-        // I want to add a glide effect to this function
-        // I'd like to have the map smoothly slide to the user's location from the center of the map
-        const geolocate = (event: React.MouseEvent) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-                    const {
-                        latitude,
-                        longitude
-                    } = position.coords;
-
-                    infoWindow = new google.maps.InfoWindow()
-                    infoWindow.setPosition({
-                        lat: latitude,
-                        lng: longitude
-                    });
-                    infoWindow.setContent('Location found.');
-                    infoWindow.open(map);
-                    setCenter({
-                        lat: latitude,
-                        lng: longitude
-                    });
-
-                }, () => {
-                    handleLocationError(true, infoWindow, map.getCenter()!)
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter()!)
-            }
         }
+
+        customDependencies = {}
+        React.useEffect(customLogEffect, [customDependencies])
+
+       const geolocate = (event: React.MouseEvent) => {
+           if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+                   const {
+                       latitude,
+                       longitude
+                   } = position.coords;
+
+                   infoWindow = new google.maps.InfoWindow()
+                   infoWindow.setPosition({
+                       lat: latitude,
+                       lng: longitude
+                   });
+                   infoWindow.setContent('Location found.');
+                   infoWindow.open(map);
+
+
+                   // I want to add a glide effect to this function
+                   // I'd like to have the map smoothly slide to the user's location from the center of the map
+                   setCenter({
+                       lat: latitude,
+                       lng: longitude
+                   });
+
+                   setButtonToggle(false);
+
+               }, () => {
+                   handleLocationError(true, infoWindow, map.getCenter() !)
+               });
+           } else {
+               // Browser doesn't support Geolocation
+               handleLocationError(false, infoWindow, map.getCenter() !)
+           }
+       }
 
 
         const findAntipode = (event: React.MouseEvent) => {
@@ -115,14 +135,41 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                 lat: antipodeLat,
                 lng: antipodeLng
             })
+
+            setButtonToggle(true);
         }
 
         const onIdle = (map: google.maps.Map) => {
-            console.log('onIdle')
+            // console.log('onIdle')
             setZoom(map.getZoom());
             setCenter(map.getCenter().toJSON());
         }
 
+
+        const overlaySpot = (direction: string) => { 
+            // this is triggering an error because google isn't defined when this is called?
+            let output : google.maps.ControlPosition;
+            switch (direction) {
+                case 'bl' : output = window.google.maps.ControlPosition["BOTTOM_LEFT"]; break;
+                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
+                case 'br' : output = window.google.maps.ControlPosition["BOTTOM_RIGHT"];break;
+                case 'tl' : output = window.google.maps.ControlPosition["TOP_LEFT"];break;
+                case 'tc' : output = window.google.maps.ControlPosition["TOP_CENTER"];break;
+                case 'tr' : output = window.google.maps.ControlPosition["TOP_RIGHT"];break;
+                case 'lc' : output = window.google.maps.ControlPosition["LEFT_CENTER"];break;
+                case 'rc' : output = window.google.maps.ControlPosition["RIGHT_CENTER"];break;
+                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
+                default: output =  window.google.maps.ControlPosition["BOTTOM_CENTER"];
+            }
+            return output;
+        }
+
+        const handleOnLoad = () => {
+            const mapControlDiv = document.createElement('div');
+            ReactDOM.render(<MapControl controlClick={controlOptions.controlClick} controlLabel={controlOptions.controlLabel} controlToggle={controlOptions.controlToggle}  />, mapControlDiv);
+            map.controls[overlaySpot('bl')].push(mapControlDiv);
+            console.log(overlaySpot('bl'))
+        }
     
 
     if (api === ''){
@@ -135,12 +182,17 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                 <Wrapper apiKey={api} render={render}>
                     <MapComponent 
                         onClick={onClick} 
-                        onIdle={onIdle} 
+                        onIdle={onIdle}
+                        onLoad={handleOnLoad}
                         center={center} 
                         zoom={zoom} 
-                        style={style}>
-                        <GeolocateButton onClick={geolocate}/>
-                        <AntipodeButton onClick={findAntipode}/>
+                        style={style}
+                        disableDefaultUI={ui}
+                        zoomControl= {true}
+                        streetViewControl= {true}
+                        fullscreenControl= {true}
+                        rotateControl= {true}
+                        >
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />
                         ))}
