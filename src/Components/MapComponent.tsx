@@ -74,7 +74,7 @@ const MapComponent : React.FC<MapProps> = ({
         if (map) {
           console.log('Map loaded')
           console.log(map)
-          onLoad(map) 
+          // onLoad(map) 
         }
       }, [map])
 
