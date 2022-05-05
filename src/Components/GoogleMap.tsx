@@ -46,7 +46,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
          }
 
         const onClick = (event: google.maps.MapMouseEvent) => {
-            console.log('onClick')
+            // console.log('onClick')
             //google says to avoid directly mutating state
             setClicks([...clicks, event.latLng]);
         };
@@ -65,7 +65,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
 
         /*this is just a template for my learning for a custom useEffect*/
         const customLogEffect : React.EffectCallback = () => {
-            console.log('customLogEffect')
+            // console.log('customLogEffect')
 
         }
 
@@ -96,6 +96,8 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                        lng: longitude
                    });
 
+                   setButtonToggle(false);
+
                }, () => {
                    handleLocationError(true, infoWindow, map.getCenter() !)
                });
@@ -114,10 +116,12 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                 lat: antipodeLat,
                 lng: antipodeLng
             })
+
+            setButtonToggle(true);
         }
 
         const onIdle = (map: google.maps.Map) => {
-            console.log('onIdle')
+            // console.log('onIdle')
             setZoom(map.getZoom());
             setCenter(map.getCenter().toJSON());
         }
@@ -139,7 +143,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         zoom={zoom} 
                         style={style}>
                         <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
-                        <AntipodeButton onClick={findAntipode} visible={!(buttonToggle)}/>
+                        <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />
                         ))}

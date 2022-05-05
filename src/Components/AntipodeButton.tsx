@@ -3,7 +3,6 @@ import { ButtonProps } from "../Helpers/CustomTypesIndex"
 
 
 const AntipodeButton : React.FC<ButtonProps> = (props) => {
-    console.log(props)
     return (
      props.visible ?
             <button onClick={props.onClick}>
