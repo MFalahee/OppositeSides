@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton } from './index';
-import { WrapperProps } from '../Helpers/CustomTypesIndex'
+import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton, MapControl } from './index';
+import { WrapperProps, MapControlProps, posObj } from '../Helpers/CustomTypesIndex'
+import { DribbbleCircleFilled } from '@ant-design/icons';
 
 
 /*
@@ -27,6 +28,10 @@ let uiOptions = {
     rotateControl: true
 }
 
+
+
+ 
+
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
     }) => {
@@ -47,7 +52,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             height: '100%',
             flexGrow: '1',
         });
-  
+        
         // infoWindow = new google.maps.InfoWindow();
         function initInfoWindow() {
             infoWindow = new google.maps.InfoWindow()
@@ -59,6 +64,25 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             setClicks([...clicks, event.latLng]);
         };
 
+
+        const overlaySpot = (direction: string) => { 
+            let temp : google.maps.ControlPosition;
+            let output = ''
+            switch (direction) {
+                case 'bl' : output = "BOTTOM_LEFT";
+                case 'bc' : output = "BOTTOM_CENTER";
+                case 'br' : output = "BOTTOM_RIGHT";
+                case 'tl' : output = "TOP_LEFT";
+                case 'tc' : output = "TOP_CENTER";
+                case 'tr' : output = "TOP_RIGHT";
+                case 'lc' : output = "LEFT_CENTER";
+                case 'rc' : output = "RIGHT_CENTER";
+                case 'bc' : output = "BOTTOM_CENTER";
+                default: output = "BOTTOM_CENTER";
+            }
+
+            return temp[output];
+        }
         function handleLocationError(
             browserHasGeolocation: boolean,
             infoWindow: google.maps.InfoWindow,
@@ -156,8 +180,10 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         fullscreenControl= {true}
                         rotateControl= {true}
                         >
-                        <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
-                        <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
+                        <MapControl map={map} position={overlaySpot('bl')}>
+                            <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
+                            <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
+                        </MapControl>
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />
                         ))}
