@@ -12,7 +12,6 @@ const MainView : React.FC = (props) => {
     const [weatherKey, setWeatherKey] = React.useState('')
 
     React.useEffect(() => {
-
         axiosWithAuth.get(`/api`)
             .then(res => {
                 setMapsKey(res.data)
@@ -27,7 +26,6 @@ const MainView : React.FC = (props) => {
     }, [])
 
         return(
-
             <div className="view-wrapper">
                 <Title className="mainTitle">Opposite Sides</Title>
                 <GoogleMap api={mapsKey} weather={weatherKey} />
