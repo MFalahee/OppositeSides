@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton, MapControl } from './index';
-import { WrapperProps, MapControlProps } from '../Helpers/CustomTypesIndex'
+import { MapComponent, Marker, GeolocateButton,AntipodeButton, MapControl } from './index';
+import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
 
 
 /*
@@ -41,7 +41,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             lat: -25.344,
             lng: 131.031
         });
-        const [buttonToggle, setButtonToggle] = React.useState(true);
+        const [buttonToggle, setButtonToggle] = React.useState<Boolean>(true);
         const [weather, setWeather] = React.useState <string> ('');
         const [antipode, setAntipode] = React.useState <google.maps.LatLngLiteral> ({
             lat: 0,
@@ -51,6 +51,12 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             width: '100%',
             height: '100%',
             flexGrow: '1',
+        });
+
+        const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
+            controlLabel: 'Geolocate',
+            controlToggle: true,
+            controlClick: () => geolocate
         });
         
         // infoWindow = new google.maps.InfoWindow();
@@ -158,10 +164,11 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
-        const handleOnLoad = (props) => {
+        const handleOnLoad = () => {
             const mapControlDiv = document.createElement('div');
-            ReactDOM.render(<MapControl onClick={props.controlClick} visible={props.visible} label={props.label}  />, mapControlDiv);
+            ReactDOM.render(<MapControl controlClick={controlOptions.controlClick} controlLabel={controlOptions.controlLabel} controlToggle={controlOptions.controlToggle}  />, mapControlDiv);
             map.controls[overlaySpot('bl')].push(mapControlDiv);
+            console.log(overlaySpot('bl'))
         }
     
 
@@ -175,7 +182,8 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                 <Wrapper apiKey={api} render={render}>
                     <MapComponent 
                         onClick={onClick} 
-                        onIdle={onIdle} 
+                        onIdle={onIdle}
+                        onLoad={handleOnLoad}
                         center={center} 
                         zoom={zoom} 
                         style={style}
@@ -185,12 +193,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         fullscreenControl= {true}
                         rotateControl= {true}
                         >
-
-                        {map ? null : null}
-                        <MapControl >
-                            <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
-                            <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
-                        </MapControl>
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />
                         ))}

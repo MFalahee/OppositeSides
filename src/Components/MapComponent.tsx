@@ -56,6 +56,7 @@ const MapComponent : React.FC<MapProps> = ({
     style,
     center,
     zoom,
+    onLoad,
     children,
     ...options
 }) => {
@@ -66,7 +67,16 @@ const MapComponent : React.FC<MapProps> = ({
         if (ref.current && !map) {
             setMap(new window.google.maps.Map(ref.current, {}))
             }
+  
         }, [ref, map])
+
+      React.useEffect(() => {
+        if (map) {
+          console.log('Map loaded')
+          console.log(map)
+          onLoad(map) 
+        }
+      }, [map])
 
         useDeepCompareEffectForMaps(() => {
             if (map) {

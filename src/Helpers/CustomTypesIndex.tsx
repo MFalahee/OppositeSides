@@ -16,6 +16,7 @@ export interface MapProps extends google.maps.MapOptions {
     onClick?: (event: google.maps.MapMouseEvent) => void
     onIdle?: (map: google.maps.Map) => void
     disableDefaultUI?: boolean
+    onLoad: (map: google.maps.Map) => void;
 }
 
 
@@ -24,10 +25,10 @@ export interface MapControlProps {
     map: google.maps.Map;
 }
 
-export interface ControlButtonProps {
-    onClick: () => void;
-    label: string;
-    visible: boolean;
+export interface ControlOptions {
+    controlClick: () => void;
+    controlLabel: string;
+    controlToggle: boolean;
 }
 export const posObj = {
     TOP_LEFT: google.maps.ControlPosition,
