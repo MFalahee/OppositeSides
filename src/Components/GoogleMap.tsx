@@ -18,6 +18,14 @@ const render = (status: Status) => {
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
 let customDependencies = {};
+let ui = true;
+
+let uiOptions = {
+    zoomControl: true,
+    streetViewcontrol: true,
+    fullscreenControl: true,
+    rotateControl: true
+}
 
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
@@ -141,7 +149,13 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         onIdle={onIdle} 
                         center={center} 
                         zoom={zoom} 
-                        style={style}>
+                        style={style}
+                        disableDefaultUI={ui}
+                        zoomControl= {true}
+                        streetViewControl= {true}
+                        fullscreenControl= {true}
+                        rotateControl= {true}
+                        >
                         <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
                         <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
                         {clicks.map((latLng, i) => (
