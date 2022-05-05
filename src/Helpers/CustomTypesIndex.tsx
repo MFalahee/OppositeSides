@@ -1,3 +1,5 @@
+import { StringLiteralLike } from "typescript";
+
 export interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void,
     visible: boolean, //is the button rendered?
@@ -9,8 +11,16 @@ export interface WrapperProps {
 }
 
 
+export interface MapProps extends google.maps.MapOptions {
+    style: {[key: string]: string}
+    onClick?: (event: google.maps.MapMouseEvent) => void
+    onIdle?: (map: google.maps.Map) => void
+    disableDefaultUI?: boolean
+}
+
+
 export interface MapControlProps {
-    position: google.maps.ControlPosition;
+    position: string;
     map: google.maps.Map;
 }
 export const posObj = {

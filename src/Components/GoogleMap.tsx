@@ -64,25 +64,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             setClicks([...clicks, event.latLng]);
         };
 
-
-        const overlaySpot = (direction: string) => { 
-            let temp : google.maps.ControlPosition;
-            let output = ''
-            switch (direction) {
-                case 'bl' : output = "BOTTOM_LEFT";
-                case 'bc' : output = "BOTTOM_CENTER";
-                case 'br' : output = "BOTTOM_RIGHT";
-                case 'tl' : output = "TOP_LEFT";
-                case 'tc' : output = "TOP_CENTER";
-                case 'tr' : output = "TOP_RIGHT";
-                case 'lc' : output = "LEFT_CENTER";
-                case 'rc' : output = "RIGHT_CENTER";
-                case 'bc' : output = "BOTTOM_CENTER";
-                default: output = "BOTTOM_CENTER";
-            }
-
-            return temp[output];
-        }
         function handleLocationError(
             browserHasGeolocation: boolean,
             infoWindow: google.maps.InfoWindow,
@@ -180,7 +161,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         fullscreenControl= {true}
                         rotateControl= {true}
                         >
-                        <MapControl map={map} position={overlaySpot('bl')}>
+                        <MapControl map={map} position={'bl'}>
                             <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
                             <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
                         </MapControl>

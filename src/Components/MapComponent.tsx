@@ -1,15 +1,7 @@
 import * as React from 'react'
 import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 import { createCustomEqual } from "fast-equals";
-
-
-
-interface MapProps extends google.maps.MapOptions {
-    style: {[key: string]: string}
-    onClick?: (event: google.maps.MapMouseEvent) => void
-    onIdle?: (map: google.maps.Map) => void
-    disableDefaultUI?: boolean
-}
+import { MapProps } from '../Helpers/CustomTypesIndex'
 
 /*
 I don't know exactly how deepCompareEquals works yet.
@@ -22,6 +14,7 @@ This allows for the map to update when the map changes
 
 I need to take a closer look at this stuff to really learn this type of fix for the limitations of useEffect
 */
+
 const deepCompareEqualsForMaps = createCustomEqual(
     (deepEqual) => (a: any, b: any) => {
       if (
