@@ -23,6 +23,12 @@ export interface MapControlProps {
     position: string;
     map: google.maps.Map;
 }
+
+export interface ControlButtonProps {
+    onClick: () => void;
+    label: string;
+    visible: boolean;
+}
 export const posObj = {
     TOP_LEFT: google.maps.ControlPosition,
     TOP_CENTER: google.maps.ControlPosition,

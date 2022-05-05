@@ -1,8 +1,8 @@
 import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { MapComponent, Marker, GeolocateButton, Weather, ErrorBoundary, AntipodeButton, MapControl } from './index';
-import { WrapperProps, MapControlProps, posObj } from '../Helpers/CustomTypesIndex'
-import { DribbbleCircleFilled } from '@ant-design/icons';
+import { WrapperProps, MapControlProps } from '../Helpers/CustomTypesIndex'
 
 
 /*
@@ -139,6 +139,30 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             setCenter(map.getCenter().toJSON());
         }
 
+
+        const overlaySpot = (direction: string) => { 
+            // this is triggering an error because google isn't defined when this is called?
+            let output : google.maps.ControlPosition;
+            switch (direction) {
+                case 'bl' : output = window.google.maps.ControlPosition["BOTTOM_LEFT"]; break;
+                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
+                case 'br' : output = window.google.maps.ControlPosition["BOTTOM_RIGHT"];break;
+                case 'tl' : output = window.google.maps.ControlPosition["TOP_LEFT"];break;
+                case 'tc' : output = window.google.maps.ControlPosition["TOP_CENTER"];break;
+                case 'tr' : output = window.google.maps.ControlPosition["TOP_RIGHT"];break;
+                case 'lc' : output = window.google.maps.ControlPosition["LEFT_CENTER"];break;
+                case 'rc' : output = window.google.maps.ControlPosition["RIGHT_CENTER"];break;
+                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
+                default: output =  window.google.maps.ControlPosition["BOTTOM_CENTER"];
+            }
+            return output;
+        }
+
+        const handleOnLoad = (props) => {
+            const mapControlDiv = document.createElement('div');
+            ReactDOM.render(<MapControl onClick={props.controlClick} visible={props.visible} label={props.label}  />, mapControlDiv);
+            map.controls[overlaySpot('bl')].push(mapControlDiv);
+        }
     
 
     if (api === ''){
@@ -161,7 +185,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         fullscreenControl= {true}
                         rotateControl= {true}
                         >
-                        <MapControl map={map} position={'bl'}>
+
+                        {map ? null : null}
+                        <MapControl >
                             <GeolocateButton onClick={geolocate} visible={buttonToggle}/>
                             <AntipodeButton onClick={findAntipode} visible={!buttonToggle}/>
                         </MapControl>
