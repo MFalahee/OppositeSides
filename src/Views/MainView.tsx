@@ -2,7 +2,7 @@ import * as React from "react"
 import { GoogleMap } from "../Components/index"
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
 import { Typography } from "antd";
-import "../Styles/Views/MainViewStyle.scss"
+import "../Styles/views/MainViewStyle.scss"
 
 const { Title, Text, Link } = Typography;
 

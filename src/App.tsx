@@ -1,13 +1,13 @@
 import './Styles/root.scss'
 import * as React from 'react'
-import { MainView } from './views/index'
+import { MainView } from './Views/index'
 import { ErrorBoundary } from './Components/index'
 
 const App : React.FC = () => {
   return ( 
     <div className = "App" >
       <ErrorBoundary >
-      < MainView />
+      <MainView />
       </ErrorBoundary >
     </div>
   );

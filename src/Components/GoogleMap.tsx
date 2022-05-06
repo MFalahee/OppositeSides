@@ -164,10 +164,10 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
-        const handleOnLoad = () => {
+        const handleOnLoad = (map) => {
             const mapControlDiv = document.createElement('div');
             ReactDOM.render(<MapControl controlClick={controlOptions.controlClick} controlLabel={controlOptions.controlLabel} controlToggle={controlOptions.controlToggle}  />, mapControlDiv);
-            map.controls[overlaySpot('bl')].push(mapControlDiv);
+            map.controls[overlaySpot('tl')].push(mapControlDiv);
             console.log(overlaySpot('bl'))
         }
     
@@ -183,7 +183,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                     <MapComponent 
                         onClick={onClick} 
                         onIdle={onIdle}
-                        onLoad={handleOnLoad}
                         center={center} 
                         zoom={zoom} 
                         style={style}
@@ -192,6 +191,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                         streetViewControl= {true}
                         fullscreenControl= {true}
                         rotateControl= {true}
+                        onLoad={handleOnLoad}
                         >
                         {clicks.map((latLng, i) => (
                             <Marker key={i} position={latLng} />

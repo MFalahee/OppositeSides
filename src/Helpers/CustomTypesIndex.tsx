@@ -1,4 +1,4 @@
-import { StringLiteralLike } from "typescript";
+
 
 export interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void,
@@ -15,7 +15,8 @@ export interface MapProps extends google.maps.MapOptions {
     onClick?: (event: google.maps.MapMouseEvent) => void
     onIdle?: (map: google.maps.Map) => void
     disableDefaultUI?: boolean
-    onLoad: (map: google.maps.Map) => void;
+    children: React.ReactNode
+    onLoad: (map: google.maps.Map) => void
 }
 
 
