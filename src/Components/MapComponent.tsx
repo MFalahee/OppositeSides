@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { isLatLngLiteral } from '@googlemaps/typescript-guards'
+import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
 import { createCustomEqual } from "fast-equals";
 import { MapProps } from '../Helpers/CustomTypesIndex'
-
+import { StringLiteralLike } from "typescript";
 /*
 I don't know exactly how deepCompareEquals works yet.
 useEffect info : https://reactjs.org/docs/hooks-effect.html
@@ -56,8 +56,8 @@ const MapComponent : React.FC<MapProps> = ({
     style,
     center,
     zoom,
-    onLoad,
     children,
+    onLoad,
     ...options
 }) => {
     const [map, setMap] = React.useState<google.maps.Map>()
@@ -72,9 +72,13 @@ const MapComponent : React.FC<MapProps> = ({
 
       React.useEffect(() => {
         if (map) {
-          console.log('Map loaded')
-          console.log(map)
-          // onLoad(map) 
+          console.log('map loaded')
+          try {
+            onLoad(map)
+          }
+          catch (error) {
+            console.log(error)
+          }
         }
       }, [map])
 
