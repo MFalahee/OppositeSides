@@ -1,4 +1,4 @@
-
+import * as React from 'react'
 
 export interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void,
@@ -26,7 +26,7 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick: () => void;
+    controlClick: (props : React.MouseEvent) => void;
     controlLabel: string;
     controlToggle: boolean;
 }

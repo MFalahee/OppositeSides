@@ -5,5 +5,5 @@
         "noEmit": true,
         "checkJs": true,
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
 }

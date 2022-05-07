@@ -42,14 +42,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
+    "@googlemaps/jest-mocks": "^2.7.2",
+    "@types/google.maps": "^3.48.7",
     "@types/jest": "^27.5.0",
-    "babel-jest": "^28.1.0",
+    "jest": "^28.1.0",
     "react-test-renderer": "^18.1.0",
     "ts-jest": "^28.0.1"
   }

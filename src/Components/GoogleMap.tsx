@@ -56,7 +56,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
             controlLabel: 'Geolocate',
             controlToggle: true,
-            controlClick: () => geolocate
+            controlClick: (event) => geolocate(event)
         });
         
         // infoWindow = new google.maps.InfoWindow();
@@ -164,19 +164,31 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
-        const handleOnLoad = (map) => {
+
+        /*
+        this renders the controls over the map
+        */
+
+
+        const handleOnLoad = (map: google.maps.Map) => {
             const mapControlDiv = document.createElement('div');
-            ReactDOM.render(<MapControl controlClick={controlOptions.controlClick} controlLabel={controlOptions.controlLabel} controlToggle={controlOptions.controlToggle}  />, mapControlDiv);
+            const ref = mapControlDiv
+
+            // Im pretty sure my problem lies here with how I'm trying to actually render the components.
+            ReactDOM.render(<MapControl
+                                controlClick={controlOptions.controlClick}
+                                controlLabel={controlOptions.controlLabel} 
+                                controlToggle={controlOptions.controlToggle}
+                                ref={ref}  />,
+                                mapControlDiv
+                            );
             map.controls[overlaySpot('tl')].push(mapControlDiv);
-            console.log(overlaySpot('bl'))
         }
     
 
     if (api === ''){
         return <div>Not Chill</div>;
     } else {
-        // if we have an api key, try to render the map
-        // infoWindow needs to be created AFTER the wrapper is mounted so google obj is available
         return (
             <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>
