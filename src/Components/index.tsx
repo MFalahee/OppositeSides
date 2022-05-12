@@ -6,4 +6,3 @@ export { default as GeolocateButton } from './GeolocateButton';
 export { default as Weather } from './Weather';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as AntipodeButton } from './AntipodeButton';
-export { default as MapControl } from './MapControl';

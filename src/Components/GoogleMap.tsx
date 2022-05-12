@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton,AntipodeButton, MapControl } from './index';
+import { MapComponent, Marker} from './index';
 import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
 
 
@@ -81,15 +81,6 @@ const GoogleMap: React.VFC < WrapperProps > = ({
                 'Error: Your browser doesn\'t support geolocation.');
             infoWindow.open(map);
         }
-
-        /*this is just a template for my learning for a custom useEffect*/
-        const customLogEffect : React.EffectCallback = () => {
-            // console.log('customLogEffect')
-
-        }
-
-        customDependencies = {}
-        React.useEffect(customLogEffect, [customDependencies])
 
        const geolocate = (event: React.MouseEvent) => {
            if (navigator.geolocation) {
