@@ -1,5 +1,5 @@
 import * as React from "react"
-import { GoogleMap } from "../Components/index"
+import { GoogleMap, InputField } from "../Components/index"
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
 import { Typography } from "antd";
 import "../Styles/views/MainViewStyle.scss"
@@ -27,8 +27,11 @@ const MainView : React.FC = (props) => {
 
         return(
             <div className="view-wrapper">
-                <Title className="mainTitle">Opposite Sides</Title>
+                <Title className="main-title">Opposite Sides</Title>
+                <div className="upper-content-wrapper">
                 <GoogleMap api={mapsKey} weather={weatherKey} />
+                <InputField />
+                </div>
             </div>
         )
 }

@@ -1,12 +1,11 @@
-.App {
-    text-align: center;
-    height: 100vh;
-    width: auto;
-}
-
-
 @import './Views/MainViewStyle.scss';
+@import './components/GoogleMap.scss';
 
+.App {
+  text-align: center;
+  height: 100vh;
+  width: auto;
+}
 /* 
 
 Ant D Defaults

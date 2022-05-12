@@ -164,6 +164,19 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
+        const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
+            const mapButton = document.createElement('button');
+            mapButton.innerHTML = controlOptions.controlLabel;
+            mapButton.addEventListener('click', controlOptions.controlClick);
+            mapButton.style.backgroundColor = '#fff';
+            mapButton.style.border = '1em solid #000';
+            mapButton.style.outline = 'none';
+            mapButton.style.padding = '10px';
+            mapButton.style.borderRadius = '5px';
+            mapButton.style.fontSize = '14px';
+            mapButton.style.fontWeight = 'bold';
+            controls.appendChild(mapButton);
+        }
 
         /*
         this renders the controls over the map
@@ -171,16 +184,20 @@ const GoogleMap: React.VFC < WrapperProps > = ({
 
 
         const handleOnLoad = (map: google.maps.Map) => {
-
-            
+            const controls = document.createElement('div');
+            if (map) {
+                createControlButton(controls, map, controlOptions)
+                map.controls[overlaySpot('tc')].push(controls);
+            }
+            // root.render(<MapControl />)
         }
     
 
     if (api === ''){
-        return <div>Not Chill</div>;
+        return <div>Backend isn't live.</div>;
     } else {
         return (
-            <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
+            <div className="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>
                     <MapComponent 
                         onClick={onClick} 
