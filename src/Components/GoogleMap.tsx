@@ -171,18 +171,8 @@ const GoogleMap: React.VFC < WrapperProps > = ({
 
 
         const handleOnLoad = (map: google.maps.Map) => {
-            const mapControlDiv = document.createElement('div');
-            const ref = mapControlDiv
 
-            // Im pretty sure my problem lies here with how I'm trying to actually render the components.
-            ReactDOM.render(<MapControl
-                                controlClick={controlOptions.controlClick}
-                                controlLabel={controlOptions.controlLabel} 
-                                controlToggle={controlOptions.controlToggle}
-                                ref={ref}  />,
-                                mapControlDiv
-                            );
-            map.controls[overlaySpot('tl')].push(mapControlDiv);
+            
         }
     
 
