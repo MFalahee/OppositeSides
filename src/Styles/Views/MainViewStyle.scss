@@ -2,8 +2,9 @@
 .view-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    overflow: hidden;
     border: 1px solid red;
 
     .main-title {
