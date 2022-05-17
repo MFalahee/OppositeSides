@@ -6,10 +6,10 @@ const LandingPage : React.FC = (props) => {
     return(
         <div className="view-wrapper">
             <Typography>
-               In a time where the phrase 'opposite sides' usually precedes political strife or outrage, I set out to make a totally whimsical project.
-               Something to distract from looming supreme court decisions or simply waste some time. 
+               In a time of great uncertainty when it comes to health and financial security, and where the phrase 'opposite sides' usually precedes political strife or outrage-- I've set out to make a totally whimsical website.
+               Something to distract me, mainly, but also(hopefully) you, from looming supreme court decisions and the endless downpour of depressing media coverage.
 
-               This website was inspired by a younger me, bored in class. I wanted to dig a hole straight down beneath my desk, just to see what was on the opposite side of the earth.
+               This website was inspired by and idea from a younger me, bored in history class. I wanted to dig a hole straight down beneath my desk, just to see what was on the opposite side of the earth.
 
                Thanks to science and a little code, I can now fulfill younger me's dream of finding a way to see the world from the other side.
 
