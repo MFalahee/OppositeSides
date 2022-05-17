@@ -1,14 +1,18 @@
-import './Styles/root.scss'
 import * as React from 'react'
-import { MainView } from './Views/index'
-import { ErrorBoundary } from './Components/index'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+
+// d
+import { MainView, LandingPage } from './Views/index'
+
+// style sheet
+import './Styles/root.scss'
+
 
 const App : React.FC = () => {
   return ( 
     <div className = "App" >
-      <ErrorBoundary >
       <MainView />
-      </ErrorBoundary >
     </div>
   );
 }

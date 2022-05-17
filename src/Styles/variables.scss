@@ -1,8 +1,8 @@
 
 
 /* https://coolors.co/94d2a5-8ab4f8-768bae-616163-6b6767-756d6b-ffbfa0-f7aa9e-ef959c-f09fa5 */
-// 
-$grey:#616163;
+// other greys to try: 3D3D3E #616163
+$grey:#3D3D3E;
 $light-grey: #6b6767;
 $lighter-grey: #756D6B;
 $green-color: #94d2a5;
@@ -13,15 +13,23 @@ $salmon-color: #EF959C;
 $lighter-salmon-color: #f7aa9e;
 $pink-color: #F09FA5;
 $white: #FFF;
+$darker-blue-color: #2B313B;
+$blackish: #282829;
 
 // Style Sets
 // Colors- Background: greys - borders: green/blue - buttons are salmon/pink
 // Text color is white/unsure
 
 $background-color: $grey;
+$alt-background-color: $light-grey;
 $border-color: $green-color;
 $button-color: $salmon-color;
 $text-color: $white;
+
+
+// Fonts
+// font-family: 'Josefin Sans', sans-serif;
+$font: 'Josefin Sans', sans-serif;
 
 /* 
 

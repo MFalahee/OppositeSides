@@ -5,6 +5,13 @@ export interface ButtonProps  {
     visible: boolean, //is the button rendered?
 }
 
+export interface HeaderProps {
+    title: string,
+    subtitle: string,
+    onBack?: () => void,
+}
+
+
 export interface WrapperProps {
     api: string;
     weather: string;
@@ -18,6 +25,7 @@ export interface MapProps extends google.maps.MapOptions {
     children: React.ReactNode
     onLoad: (map: google.maps.Map) => void
 }
+
 
 
 export interface MapControlProps {

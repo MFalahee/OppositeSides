@@ -4,16 +4,6 @@
     flex-direction: column;
     justify-content: left;
     align-items: center;
-    overflow: hidden;
-    border: 1px solid red;
-
-    .main-title {
-        color: orange;
-        width: 100%;
-        &:hover {
-            color: purple;
-        }
-    }
     .upper-content-wrapper {
         padding: 5em;
         width: 100%;

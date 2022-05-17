@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { MapComponent, Marker} from './index';
 import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
+import { nodeModuleNameResolver } from 'typescript';
 
 
 /*
@@ -28,9 +29,11 @@ let uiOptions = {
     rotateControl: true
 }
 
-
-
- 
+const styleElement = (styles: Object, element: HTMLElement) => { 
+    for (let key in styles) {
+        element.style[key] = styles[key];
+    }
+}
 
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
@@ -64,6 +67,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow = new google.maps.InfoWindow()
          }
 
+       
         const onClick = (event: google.maps.MapMouseEvent) => {
             // console.log('onClick')
             //google says to avoid directly mutating state
@@ -155,17 +159,12 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
+        
         const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
             const mapButton = document.createElement('button');
             mapButton.innerHTML = controlOptions.controlLabel;
             mapButton.addEventListener('click', controlOptions.controlClick);
-            mapButton.style.backgroundColor = '#fff';
-            mapButton.style.border = '1em solid #000';
-            mapButton.style.outline = 'none';
-            mapButton.style.padding = '10px';
-            mapButton.style.borderRadius = '5px';
-            mapButton.style.fontSize = '14px';
-            mapButton.style.fontWeight = 'bold';
+            mapButton.className = "map-button";
             controls.appendChild(mapButton);
         }
 
