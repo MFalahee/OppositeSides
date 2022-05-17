@@ -33,7 +33,7 @@ const MainView : React.FC = (props) => {
                     <InfoField />
                 </div>
                 <div className="copyright-wrapper">
-                    <Text type="">Copyright Michael Falahee </Text>
+                    <Text>Copyright Michael Falahee </Text>
                 </div>
             </div>
         )

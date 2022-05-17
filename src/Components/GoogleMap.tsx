@@ -59,7 +59,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
             controlLabel: 'Geolocate',
             controlToggle: true,
-            controlClick: (event) => geolocate(event)
+            controlClick: (e : React.MouseEvent) => {
+                return null
+            }
         });
         
         // infoWindow = new google.maps.InfoWindow();
@@ -86,7 +88,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow.open(map);
         }
 
-       const geolocate = (event: React.MouseEvent) => {
+       const geolocate = () => {
            if (navigator.geolocation) {
                navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
                    const {
@@ -162,9 +164,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         
         const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
             const mapButton = document.createElement('button');
-            mapButton.innerHTML = controlOptions.controlLabel;
-            mapButton.addEventListener('click', controlOptions.controlClick);
             mapButton.className = "map-button";
+            mapButton.innerHTML = controlOptions.controlLabel;
+            mapButton.addEventListener('click', (e) => controlOptions.controlClick);
             controls.appendChild(mapButton);
         }
 

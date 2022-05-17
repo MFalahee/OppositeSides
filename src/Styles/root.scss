@@ -1,12 +1,13 @@
+
 @import './variables.scss';
-@import './Views/MainViewStyle.scss';
 @import './components/index.scss';
+@import './views/index.scss';
 
-
-.App {
+.view-wrapper {
   text-align: center;
   height: 100vh;
   width: auto;
   font-family: $font;
   background-color: $background-color;
 }
+

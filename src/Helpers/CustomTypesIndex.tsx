@@ -34,7 +34,7 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick: (props : React.MouseEvent) => void;
+    controlClick: (props : React.MouseEvent) => any;
     controlLabel: string;
     controlToggle: boolean;
 }

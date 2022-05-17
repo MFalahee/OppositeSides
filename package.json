@@ -8,6 +8,7 @@
     "@googlemaps/react-wrapper": "^1.1.32",
     "@googlemaps/typescript-guards": "^1.0.14",
     "@types/googlemaps": "^3.43.3",
+    "@types/react-router-dom": "^5.3.3",
     "antd": "^4.20.2",
     "axios": "^0.27.2",
     "fast-equals": "^3.0.1",
