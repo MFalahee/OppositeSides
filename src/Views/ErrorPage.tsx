@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 
-const ErrorPage : React.VFC = (props) => {
+const ErrorPage : React.FC = (props) => {
     return (
         <div className="view-wrapper">
         </div>
