@@ -7,3 +7,4 @@ export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Header } from './Header';
 export { default as Copyright } from './Copyright';
 export { default as ExpandIcon } from './ExpandIcon';
+export { default as CustomTitle } from './CustomTitle';

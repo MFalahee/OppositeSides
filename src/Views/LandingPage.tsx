@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Typography, Space, Divider} from 'antd'
-import { Copyright, ExpandIcon } from '../Components/index'
+import { Copyright, ExpandIcon, CustomTitle } from '../Components/index'
 
 import { IconType } from 'antd/lib/notification';
 
@@ -38,25 +38,10 @@ const LandingPage : React.FC = (props) => {
             setShowThirdContent(true)
         }
     }
-    //abandoned blink blah as a whole cause it's too distracting
-    // useEffect(() => { 
-    //     // make the blinkblah array blink one letter at a time
-    //     let i = 0;
-    //     let interval = setInterval(() => {
-    //         if (i < blinkblah.length) {
-    //             blinkClass[blinkblah[i]] = 'visible';
-    //             if (i > 0) {
-    //                 blinkClass[blinkblah[i-1]] = 'hidden';
-    //             }
-    //             setBlinkClass(blinkClass);
-    //             i++;
-    //         } else {
-    //             i = 0
-    //         }
-    //     }, 1000);
-    //     return () => clearInterval(interval)
-    // }
-    // , [])
+    
+    function renderTitle() {
+       
+    }
 
     useEffect(() => {
 
@@ -68,8 +53,9 @@ const LandingPage : React.FC = (props) => {
         <div className="view-wrapper">
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
-                {showThirdContent ? <Title className="lp-title"> Opposite Sides </Title> : null}
-                <Typography className="lp-typo">
+                    
+                    <Typography className="lp-typo">
+                    {showThirdContent ? <CustomTitle title="Opposite Sides"/> : null}
                     <Space id="expandable" className={showFirstContent ? "visible" : ""}>
                         <Paragraph className="hook-text">
                             In a time of 
