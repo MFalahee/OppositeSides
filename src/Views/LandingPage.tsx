@@ -68,25 +68,26 @@ const LandingPage : React.FC = (props) => {
         <div className="view-wrapper">
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
-                <Typography className="landingPage-typo">
+                {showThirdContent ? <Title className="lp-title"> Opposite Sides </Title> : null}
+                <Typography className="lp-typo">
                     <Space id="expandable" className={showFirstContent ? "visible" : ""}>
                         <Paragraph className="hook-text">
                             In a time of 
                                 <Text strong> great </Text>
                                 uncertainty, where the phrase
-                                <Text italic> Opposite Sides </Text> 
-                                usually precedes political strife or outrage- I've set out to make a totally whimsical website.
-                                This isn't 
-                                <Text italic> much</Text> 
-                                , but it is atleast something to distract myself with learning- and 
-                                <Text italic> hopefully </Text> 
-                                you with humor. Look, it'll be marginally better to be here than taking a stroll through the endless downpour of depressing media 
+                                <Text italic> opposite sides </Text> 
+                                usually precedes political strife or outrage- I've set out to make a totally whimsical website that flips the world.
+                                This isn't all that
+                                <Text italic> much </Text> 
+                                in 2022, but it is atleast something to distract myself with learning- and 
+                                hopefully,<Text italic> you, </Text> 
+                                with humor. Look, it'll at least be marginally better to be here than taking a stroll through the endless downpour of depressing media 
                                 <Text> blah</Text><Text italic>blah</Text><Text strong>blah </Text>
                             </Paragraph>
                         
                     </Space>
                     <ExpandIcon index={0} isExpanded={showFirstContent} expandClick={handleArrowClick} collapseClick={e => null}/>
-                    <Divider className='landing-page-divider' />
+                    <Divider className='lp-divider' />
                     <Space id="expandable" className={showSecondContent ? "visible" : ""}>
                         <Paragraph className="inspo-text" >
                             This website was inspired by an idea from a 
@@ -100,7 +101,7 @@ const LandingPage : React.FC = (props) => {
                         </Paragraph>
                     </Space>
                     <ExpandIcon index={1} isExpanded={showSecondContent} expandClick={handleArrowClick} collapseClick={e => null}/>
-                    <Divider className='landing-page-divider' />
+                    <Divider className='lp-divider' />
                     <Space id="expandable" className={showThirdContent ? "visible" : ""}>
                         <Paragraph className="thank-you">
                             I hope you enjoy this website. Thank you for stopping by. -MJF
@@ -109,7 +110,7 @@ const LandingPage : React.FC = (props) => {
                         {/* I want to create a special effect here to transition to the actual website, 
                             as we display the title for the first time
                          */}
-                        <Title> Opposite Sides </Title>
+                        
                     </Space>
                     <ExpandIcon index={2} isExpanded={showThirdContent} expandClick={handleArrowClick} collapseClick={e => null} />
                 </Typography>
