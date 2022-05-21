@@ -11,13 +11,8 @@ interface CustomTitleProps {
 const CustomTitle: React.FC<CustomTitleProps> = (props) => {
     let title_string = props.title
     let title_string_array = title_string.split('');
-
-    
-    console.log(String)
-
     React.useEffect(() => {
         const SpinInterval = setInterval(() => {
-           
         }, 1000)
         return () => {
             clearInterval(SpinInterval)

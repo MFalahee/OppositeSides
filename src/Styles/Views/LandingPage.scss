@@ -1,17 +1,34 @@
+.canvas-wrapper {
+    width: 100vw;
+    height: auto;
+    display: flex;
+
+    .canvas-element {
+        position: absolute;
+        top: 0;
+        right:-20%;
+        width: 70vw;
+        height: 100vh;
+        z-index: 0;
+    }
+}
+
 .landing-page {
-    background-color:$alt-background-color;
-    width: auto;
-    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     justify-content: center;
-
-
     .style-div {
+        position: relative;
         background-color: $green-blue;
+        opacity: 0.90;
+        margin-left: auto;
+        margin-right: auto;
         height: 60vh;
-        margin-left: -5em;
-        margin-right: -5em;
+        width: 40vw;
         padding-left: 2em;
-        padding-right: 2em;
         border: 2em solid $border-color;
         border-right-style: dotted;
         border-left-style: dotted;
@@ -20,14 +37,15 @@
         border-radius: 1em;
         display: flex;
         flex-direction: column;
+        align-items: baseline;
         justify-content: center;
-
-
     .lp-title {
+        border: 1px solid $border-color;
         position: relative;
+        align-self: flex-start;
         display: inline-block;
         text-transform: uppercase;
-        
+        animation: slideInLeft 1s;
     }
     .lp-title {
         @for $i from 0 through 13 {
@@ -35,12 +53,21 @@
                 position: relative;
                 display: inline-block;
                 animation: flip 2s 1;
-                animation-delay: #{$i * 0.2}s;
-                
+                animation-delay: #{$i * 3.1}s;
             }
         }
     }
-  
+    @keyframes slideInLeft {
+        from {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+            
+        }
+    }
     @keyframes flip {
         0% {
             transform: rotateY(0deg);
@@ -57,7 +84,7 @@
         width: 67%;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 1em;
+        align-items: center;
         font-family: $font;
         font-size: 1em;
         font-weight: 520;

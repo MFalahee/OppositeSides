@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Link, Route} from 'react-router-dom'
 
 
 // d
-import { MainView, LandingPage } from './Views/index'
+import { MainView, LandingPage, TestView } from './Views/index'
 
 // style sheet
 import './Styles/root.scss'
@@ -29,6 +29,7 @@ const App : React.FC = () => {
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path='/oppo' element={<MainView />}/>
+        <Route path='/messaround' element={<TestView />}/>
       </Routes>
     </Router>
   );

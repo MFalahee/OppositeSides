@@ -4,6 +4,7 @@
         "allowJs": true,
         "noEmit": true,
         "checkJs": true,
+        "noImplicitAny": false,
     },
     "jsx": "preserve",
 }

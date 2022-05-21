@@ -1,12 +1,10 @@
 import * as React from 'react'
 import { Typography, Space, Divider} from 'antd'
-import { Copyright, ExpandIcon, CustomTitle } from '../Components/index'
-
-import { IconType } from 'antd/lib/notification';
-
-
+import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary } from '../Components/index'
+import GlobeModel from '../Helpers/GlobeModel';
+import { Canvas } from '@react-three/fiber';
 const { Text, Title, Link, Paragraph } = Typography
-const {useEffect, useState} = React
+const {useEffect, useState, Suspense} = React
 
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
 const LandingPage : React.FC = (props) => { 
@@ -14,6 +12,7 @@ const LandingPage : React.FC = (props) => {
     const [showFirstContent, setShowFirstContent] = useState(true);
     const [showSecondContent, setShowSecondContent] = useState(false);
     const [showThirdContent, setShowThirdContent] = useState(false);
+    const [titleBool, setTitleBool] = useState(false);
     
     function handleHiddenClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (showPeriod === 'hidden') {
@@ -36,26 +35,34 @@ const LandingPage : React.FC = (props) => {
             setShowFirstContent(false)
             setShowSecondContent(false)
             setShowThirdContent(true)
+            setTitleBool(true)
         }
     }
     
-    function renderTitle() {
-       
-    }
 
     useEffect(() => {
-
-        
-        }, [showPeriod])
-
+        }, [])
+    
     return(
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
         <div className="view-wrapper">
+            <div className='canvas-wrapper'>
+                <ErrorBoundary >
+                <Canvas 
+                    className="canvas-element" 
+                    style={{height:"100vh", width:"100vw"}}
+                    camera={{fov: 60, position: [0,-10,15]}}>
+                    <Suspense fallback={null}>
+                            <GlobeModel scale={0.1}/>
+                            <ambientLight intensity={0.2} />
+                    </Suspense>
+                </Canvas>
+                </ErrorBoundary>
+                </div>
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
-                    
                     <Typography className="lp-typo">
-                    {showThirdContent ? <CustomTitle title="Opposite Sides"/> : null}
+                    {(titleBool) ? <CustomTitle title="Opposite Sides"/> : null}
                     <Space id="expandable" className={showFirstContent ? "visible" : ""}>
                         <Paragraph className="hook-text">
                             In a time of 
@@ -90,7 +97,7 @@ const LandingPage : React.FC = (props) => {
                     <Divider className='lp-divider' />
                     <Space id="expandable" className={showThirdContent ? "visible" : ""}>
                         <Paragraph className="thank-you">
-                            I hope you enjoy this website. Thank you for stopping by. -MJF
+                            I hope you enjoy this website. Thank you for stopping by.
                         </Paragraph>
 
                         {/* I want to create a special effect here to transition to the actual website, 
@@ -103,6 +110,7 @@ const LandingPage : React.FC = (props) => {
                 </div>
             </Space>
             <Copyright />
+            
         </div>
     )
 }
