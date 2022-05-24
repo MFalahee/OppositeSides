@@ -2,6 +2,8 @@
 
 /* https://coolors.co/94d2a5-8ab4f8-768bae-616163-6b6767-756d6b-ffbfa0-f7aa9e-ef959c-f09fa5 */
 // other greys to try: 3D3D3E #616163
+
+// Color Variables
 $grey:#3D3D3E;
 $light-grey: #6b6767;
 $lighter-grey: #756D6B;
@@ -20,11 +22,19 @@ $blackish: #282829;
 // Colors- Background: greys - borders: green/blue - buttons are salmon/pink
 // Text color is white/unsure
 
+// Theme Color Variables
+// $background-color: $grey;
+// $alt-background-color: light-grey;
+// $border-color: green-color;
+// $button-color: salmon-color;
+// $text-color: white
+
 $background-color: $grey;
 $alt-background-color: $light-grey;
 $border-color: $green-color;
 $button-color: $salmon-color;
 $text-color: $white;
+
 
 
 // Fonts

@@ -6,8 +6,9 @@
 .view-wrapper {
   text-align: center;
   height: 100vh;
-  width: auto;
+  overflow-x: hidden;
   font-family: $font;
-  background-color: $background-color;
+  margin-left: 0;
+  margin-right: 0;
 }
 
