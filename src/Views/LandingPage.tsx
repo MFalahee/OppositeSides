@@ -61,6 +61,10 @@ const LandingPage : React.FC = (props) => {
                 </div>
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
+
+
+                    {/* I want to think about changing these separate drawers into a slideshow instead --> After first 
+                    couple slides break off into options to skip to site*/}
                     <Typography className="lp-typo">
                     {(titleBool) ? <CustomTitle title="Opposite Sides"/> : null}
                     <Space id="expandable" className={showFirstContent ? "visible" : ""}>
