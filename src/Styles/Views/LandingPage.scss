@@ -2,17 +2,15 @@
     width: 100vw;
     height: auto;
     display: flex;
-
+    overflow: hidden;
     .canvas-element {
-        position: absolute;
+        overflow: hidden;
         top: 0;
-        right:-20%;
-        width: 70vw;
+        width: 100vw;
         height: 100vh;
         z-index: 0;
     }
 }
-
 .landing-page {
     position: absolute;
     top: 0;
@@ -21,19 +19,13 @@
     height: 100%;
     justify-content: center;
     .style-div {
-        position: relative;
         background-color: $green-blue;
         opacity: 0.90;
-        margin-left: auto;
-        margin-right: auto;
         height: 60vh;
-        width: 40vw;
-        padding-left: 2em;
-        border: 2em solid $border-color;
-        border-right-style: dotted;
-        border-left-style: dotted;
-        border-bottom-width: 1em;
-        border-top-width: 1em;
+        width: 37vw;
+        padding-left: 1.3em;
+        border: 1.3em dotted $salmon-color;
+        border-style: dotted;
         border-radius: 1em;
         display: flex;
         flex-direction: column;
@@ -88,15 +80,11 @@
         font-family: $font;
         font-size: 1em;
         font-weight: 520;
-        color: $text-color;
+        color:$text-color;
         text-align: left;
         display: flex;
         flex-direction: column;
-
-        
         .slideshow-space {
-            margin-top: 1em;
-            margin-bottom: 1em;
             width: 100%;
             .slide-wrapper {
                 .slide-content {
@@ -113,10 +101,15 @@
                     visibility: visible;
                     font-weight: 600;
                     font-size: 2em;
+                    .slide-text {
+                        width: 100%;
+                        border: 1px solid $border-color;
+                        min-height: 10em;
+                    }
                     .next-slide-arrow {
                         transform: rotate(90deg);
                         position: absolute;
-                        left: 50%;
+                        left: 20%;
                         right: auto;
                     }
                 }

@@ -23,11 +23,10 @@ const Slide : React.FC<SlideProps> = (props) => {
         }
     }, [props.activeSlide])
     if (isActive) {
-        console.log(props)
         return (
             <div className="slide-wrapper active-slide" onClick={props.onClick}>
                 <div className="slide-content">
-                    <Paragraph>{props.content}</Paragraph>
+                    <Paragraph className="slide-text">{props.content}</Paragraph>
                     <UpOutlined className="next-slide-arrow" onClick={props.onClick} />
                 </div>
             </div>

@@ -8,11 +8,17 @@ const {useEffect, useState, Suspense} = React
 
 const introSlides = [
     'In a time of great uncertainty-',
-    'When being on "opposite sides" invokes childishness, or even hate and pain',
+    'When we know so much about what plagues the world and ourselves,',
+    'Yet, we can\'t seem to come together to stop it.',
+    'When the extreme between the opposite sides of any argument seem to devolve into a fight,',
     'Aren\'t you sick of it?',
     'I am.',
-    'So I made a whimsical website that flips the world upside down.',
+    'So I made a whimsical website that finds your antipode.',
+    'Yeah, I didn\'t know that was a thing either.',
+    'Antipode means the opposite side of the world from where you are right now.',
+    'Lets shoot a line straight through the earth and see where it hits.',
 ];
+
 
 
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
@@ -55,11 +61,14 @@ const LandingPage : React.FC = (props) => {
                 <ErrorBoundary >
                 <Canvas 
                     className="canvas-element" 
-                    style={{height:"100vh", width:"100vw"}}
-                    camera={{fov: 60, position: [0,-10,15]}}>
+                    style={{height:"100vh", width:"100vw", backgroundColor: '#2B313B'}}
+                    camera={{fov: 60, position: [10,-10,15]}}
+                    shadows ={true}>
+                    <ambientLight intensity={0} />
+                    <directionalLight intensity={0.5} position={[0,1,1]}/>
                     <Suspense fallback={null}>
                             <GlobeModel scale={0.1}/>
-                            <ambientLight intensity={0.2} />
+                            <ambientLight intensity={0.2} castShadow={true} />
                     </Suspense>
                 </Canvas>
                 </ErrorBoundary>

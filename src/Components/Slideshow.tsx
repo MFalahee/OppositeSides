@@ -28,6 +28,8 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         if (slideIndex < slideCount - 1) {
             setSlideIndex(slideIndex + 1);
         } else {
+            // last slide reached
+            // need to change this to show options for next steps
             setSlideIndex(0);
         }
     }
