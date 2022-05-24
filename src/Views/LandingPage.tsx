@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Typography, Space, Divider} from 'antd'
 import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary, Slideshow } from '../Components/index'
 import GlobeModel from '../Helpers/GlobeModel';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 const { Text, Title, Link, Paragraph } = Typography
 const {useEffect, useState, Suspense} = React
 
@@ -28,7 +28,7 @@ const LandingPage : React.FC = (props) => {
     const [showSecondContent, setShowSecondContent] = useState(false);
     const [showThirdContent, setShowThirdContent] = useState(false);
     const [titleBool, setTitleBool] = useState(false);
-    
+
     function handleHiddenClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (showPeriod === 'hidden') {
             setShowPeriod('visible')
@@ -36,7 +36,6 @@ const LandingPage : React.FC = (props) => {
         setShowPeriod('hidden')
         }
     }
-
     function handleArrowClick(e: React.MouseEvent, index: number) {
         if (index === 0) {
             setShowFirstContent(true)
@@ -55,6 +54,7 @@ const LandingPage : React.FC = (props) => {
     }
 
     return(
+        // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
         <div className="view-wrapper">
             <div className='canvas-wrapper'>
@@ -65,11 +65,15 @@ const LandingPage : React.FC = (props) => {
                     camera={{fov: 60, position: [10,-10,15]}}
                     shadows ={true}>
                     <ambientLight intensity={0} />
-                    <directionalLight intensity={0.5} position={[0,1,1]}/>
+                    
                     <Suspense fallback={null}>
-                            <GlobeModel scale={0.1}/>
+                            <GlobeModel scale={10}/>
                             <ambientLight intensity={0.2} castShadow={true} />
+                            <directionalLight intensity={0.5} position={[0,1,1]}/>
+                            <directionalLight intensity={1} position={[0,0,0]}/>
+                            
                     </Suspense>
+
                 </Canvas>
                 </ErrorBoundary>
                 </div>

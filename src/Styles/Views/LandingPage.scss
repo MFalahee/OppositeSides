@@ -13,20 +13,23 @@
 }
 .landing-page {
     position: absolute;
-    top: 0;
-    left: 0;
+    top:0;
+    left:0;
+    margin: 0;
     width: 100%;
     height: 100%;
     justify-content: center;
     .style-div {
+        position: absolute;
+        left: 10%;
+        top: 10%;
         background-color: $green-blue;
         opacity: 0.90;
         height: 60vh;
         width: 37vw;
-        padding-left: 1.3em;
-        border: 1.3em dotted $salmon-color;
+        border: 1em dotted $salmon-color;
         border-style: dotted;
-        border-radius: 1em;
+        border-radius: 4em;
         display: flex;
         flex-direction: column;
         align-items: baseline;
@@ -73,10 +76,6 @@
     } 
 
     .lp-typo {
-        width: 67%;
-        margin-left: auto;
-        margin-right: auto;
-        align-items: center;
         font-family: $font;
         font-size: 1em;
         font-weight: 520;
@@ -87,12 +86,13 @@
         .slideshow-space {
             width: 100%;
             .slide-wrapper {
-                .slide-content {
                     display: none;
-                }
+                    overflow: hidden;
             }
+
             .active-slide {
                 @extend .slide-wrapper;
+                display: block;
                 .slide-content {
                     display: block;
                     width: 100%;

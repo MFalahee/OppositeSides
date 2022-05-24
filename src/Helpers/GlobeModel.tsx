@@ -20,23 +20,27 @@ type GLTFResult = GLTF & {
     ['Material.002']: THREE.MeshStandardMaterial
   }
 }
+
+// eventually maybe a resize function to make the globe bigger or smaller when the user hovers and mousewheels?
 const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = useGLTF('scene.gltf') as GLTFResult
-  useFrame(() => {group.current.rotation.x += 0.001 
-                  group.current.rotation.y += 0.001})
+  useFrame(() => {group.current.rotation.x += 0.0005 
+                  group.current.rotation.y += 0.0005})
 
   if (nodes && materials) {
   return (
     <group  ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+      {/* <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
-          <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
-            <mesh geometry={nodes.Sphere_Material002_0.geometry} material={materials['Material.002']} />
+          <group rotation={[-Math.PI / 2, 0, 0]} scale={100}> */}
+            <mesh geometry={nodes.Sphere_Material002_0.geometry} material={materials['Material.002']} onWheel={(e) => {
+              
+            }} />
           </group>
-        </group>
-      </group>
-    </group>
+    //     </group>
+    //   </group>
+    // </group>
   )} else {
     return null
   }
