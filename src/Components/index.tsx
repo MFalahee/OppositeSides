@@ -8,4 +8,6 @@ export { default as Header } from './Header';
 export { default as Copyright } from './Copyright';
 export { default as ExpandIcon } from './ExpandIcon';
 export { default as CustomTitle } from './CustomTitle';
+export { default as Slide } from './Slide';
+export { default as Slideshow } from './Slideshow';
 // export { default as GlobeModel } from './GlobeModel';

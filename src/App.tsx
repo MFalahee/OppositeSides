@@ -25,7 +25,7 @@ export interface RouteProps {
 const App : React.FC = () => {
   console.log(Route)
   return ( 
-    <Router >
+    <Router>
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path='/oppo' element={<MainView />}/>

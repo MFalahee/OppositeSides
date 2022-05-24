@@ -1,10 +1,19 @@
 import * as React from 'react'
 import { Typography, Space, Divider} from 'antd'
-import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary } from '../Components/index'
+import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary, Slideshow } from '../Components/index'
 import GlobeModel from '../Helpers/GlobeModel';
 import { Canvas } from '@react-three/fiber';
 const { Text, Title, Link, Paragraph } = Typography
 const {useEffect, useState, Suspense} = React
+
+const introSlides = [
+    'In a time of great uncertainty-',
+    'When being on "opposite sides" invokes childishness, or even hate and pain',
+    'Aren\'t you sick of it?',
+    'I am.',
+    'So I made a whimsical website that flips the world upside down.',
+];
+
 
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
 const LandingPage : React.FC = (props) => { 
@@ -38,11 +47,7 @@ const LandingPage : React.FC = (props) => {
             setTitleBool(true)
         }
     }
-    
 
-    useEffect(() => {
-        }, [])
-    
     return(
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
         <div className="view-wrapper">
@@ -61,13 +66,22 @@ const LandingPage : React.FC = (props) => {
                 </div>
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
-
-
-                    {/* I want to think about changing these separate drawers into a slideshow instead --> After first 
-                    couple slides break off into options to skip to site*/}
                     <Typography className="lp-typo">
                     {(titleBool) ? <CustomTitle title="Opposite Sides"/> : null}
-                    <Space id="expandable" className={showFirstContent ? "visible" : ""}>
+                    <Slideshow slides={introSlides} />
+                    
+                </Typography>
+                </div>
+            </Space>
+            <Copyright />
+            
+        </div>
+    )
+}
+
+export default LandingPage
+
+{/* <Space id="expandable" className={showFirstContent ? "visible" : ""}>
                         <Paragraph className="hook-text">
                             In a time of 
                                 <Text strong> great </Text>
@@ -83,8 +97,8 @@ const LandingPage : React.FC = (props) => {
                             </Paragraph>
                         
                     </Space>
-                    <ExpandIcon index={0} isExpanded={showFirstContent} expandClick={handleArrowClick} collapseClick={e => null}/>
-                    <Divider className='lp-divider' />
+                    <ExpandIcon index={0} isExpanded={showFirstContent} expandClick={handleArrowClick} collapseClick={e => null}/> */}
+                    {/* <Divider className='lp-divider' />
                     <Space id="expandable" className={showSecondContent ? "visible" : ""}>
                         <Paragraph className="inspo-text" >
                             This website was inspired by an idea from a 
@@ -102,22 +116,11 @@ const LandingPage : React.FC = (props) => {
                     <Space id="expandable" className={showThirdContent ? "visible" : ""}>
                         <Paragraph className="thank-you">
                             I hope you enjoy this website. Thank you for stopping by.
-                        </Paragraph>
+                        </Paragraph> */}
 
                         {/* I want to create a special effect here to transition to the actual website, 
                             as we display the title for the first time
                          */}
                         
-                    </Space>
-                    <ExpandIcon index={2} isExpanded={showThirdContent} expandClick={handleArrowClick} collapseClick={e => null} />
-                </Typography>
-                </div>
-            </Space>
-            <Copyright />
-            
-        </div>
-    )
-}
-
-export default LandingPage
-
+                    {/* </Space>
+                    <ExpandIcon index={2} isExpanded={showThirdContent} expandClick={handleArrowClick} collapseClick={e => null} /> */}
