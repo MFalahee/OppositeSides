@@ -1,15 +1,36 @@
-import './Styles/root.scss'
 import * as React from 'react'
-import { MainView } from './Views/index'
-import { ErrorBoundary } from './Components/index'
+import { BrowserRouter as Router, Routes, Link, Route} from 'react-router-dom'
+
+
+// d
+import { MainView, LandingPage } from './Views/index'
+
+// style sheet
+import './Styles/root.scss'
+/*
+
+export interface RouteProps {
+  location?: H.Location;
+  component?: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+  render?: (props: RouteComponentProps<any>) => React.ReactNode;
+  children?: ((props: RouteChildrenProps<any>) => React.ReactNode) | React.ReactNode;
+  path?: string | string[];
+  exact?: boolean;
+  sensitive?: boolean;
+  strict?: boolean;
+}
+
+*/
 
 const App : React.FC = () => {
+  console.log(Route)
   return ( 
-    <div className = "App" >
-      <ErrorBoundary >
-      <MainView />
-      </ErrorBoundary >
-    </div>
+    <Router >
+      <Routes>
+        <Route path="/" element={<LandingPage />}/>
+        <Route path='/oppo' element={<MainView />}/>
+      </Routes>
+    </Router>
   );
 }
 //need to rework this all into a router and have the landing page be the default page

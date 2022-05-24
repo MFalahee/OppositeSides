@@ -1,6 +1,14 @@
-#wrapperwrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+@import '../variables.scss';
+
+.view-wrapper {
+    .upper-content-wrapper {
+        padding: .2em;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        background-color: $background-color;
+    }
+    .copyright-wrapper {
+        background-color: $alt-background-color;
+    }
 }

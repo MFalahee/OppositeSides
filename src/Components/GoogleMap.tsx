@@ -1,8 +1,9 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker, GeolocateButton,AntipodeButton, MapControl } from './index';
+import { MapComponent, Marker} from './index';
 import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
+import { nodeModuleNameResolver } from 'typescript';
 
 
 /*
@@ -28,9 +29,11 @@ let uiOptions = {
     rotateControl: true
 }
 
-
-
- 
+const styleElement = (styles: Object, element: HTMLElement) => { 
+    for (let key in styles) {
+        element.style[key] = styles[key];
+    }
+}
 
 const GoogleMap: React.VFC < WrapperProps > = ({
         api
@@ -56,7 +59,9 @@ const GoogleMap: React.VFC < WrapperProps > = ({
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
             controlLabel: 'Geolocate',
             controlToggle: true,
-            controlClick: () => geolocate
+            controlClick: (e : React.MouseEvent) => {
+                return null
+            }
         });
         
         // infoWindow = new google.maps.InfoWindow();
@@ -64,6 +69,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow = new google.maps.InfoWindow()
          }
 
+       
         const onClick = (event: google.maps.MapMouseEvent) => {
             // console.log('onClick')
             //google says to avoid directly mutating state
@@ -82,16 +88,7 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             infoWindow.open(map);
         }
 
-        /*this is just a template for my learning for a custom useEffect*/
-        const customLogEffect : React.EffectCallback = () => {
-            // console.log('customLogEffect')
-
-        }
-
-        customDependencies = {}
-        React.useEffect(customLogEffect, [customDependencies])
-
-       const geolocate = (event: React.MouseEvent) => {
+       const geolocate = () => {
            if (navigator.geolocation) {
                navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
                    const {
@@ -164,21 +161,35 @@ const GoogleMap: React.VFC < WrapperProps > = ({
             return output;
         }
 
-        const handleOnLoad = (map) => {
-            const mapControlDiv = document.createElement('div');
-            ReactDOM.render(<MapControl controlClick={controlOptions.controlClick} controlLabel={controlOptions.controlLabel} controlToggle={controlOptions.controlToggle}  />, mapControlDiv);
-            map.controls[overlaySpot('tl')].push(mapControlDiv);
-            console.log(overlaySpot('bl'))
+        
+        const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
+            const mapButton = document.createElement('button');
+            mapButton.className = "map-button";
+            mapButton.innerHTML = controlOptions.controlLabel;
+            mapButton.addEventListener('click', (e) => controlOptions.controlClick);
+            controls.appendChild(mapButton);
+        }
+
+        /*
+        this renders the controls over the map
+        */
+
+
+        const handleOnLoad = (map: google.maps.Map) => {
+            const controls = document.createElement('div');
+            if (map) {
+                createControlButton(controls, map, controlOptions)
+                map.controls[overlaySpot('tc')].push(controls);
+            }
+            // root.render(<MapControl />)
         }
     
 
     if (api === ''){
-        return <div>Not Chill</div>;
+        return <div>Backend isn't live.</div>;
     } else {
-        // if we have an api key, try to render the map
-        // infoWindow needs to be created AFTER the wrapper is mounted so google obj is available
         return (
-            <div id="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
+            <div className="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
                 <Wrapper apiKey={api} render={render}>
                     <MapComponent 
                         onClick={onClick} 

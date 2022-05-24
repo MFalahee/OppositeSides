@@ -1,9 +1,16 @@
-
+import * as React from 'react'
 
 export interface ButtonProps  {
     onClick?: (event: React.MouseEvent) => void,
     visible: boolean, //is the button rendered?
 }
+
+export interface HeaderProps {
+    title: string,
+    subtitle: string,
+    onBack?: () => void,
+}
+
 
 export interface WrapperProps {
     api: string;
@@ -20,13 +27,14 @@ export interface MapProps extends google.maps.MapOptions {
 }
 
 
+
 export interface MapControlProps {
     position: string;
     map: google.maps.Map;
 }
 
 export interface ControlOptions {
-    controlClick: () => void;
+    controlClick: (props : React.MouseEvent) => any;
     controlLabel: string;
     controlToggle: boolean;
 }

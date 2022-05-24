@@ -1,8 +1,9 @@
 import * as React from 'react'
-import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
+
 import { createCustomEqual } from "fast-equals";
 import { MapProps } from '../Helpers/CustomTypesIndex'
 import { StringLiteralLike } from "typescript";
+import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
 /*
 I don't know exactly how deepCompareEquals works yet.
 useEffect info : https://reactjs.org/docs/hooks-effect.html
