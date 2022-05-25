@@ -1,14 +1,10 @@
 import * as React from 'react'
-import { Typography, Space, Divider} from 'antd'
-import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary, Slideshow } from '../Components/index'
+import { Typography, Space } from 'antd'
+import { Copyright, CustomTitle, ErrorBoundary, Slideshow } from '../Components/index'
 import GlobeModel from '../Helpers/GlobeModel';
 import Stars from '../Helpers/Instances';
-import { Canvas, useThree } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
-import { Scene } from 'three';
-
-const { Text, Title, Link, Paragraph } = Typography
-const {useEffect, useState, Suspense} = React
+import { Canvas } from '@react-three/fiber';
+const { useState, Suspense} = React
 
 const introSlides = [
     'In a time of great uncertainty-',
@@ -27,36 +23,7 @@ const introSlides = [
 
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
 const LandingPage : React.FC = (props) => { 
-    const [showPeriod, setShowPeriod] = useState('hidden')
-    const [showFirstContent, setShowFirstContent] = useState(true);
-    const [showSecondContent, setShowSecondContent] = useState(false);
-    const [showThirdContent, setShowThirdContent] = useState(false);
     const [titleBool, setTitleBool] = useState(false);
-
-    function handleHiddenClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        if (showPeriod === 'hidden') {
-            setShowPeriod('visible')
-        } else {
-        setShowPeriod('hidden')
-        }
-    }
-    function handleArrowClick(e: React.MouseEvent, index: number) {
-        if (index === 0) {
-            setShowFirstContent(true)
-            setShowSecondContent(false)
-            setShowThirdContent(false)
-        } else if (index === 1) {
-            setShowFirstContent(false)
-            setShowSecondContent(true)
-            setShowThirdContent(false)
-        } else if (index === 2) {
-            setShowFirstContent(false)
-            setShowSecondContent(false)
-            setShowThirdContent(true)
-            setTitleBool(true)
-        }
-    }
-        
     return(
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
