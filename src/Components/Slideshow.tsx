@@ -34,15 +34,25 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         }
     }
 
-    const click = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => { 
-        nextSlideHandler();
+    function prevSlideHandler() {
+        if (slideIndex > 0) {
+            setSlideIndex(slideIndex - 1);
+        } else {
+            // first slide reached
+            // need to change this to show options for next steps
+            setSlideIndex(slideCount - 1);
+        }
+    }
+
+    function click(e: React.MouseEvent<HTMLDivElement, MouseEvent>, handler: () => void) { 
+        handler();
     }
 
     return(
         <Space className="slideshow-space">
             {props.slides.map((slide, index) => { 
                 return(
-                    <Slide key={index} id={index} content={slide} activeSlide={slideIndex} onClick={click}/>
+                    <Slide key={index} id={index} content={slide} activeSlide={slideIndex} nextClick={(e) => click(e, nextSlideHandler)} prevClick={(e) => click(e, prevSlideHandler)}/>
             )})}
         </Space>
     )

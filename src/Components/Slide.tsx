@@ -7,7 +7,8 @@ const {Paragraph, Title, Text} = Typography;
 
 interface SlideProps {
     id: number;
-    onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    nextClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    prevClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     content: string;
     activeSlide: number;
 }
@@ -24,16 +25,17 @@ const Slide : React.FC<SlideProps> = (props) => {
     }, [props.activeSlide])
     if (isActive) {
         return (
-            <div className="slide-wrapper active-slide" onClick={props.onClick}>
+            <div className="slide-wrapper active-slide" onClick={props.nextClick}>
                 <div className="slide-content">
                     <Paragraph className="slide-text">{props.content}</Paragraph>
-                    <UpOutlined className="next-slide-arrow" onClick={props.onClick} />
+                    <UpOutlined className="next-slide-arrow" onClick={props.nextClick} />
+                    <DownOutlined className="prev-slide-arrow" onClick={props.prevClick} />
                 </div>
             </div>
         )
     } else {
         return (
-            <div className="slide-wrapper" onClick={props.onClick}>
+            <div className="slide-wrapper">
                 <div className="slide-content">
                     <Paragraph>{props.content}</Paragraph>
                     

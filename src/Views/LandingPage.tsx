@@ -2,7 +2,11 @@ import * as React from 'react'
 import { Typography, Space, Divider} from 'antd'
 import { Copyright, ExpandIcon, CustomTitle, ErrorBoundary, Slideshow } from '../Components/index'
 import GlobeModel from '../Helpers/GlobeModel';
+import Stars from '../Helpers/Instances';
 import { Canvas, useThree } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
+import { Scene } from 'three';
+
 const { Text, Title, Link, Paragraph } = Typography
 const {useEffect, useState, Suspense} = React
 
@@ -52,28 +56,31 @@ const LandingPage : React.FC = (props) => {
             setTitleBool(true)
         }
     }
-
+        
     return(
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
         <div className="view-wrapper">
             <div className='canvas-wrapper'>
                 <ErrorBoundary >
-                <Canvas 
+                <Canvas
+                    frameloop="demand"
                     className="canvas-element" 
-                    style={{height:"100vh", width:"100vw", backgroundColor: '#2B313B'}}
-                    camera={{fov: 60, position: [10,-10,15]}}
-                    shadows ={true}>
-                    <ambientLight intensity={0} />
-                    
+                    style={{height:"100vh", width:"100vw", backgroundColor: 'black'}}
+                    camera={{fov: 25, position: [0,-15,0]}}
+                    resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
+                >
                     <Suspense fallback={null}>
-                            <GlobeModel scale={10}/>
+                        {/* globe model position is JUST off the top of the screen */}
+                            {/*  */}
+                            <GlobeModel scale={10} position={7.7}/>
+                            <Stars radius={300}/>
+                            
                             <ambientLight intensity={0.2} castShadow={true} />
                             <directionalLight intensity={0.5} position={[0,1,1]}/>
-                            <directionalLight intensity={1} position={[0,0,0]}/>
+                            <directionalLight intensity={1} color={'red'} position={[0,15,0]}/>
                             
                     </Suspense>
-
                 </Canvas>
                 </ErrorBoundary>
                 </div>
@@ -92,48 +99,4 @@ const LandingPage : React.FC = (props) => {
     )
 }
 
-export default LandingPage
-
-{/* <Space id="expandable" className={showFirstContent ? "visible" : ""}>
-                        <Paragraph className="hook-text">
-                            In a time of 
-                                <Text strong> great </Text>
-                                uncertainty, where the phrase
-                                <Text italic> opposite sides </Text> 
-                                usually precedes political strife or outrage- I've set out to make a totally whimsical website that flips the world.
-                                This isn't all that
-                                <Text italic> much </Text> 
-                                in 2022, but it is atleast something to distract myself with learning- and 
-                                hopefully,<Text italic> you, </Text> 
-                                with humor. Look, it'll at least be marginally better to be here than taking a stroll through the endless downpour of depressing media 
-                                <Text> blah</Text><Text italic>blah</Text><Text strong>blah </Text>
-                            </Paragraph>
-                        
-                    </Space>
-                    <ExpandIcon index={0} isExpanded={showFirstContent} expandClick={handleArrowClick} collapseClick={e => null}/> */}
-                    {/* <Divider className='lp-divider' />
-                    <Space id="expandable" className={showSecondContent ? "visible" : ""}>
-                        <Paragraph className="inspo-text" >
-                            This website was inspired by an idea from a 
-                            <Text italic> much </Text>
-                            younger me- distracted in history class. I was looking at the pages of the textbook in front of me- mostly pictures of men with flags or maps of past conflicts and battles. 
-                            I wasn't interested, so I started to daydream about burrowing straight down underneath my desk. I had no clue what I'd find, I just thought it'd be fun to explore.
-                            <Text className={showPeriod}>(...ok you got me it was to escape class as well)</Text>
-                            <Text strong onClick={handleHiddenClick}>. 
-                            </Text>    
-                            Thanks to a little learning and code, I now am able to create a fun tool that will help you find your way through the world. (Though, be warned, it's mostly water.) 
-                        </Paragraph>
-                    </Space>
-                    <ExpandIcon index={1} isExpanded={showSecondContent} expandClick={handleArrowClick} collapseClick={e => null}/>
-                    <Divider className='lp-divider' />
-                    <Space id="expandable" className={showThirdContent ? "visible" : ""}>
-                        <Paragraph className="thank-you">
-                            I hope you enjoy this website. Thank you for stopping by.
-                        </Paragraph> */}
-
-                        {/* I want to create a special effect here to transition to the actual website, 
-                            as we display the title for the first time
-                         */}
-                        
-                    {/* </Space>
-                    <ExpandIcon index={2} isExpanded={showThirdContent} expandClick={handleArrowClick} collapseClick={e => null} /> */}
+export default LandingPage;

@@ -8,9 +8,9 @@ title: Earth
 
 import * as THREE from 'three'
 import * as React from 'react'
-import { useGLTF } from '@react-three/drei'
+import * as Drei from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
-import { useFrame } from '@react-three/fiber'
+import { invalidate, useFrame } from '@react-three/fiber'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,13 +24,19 @@ type GLTFResult = GLTF & {
 // eventually maybe a resize function to make the globe bigger or smaller when the user hovers and mousewheels?
 const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
-  const { nodes, materials } = useGLTF('scene.gltf') as GLTFResult
-  useFrame(() => {group.current.rotation.x += 0.0005 
-                  group.current.rotation.y += 0.0005})
+  const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
+  useFrame(() => {
+                  if (group.current.position.y > -1.5) {
+                  group.current.position.y -= 0.004
+                  }
+                  group.current.rotation.x += 0.0005 
+                  group.current.rotation.y += 0.0005
+                  invalidate();
+                })
 
   if (nodes && materials) {
   return (
-    <group  ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} dispose={null}>
       {/* <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group rotation={[-Math.PI / 2, 0, 0]} scale={100}> */}
@@ -46,6 +52,6 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   }
 }
 
-useGLTF.preload('scene.gltf')
+Drei.useGLTF.preload('scene.gltf')
 
 export default GlobeModel;
