@@ -3,6 +3,7 @@
 This is a small project, that I'm currently working on. <br>
 Inspired by my daydreams as a kid, bored in.. history class..? I'm pretty sure. Not sure where it's headed totally, but I'll update this as it plots a course. <br>
 Right now, the project is A --> B, showing you your antipode. No extra content yet. I have ideas to add humor on the backend with perhaps some text generation if I can swing it. <br>
+API keys are privately stored on a local backend right now as I can't grant everyone access to google API
 Hopefully by the end of it, I'll have something that's made with many mistakes, a will to learn, and some fun too.  <br>
 
 ---
