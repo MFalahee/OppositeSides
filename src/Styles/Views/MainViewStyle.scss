@@ -3,11 +3,9 @@
 .view-wrapper {
     .upper-content-wrapper {
         width: 100%;
-        display: flex;
-        flex-direction: row;
-        background-color: $background-color;
     }
     .copyright-wrapper {
+        display: block;
         background-color: $alt-background-color;
     }
 }

@@ -10,4 +10,5 @@ export { default as ExpandIcon } from './ExpandIcon';
 export { default as CustomTitle } from './CustomTitle';
 export { default as Slide } from './Slide';
 export { default as Slideshow } from './Slideshow';
+export { default as Fallback } from './Fallback';
 // export { default as GlobeModel } from './GlobeModel';

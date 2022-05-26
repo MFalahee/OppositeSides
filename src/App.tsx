@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import { ErrorBoundary } from './Components';
+import { ErrorBoundary, Fallback } from './Components';
 import GlobeModel from './Helpers/GlobeModel';
 import Stars from './Helpers/Instances';
 import { Canvas } from '@react-three/fiber';
@@ -26,10 +26,10 @@ export interface RouteProps {
 */
 
 const App : React.FC = () => {
-  console.log(Route)
   return ( 
     <div className="view-wrapper">
       <div className='canvas-wrapper'>
+        {/* RESIZE THE CANVAS WHEN WE SWITCH TO MAPS VIEW, MAKE IT INTO A 'MINI' MAP? THAT COULD BE REALLY SICK IF I CAN SWING IT. */}
                 <ErrorBoundary >
                 <Canvas
                     frameloop="demand"

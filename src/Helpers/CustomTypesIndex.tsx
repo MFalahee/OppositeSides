@@ -34,9 +34,8 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick: (props : React.MouseEvent) => any;
-    controlLabel: string;
-    controlToggle: boolean;
+    controlClick?: (MouseEvent) => any;
+    controlLabel?: string;
 }
 export const posObj = {
     TOP_LEFT: google.maps.ControlPosition,

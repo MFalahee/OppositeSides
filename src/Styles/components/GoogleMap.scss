@@ -1,43 +1,25 @@
 .wrapperwrapper {
-    border: 1px solid blue;
-    width: 63%;
-    height: auto;
-
-    padding: 2em;
-    margin-top: 2em;
-    margin-bottom: 2em;
-
+    width: 100%;
     .map-button {
-        font-weight: 500;
+        font-weight: 550;
         font-size: 1.5em;
-        background: $button-color;
-        border: 0.2em solid white;
-        padding: 1em 2em;
+        background: $blue-color;
+        padding: 1em 1.5em;
         margin: 1em;
         transition: border 0.1s ease-in-out;
+        border-top: .5em solid $green-blue;
+        border-left: .3em solid $salmon-color;
+        border-right: .3em solid $lighter-salmon-color;
+        border-bottom: .5em solid $darker-blue-color;
         &:hover {
-            border-left: .2em solid black;
-            border-right: .2em solid black;
+            border-top: .5em solid $blue-color;
+            border-left: .3em solid $green-blue;
+            border-right: .3em solid $salmon-color;
+            border-bottom: .5em solid $lighter-salmon-color;
         }
         &:active {
-            background: $pink-color;
+            background: $green-blue;
             color: $white;
         }
     }
 }
-
-
-//ref
-// $grey:#3D3D3E;
-// $light-grey: #6b6767;
-// $lighter-grey: #756D6B;
-// $green-color: #94d2a5;
-// $green-blue: #8FC3CF;
-// $blue-color: #768bae;
-// $lighter-blue-color:#8ab4f8;
-// $salmon-color: #EF959C;
-// $lighter-salmon-color: #f7aa9e;
-// $pink-color: #F09FA5;
-// $white: #FFF;
-// $darker-blue-color: #2B313B;
-// $blackish: #282829;
