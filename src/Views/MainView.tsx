@@ -1,16 +1,11 @@
 import * as React from "react"
 import { GoogleMap, InfoField, Header, Copyright, ErrorBoundary } from "../Components/index"
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
-import { Typography, PageHeader } from "antd";
 import "../Styles/views/MainViewStyle.scss"
 
-const { Title, Text, Link } = Typography;
-
 const MainView : React.FC = (props) => {
-
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')
-
     React.useEffect(() => {
         axiosWithAuth.get(`/api`)
             .then(res => {
@@ -25,15 +20,14 @@ const MainView : React.FC = (props) => {
             })
     }, [])
 
-        return(
-            <div className="view-wrapper">
+        return(<>
                 <Header title="Opposite Sides" subtitle="Who knows why I made this" />
                 <div className="upper-content-wrapper">
                     <GoogleMap api={mapsKey} weather={weatherKey} />
                     <InfoField />
                 </div>
                 <Copyright />
-            </div>
+            </>
         )
 }
 

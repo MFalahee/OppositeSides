@@ -28,29 +28,6 @@ const LandingPage : React.FC = (props) => {
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
         <div className="view-wrapper">
-            <div className='canvas-wrapper'>
-                <ErrorBoundary >
-                <Canvas
-                    frameloop="demand"
-                    className="canvas-element" 
-                    style={{height:"100vh", width:"100vw", backgroundColor: 'black'}}
-                    camera={{fov: 25, position: [0,-15,0]}}
-                    resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
-                >
-                    <Suspense fallback={null}>
-                        {/* globe model position is JUST off the top of the screen */}
-                            {/*  */}
-                            <GlobeModel scale={10} position={7.7}/>
-                            <Stars radius={300}/>
-                            
-                            <ambientLight intensity={0.2} castShadow={true} />
-                            <directionalLight intensity={0.5} position={[0,1,1]}/>
-                            <directionalLight intensity={1} color={'red'} position={[0,15,0]}/>
-                            
-                    </Suspense>
-                </Canvas>
-                </ErrorBoundary>
-                </div>
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>
                 <div className="style-div">
                     <Typography className="lp-typo">
