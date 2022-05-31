@@ -1,5 +1,5 @@
 import * as React from "react"
-import { GoogleMap, InfoField, Header, Copyright, ErrorBoundary } from "../Components/index"
+import { GoogleMap, Header, Copyright, ErrorBoundary } from "../Components/index"
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
 import "../Styles/views/MainViewStyle.scss"
 
@@ -10,6 +10,7 @@ const MainView : React.FC = (props) => {
         axiosWithAuth.get(`/api`)
             .then(res => {
                 setMapsKey(res.data)
+                // 
             }).catch(err => {
                 console.error(err)
             })
@@ -21,10 +22,9 @@ const MainView : React.FC = (props) => {
     }, [])
 
         return(<>
-                <Header title="Opposite Sides" subtitle="Who knows why I made this" />
+                <Header title="Opposite Sides" subtitle="sides sides sides sides" />
                 <div className="upper-content-wrapper">
                     <GoogleMap api={mapsKey} weather={weatherKey} />
-                    <InfoField />
                 </div>
                 <Copyright />
             </>

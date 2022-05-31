@@ -11,4 +11,3 @@ const Copyright: React.FC = (props) => {
 }
 
 export default Copyright;
-   
