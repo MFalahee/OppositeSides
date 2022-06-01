@@ -20,7 +20,7 @@ const introSlides = [
     // extra info if curious
     'I made a whimsical website that finds your antipode.',
     'Yeah, I didn\'t know that was a thing either.',
-    'Antipode means the opposite side of the world from where you are right now.',
+    'An [[Antipode]] is the opposite side of the planet from where you are standing (most likely sitting) right now.',
     'Lets shoot a line straight through the earth and see where it hits.',
 ];
 

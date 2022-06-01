@@ -4,14 +4,6 @@ import { Wrapper, Status } from '@googlemaps/react-wrapper';
 import { MapComponent, Marker} from './index';
 import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
 
-
-/*
-
-Weather will be pulled into this component from Weather.tsx
-Not sure what to do with that yet
-
-*/
-
 const render = (status: Status) => {
     return <h1>{status}</h1>;
 };
@@ -19,13 +11,6 @@ const render = (status: Status) => {
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
 let ui = true;
-
-// let uiOptions = {
-//     zoomControl: true,
-//     streetViewcontrol: true,
-//     fullscreenControl: true,
-//     rotateControl: true
-// }
 
 // const styleElement = (styles: Object, element: HTMLElement) => { 
 //     for (let key in styles) {

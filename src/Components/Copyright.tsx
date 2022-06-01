@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Typography } from 'antd';
-const { Title, Text, Link } = Typography;
+const { Text } = Typography;
 
-const Copyright: React.FC = (props) => {
+const Copyright: React.FC = () => {
     return(
     <div className="copyright-wrapper">
         <Text>Copyright © 2022 - Michael Falahee</Text>

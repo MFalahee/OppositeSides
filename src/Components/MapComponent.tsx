@@ -27,9 +27,6 @@ const deepCompareEqualsForMaps = createCustomEqual(
         return new google.maps.LatLng(a).equals(new google.maps.LatLng(b));
       }
   
-      // TODO extend to other types
-  
-      // use fast-equals for other objects
       return deepEqual(a, b);
     }
   );
