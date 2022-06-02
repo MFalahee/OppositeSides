@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Points, PointMaterial } from '@react-three/drei';
-import * as random from 'maath/random/dist/maath-random.esm'
+import  { onBox } from 'maath/random/dist/maath-random.esm'
 import { useFrame } from '@react-three/fiber';
 
 
@@ -14,7 +14,7 @@ interface StarsProps {
 const Stars : React.FC<StarsProps> = (props) => { 
     const ref = React.useRef<THREE.Group>();
     let positionsBuffer = new Float32Array(50000);
-    positionsBuffer = random.onBox(positionsBuffer,{sides: 100, center: [0,-15,0]});
+    positionsBuffer = onBox(positionsBuffer,{sides: 100, center: [0,-15,0]});
 
     useFrame(() => {
         if (ref.current) {

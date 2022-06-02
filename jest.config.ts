@@ -1,20 +1,28 @@
 /** @type {import('ts-jest').InitialOptionsTsJest} */
+import type {Config} from '@jest/types';
 
-module.exports = {
-    preset: 'ts-jest',
-    transformIgnorePatterns: ["/node_modules/?!(@googlemaps/typescript-guards)"],
-    testEnvironment: "node",
-    moduleFileExtensions: ["js", "tsx", "ts"],
+const config: Config.InitialOptions = {
     transform: {
-        "^.+\\.tsx?$": "ts-jest",
-        "^.+\\.js$": "babel-jest",
+        '^.+\\.(js|esm)$': 'babel-jest',
+        '^.+\\.tsx?$': 'ts-jest',
     },
-    globals: { 
-        'ts-jest': { 
-            tsConfig: 'tsconfig.json',
+    moduleNameMapper: {
+        '^.+\\.scss$': 'identity-obj-proxy',
+    },
+    transformIgnorePatterns: [
+        "<rootDir>/node_modules/(?!(@googlemaps|maath)/)"],
+    testEnvironment: 'node',
+    testRegex: '\\.test\\.tsx?$',
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.d.ts'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', '.esm', 'json', 'node'],
+    rootDir: '.',
+    globals: {
+        'ts-jest': {
+            tsconfig: 'tsconfig.json',
             diagnostics: true,
             isolatedModules: true,
-            tsconfigRootDir: '.',
-        }
-    }
+        },
+    },
 };
+
+export default config;

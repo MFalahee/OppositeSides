@@ -39,7 +39,7 @@ const GoogleMap: React.FC < WrapperProps > = ({
 
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
                 controlLabel: 'Find my location',
-                controlClick: () => { geolocate(map) }
+                controlClick: null, 
             });
         
        
@@ -95,7 +95,7 @@ const GoogleMap: React.FC < WrapperProps > = ({
        }
 
 
-        const findAntipode = (event: React.MouseEvent<Element, MouseEvent>) => {
+        const findAntipode = (map: google.maps.Map) => {
             let antipodeLngSuppAng = 180 - Math.abs(center.lng)
             let antipodeLng = (center.lng > 0 ? -1 : 1) * antipodeLngSuppAng
             let antipodeLat = center.lat * -1
@@ -135,7 +135,7 @@ const GoogleMap: React.FC < WrapperProps > = ({
             const mapButton = document.createElement('button');
             mapButton.className = "map-button";
             mapButton.innerHTML = controlOptions.controlLabel;
-            mapButton.addEventListener('click', (event) => controlOptions.controlClick(event));
+            mapButton.addEventListener('click', (event) => controlOptions.controlClick);
             controls.appendChild(mapButton);
         }
 
@@ -145,12 +145,12 @@ const GoogleMap: React.FC < WrapperProps > = ({
                 if (activeButton.innerHTML === 'Find my location') {
                     setControlOptions({
                         controlLabel: 'Show me my antipode!',
-                        controlClick: findAntipode
+                        controlClick:() =>  findAntipode(map)
                     })
                 } else {
                     setControlOptions({
                         controlLabel: 'Find my location',
-                        controlClick: geolocate
+                        controlClick:() =>  geolocate(map)
                     })
                 }
             }

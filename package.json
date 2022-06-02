@@ -11,11 +11,12 @@
     "@react-three/drei": "^9.11.2",
     "@react-three/fiber": "^8.0.19",
     "@types/googlemaps": "^3.43.3",
+    "@types/react-dom": "^18.0.5",
     "@types/react-router-dom": "^5.3.3",
-    "@types/react-test-renderer": "^18.0.0",
     "@types/three": "^0.140.0",
     "antd": "^4.20.2",
     "axios": "^0.27.2",
+    "babel-jest": "^28.1.0",
     "fast-equals": "^3.0.1",
     "maath": "^0.0.2",
     "react": "^18.1.0",
@@ -31,7 +32,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --verbose --coverage --watchAll",
+    "test": "jest",
+    "test:watch" : "jest --verbose --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -54,10 +56,11 @@
   },
   "devDependencies": {
     "@googlemaps/jest-mocks": "^2.7.2",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
     "@types/google.maps": "^3.48.7",
     "@types/jest": "^27.5.0",
     "jest": "^28.1.0",
-    "react-test-renderer": "^18.1.0",
     "ts-jest": "^28.0.1",
     "ts-node": "^10.8.0"
   }

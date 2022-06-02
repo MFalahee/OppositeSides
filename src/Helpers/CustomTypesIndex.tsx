@@ -34,7 +34,7 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick?: (MouseEvent) => any;
+    controlClick?: () => void;
     controlLabel?: string;
 }
 export const posObj = {

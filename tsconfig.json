@@ -1,11 +1,19 @@
 {
     "compilerOptions": {
-        "jsx": "react",
+        "module": "commonjs",
         "allowJs": true,
         "noEmit": true,
         "checkJs": true,
         "noImplicitAny": true,
+        "jsx": "react",
+        "esModuleInterop": true,
+        "typeRoots": [
+            "src/Helpers/CustomTypesIndex.tsx",
+            "node_modules/@types"
+        ],
+        "experimentalDecorators": true,
+        "target": "es6",
     },
-    "EsModuleInterop": true,
-    "jsx": "preserve",
+    "include" :["/src/**/*.ts", "src/**/*.tsx", "jest.setup.d.ts"],
+    "exclude": ["/node_modules/", "**/*.test.ts"]
 }
