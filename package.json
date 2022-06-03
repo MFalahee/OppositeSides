@@ -33,7 +33,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "test:watch" : "jest --verbose --watchAll",
+    "test:watch": "jest --verbose --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -61,6 +61,8 @@
     "@types/google.maps": "^3.48.7",
     "@types/jest": "^27.5.0",
     "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "resize-observer-polyfill": "^1.5.1",
     "ts-jest": "^28.0.1",
     "ts-node": "^10.8.0"
   }

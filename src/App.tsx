@@ -5,7 +5,7 @@ import './Styles/root.scss'
 
 const App : React.FC = () => {
   return ( 
-    <div className="view-wrapper">
+    <div className="app-wrapper" role="generic">
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />}/>

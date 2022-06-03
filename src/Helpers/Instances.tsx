@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Points, PointMaterial } from '@react-three/drei';
+// @ts-ignore
 import  { onBox } from 'maath/random/dist/maath-random.esm'
 import { useFrame } from '@react-three/fiber';
 
