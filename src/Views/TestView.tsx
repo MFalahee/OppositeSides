@@ -12,9 +12,9 @@ const TestView: React.FC = () => {
 const { Suspense } = React;
 
     return(
-        <div className='test-view'>
+        <div className='test-view' role="group">
             <h1>Test View</h1>
-            <div className='canvas-wrapper'>
+            <div className='canvas-wrapper' role="group">
             <ErrorBoundary >
             <Canvas 
                 className="canvas-element" 

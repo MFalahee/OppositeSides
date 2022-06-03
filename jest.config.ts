@@ -11,9 +11,9 @@ const config: Config.InitialOptions = {
     },
     transformIgnorePatterns: [
         "<rootDir>/node_modules/(?!(@googlemaps|maath)/)"],
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     testRegex: '\\.test\\.tsx?$',
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.d.ts'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.d.ts', '<rootDir>/src/setupTests.ts'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', '.esm', 'json', 'node'],
     rootDir: '.',
     globals: {

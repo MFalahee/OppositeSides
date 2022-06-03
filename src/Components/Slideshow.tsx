@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Typography, Space } from 'antd';
-
 import { Slide } from './index'
-
-
 
 interface SlideShowProps {
     slides: Array<string>;

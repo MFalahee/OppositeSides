@@ -4,12 +4,18 @@ exports[`My App renders properly 1`] = `
 <div>
   <div
     class="app-wrapper"
+    id="app-wrapper"
+    role="region"
   >
     <div
+      aria-label="vw"
       class="view-wrapper"
+      role="group"
     >
       <div
+        aria-label="cw"
         class="canvas-wrapper"
+        role="group"
       >
         <div>
           <div

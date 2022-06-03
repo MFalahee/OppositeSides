@@ -23,7 +23,7 @@ const MainView : React.FC = (props) => {
 
         return(<>
                 <Header title="Opposite Sides" subtitle="sides sides sides sides" />
-                <div className="upper-content-wrapper">
+                <div className="upper-content-wrapper" role="group">
                     <GoogleMap api={mapsKey} weather={weatherKey} />
                 </div>
                 <Copyright />
