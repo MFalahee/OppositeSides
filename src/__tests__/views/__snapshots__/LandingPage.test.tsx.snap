@@ -61,7 +61,7 @@ exports[`Landing Page View renders properly 1`] = `
                     <span
                       aria-label="up"
                       class="anticon anticon-up next-slide-arrow"
-                      role="img"
+                      role="button"
                       tabindex="-1"
                     >
                       <svg
@@ -81,7 +81,7 @@ exports[`Landing Page View renders properly 1`] = `
                     <span
                       aria-label="down"
                       class="anticon anticon-down prev-slide-arrow"
-                      role="img"
+                      role="button"
                       tabindex="-1"
                     >
                       <svg
@@ -268,7 +268,9 @@ exports[`Landing Page View renders properly 1`] = `
       </div>
     </div>
     <div
+      aria-label="cr"
       class="copyright-wrapper"
+      role="group"
     >
       <span
         class="ant-typography"

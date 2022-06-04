@@ -28,8 +28,8 @@ const Slide : React.FC<SlideProps> = (props) => {
             <div className="slide-wrapper active-slide" onClick={props.nextClick}>
                 <div className="slide-content">
                     <Paragraph className="slide-text">{props.content}</Paragraph>
-                    <UpOutlined className="next-slide-arrow" onClick={props.nextClick} />
-                    <DownOutlined className="prev-slide-arrow" onClick={props.prevClick} />
+                    <UpOutlined className="next-slide-arrow" onClick={props.nextClick} role="button"/>
+                    <DownOutlined className="prev-slide-arrow" onClick={props.prevClick} role="button" />
                 </div>
             </div>
         )

@@ -8,7 +8,7 @@
 
 /.pnp
 .pnp.js
-
+/.snap
 # testing
 /coverage
 
@@ -24,7 +24,10 @@
 .env.production.local
 
 ./tsconfig.json
-
+src/__tests__/__mocks__
+src/__tests__/__snapshots__
+src/__tests__/components/__snapshots__
+src/__tests__/views/__snapshots__
 
 npm-debug.log*
 yarn-debug.log*

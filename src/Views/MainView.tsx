@@ -7,7 +7,8 @@ const MainView : React.FC = (props) => {
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')
     React.useEffect(() => {
-        axiosWithAuth.get(`/api`)
+        if (process.env.NODE_ENV != 'test') {
+            axiosWithAuth.get(`/api`)
             .then(res => {
                 setMapsKey(res.data)
                 // 
@@ -19,6 +20,7 @@ const MainView : React.FC = (props) => {
             }).catch(err => {
                 console.error(err)
             })
+        }
     }, [])
 
         return(<>

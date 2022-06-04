@@ -21,11 +21,22 @@ const introSlides = [
     'Lets shoot a line straight through the earth and see where it hits.',
 ];
 
+
+beforeEach(() => {
+   testReact.render(<Slideshow slides={introSlides} />);
+})
+
 describe('Slideshow Component', () => {
         it('renders properly, starting with the first slide', async () => {
-                testReact.render(<Slideshow slides={introSlides} />)
                 expect(screen.getByText(introSlides[0])).toBeInTheDocument();
         });
-        it('has a next slide button that properly changes the active slide', async () => { });
-        it('has a previous slide button that properly changes the active slide', async () => { });
+        it('has a next slide button that properly changes the active slide', async () => { 
+
+            testReact.act(() => screen.getByRole('button', {name: 'up'}).click())
+            expect(screen.getByText(introSlides[1])).toBeVisible();
+        });
+        it('has a previous slide button that properly changes the active slide', async () => { 
+                testReact.act(() => screen.getByRole('button', {name: 'down'}).click());
+                expect(screen.getByText(introSlides[introSlides.length-1])).toBeVisible();
+        });
 });
