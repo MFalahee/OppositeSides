@@ -25,25 +25,21 @@ const Stars : React.FC<StarsProps> = (props) => {
         }
     })
     function moveStars(event: MouseEvent) {
-        // console.log(event.clientX);
-        // console.log(event.clientY);
         // I want this function to set the current rotation of Points towards the position of the cursor.
         // This effect should make the stars rotate smoothly around the screen towards the cursor.
         let w = window.innerWidth;
-        let x = (event.clientX / w) * 2 - 1;
-        let y = -(event.clientY / w) * 2 + 1;
-        console.log(x, y)
-
+        let x = event.clientX;
+        let y = event.clientY;
         if (ref.current) {
-            ref.current.rotation.x += x;
-            ref.current.rotation.y += y;
+            let x_pos = (x / w) * 2 - 1;
+            let y_pos = (y / w) * 2 + 1;
+            ref.current.rotation.x = (y_pos * 0.3);
+            ref.current.rotation.y = (x_pos * 0.3);
         }
-
     }
     document.addEventListener('mousemove',moveStars);
     return(
-        <group ref={ref}
-        >
+        <group ref={ref}>
             <Points limit={10000} positions={positionsBuffer}>
                 <PointMaterial size={1} scale={0.1} color='white' sizeAttenuation={false}/>
             </Points>

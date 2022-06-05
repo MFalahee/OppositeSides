@@ -7,6 +7,8 @@ import { Canvas } from '@react-three/fiber';
 
 const { useState, Suspense } = React
 
+
+//  people ask me where I'm from. I point to my hand. incorporate this somehow?
 const introSlides = [
     'In a time of great uncertainty-',
     'When our basic ideals are causing deadly fights between us,',
@@ -16,17 +18,16 @@ const introSlides = [
     // Transition
     'Aren\'t you sick of it?',
     'I am.',
-    // break
-    // extra info if curious
+    // Transition
     'I made a whimsical website that finds your antipode.',
-    'Yeah, I didn\'t know that was a thing either.',
-    'An [[Antipode]] is the opposite side of the planet from where you are standing (most likely sitting) right now.',
-    'Lets shoot a line straight through the earth and see where it hits.',
+    'Yeah, I didn\'t know that was a thing before this project either.',
+    'An [[Antipode]] is the opposite side of the planet from where you are standing (or most likely sitting) right now.',
+    'Lets shoot a line straight through the earth and see where it hits...', 
+    // Transition to google maps page --> Ask for location --> Animate mini globe.
 ];
 
 // I'd like to add a couple transitions w/ the animation synced to the text.
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
-
 // laurel liked the idea of the globe rotating towards your mouse as you move it around.
 // I'd have to add an event listener for mousemove and track the coordinates/pass them to the globe model.
 
@@ -34,16 +35,6 @@ const introSlides = [
 const LandingPage : React.FC = (props) => { 
     const [titleBool, setTitleBool] = useState(false);
     const [mousePos, setMousePos] = useState({x: 0, y: 0});
-
-
-    // React.useEffect(() => {
-    //     document.addEventListener('mousemove', onDocMouseMove);
-    // },[]);
-    // function onDocMouseMove(event: MouseEvent) {
-    //     console.log(`new x: ${event.clientX}`);
-    //     console.log(`new y:${event.clientY}`);
-    //     // need to use new coordinates to inform rotation of the stars
-    // }
 
     return(
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.

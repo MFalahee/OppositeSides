@@ -27,4 +27,7 @@ describe('Main View', () => {
     it('contains a copyright on the bottom of the page', async () => {
         expect(screen.getByRole('group', {name: 'cr'})).toBeInTheDocument();
     });
+
+    it('contains a smaller 3d canvas in the upper right corner made to resemble a "minimap"', async () => {
+    });
 });
