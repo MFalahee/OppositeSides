@@ -26,8 +26,25 @@ const introSlides = [
 
 // I'd like to add a couple transitions w/ the animation synced to the text.
 // this will be the main view containing the google map, the search bar for address, and the input field for clicking find my location
+
+// laurel liked the idea of the globe rotating towards your mouse as you move it around.
+// I'd have to add an event listener for mousemove and track the coordinates/pass them to the globe model.
+
+
 const LandingPage : React.FC = (props) => { 
     const [titleBool, setTitleBool] = useState(false);
+    const [mousePos, setMousePos] = useState({x: 0, y: 0});
+
+
+    // React.useEffect(() => {
+    //     document.addEventListener('mousemove', onDocMouseMove);
+    // },[]);
+    // function onDocMouseMove(event: MouseEvent) {
+    //     console.log(`new x: ${event.clientX}`);
+    //     console.log(`new y:${event.clientY}`);
+    //     // need to use new coordinates to inform rotation of the stars
+    // }
+
     return(
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
@@ -42,8 +59,6 @@ const LandingPage : React.FC = (props) => {
                     resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
                 >
                     <Suspense fallback={null}>
-                        {/* globe model position is JUST off the top of the screen */}
-                            {/*  */}
                             <GlobeModel scale={10} position={7.7}/>
                             <Stars radius={300}/>                            
                             <ambientLight intensity={0.2} castShadow={true} />

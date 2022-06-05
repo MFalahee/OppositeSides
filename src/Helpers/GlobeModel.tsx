@@ -22,6 +22,10 @@ type GLTFResult = GLTF & {
 }
 
 // eventually maybe a resize function to make the globe bigger or smaller when the user hovers and mousewheels?
+// Going to sync this with the slideshow component.
+// Need to add "step" out of steps to the props in order to make the globe animate alongside the slideshow.
+
+// Maybe add cool hover effects to the globe? Outline the globe with a glowy outline?
 const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
@@ -29,10 +33,9 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
                   if (group.current.position.y > -1.5) {
                   group.current.position.y -= 0.004
                   }
-                  group.current.rotation.x += 0.0005 
-                  group.current.rotation.y += 0.0005
+                  group.current.rotation.x += 0.0005;
                   invalidate();
-                })
+               });
 
   if (nodes && materials) {
   return (

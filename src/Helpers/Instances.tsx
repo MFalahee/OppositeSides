@@ -12,9 +12,11 @@ interface StarsProps {
     scale?: number;
 }
 
-const Stars : React.FC<StarsProps> = (props) => { 
+const Stars : React.FC<StarsProps> = (props) => {
     const ref = React.useRef<THREE.Group>();
     let positionsBuffer = new Float32Array(50000);
+    // Need to fix this and subtract the inner radius of positions.
+    // would fix the inner radius of the stars that act weirdly.
     positionsBuffer = onBox(positionsBuffer,{sides: 100, center: [0,-15,0]});
 
     useFrame(() => {
@@ -22,7 +24,23 @@ const Stars : React.FC<StarsProps> = (props) => {
             ref.current.rotation.y += 0.00005;
         }
     })
+    function moveStars(event: MouseEvent) {
+        // console.log(event.clientX);
+        // console.log(event.clientY);
+        // I want this function to set the current rotation of Points towards the position of the cursor.
+        // This effect should make the stars rotate smoothly around the screen towards the cursor.
+        let w = window.innerWidth;
+        let x = (event.clientX / w) * 2 - 1;
+        let y = -(event.clientY / w) * 2 + 1;
+        console.log(x, y)
 
+        if (ref.current) {
+            ref.current.rotation.x += x;
+            ref.current.rotation.y += y;
+        }
+
+    }
+    document.addEventListener('mousemove',moveStars);
     return(
         <group ref={ref}
         >

@@ -9,8 +9,6 @@ const { screen } = require('@testing-library/dom');
 import { LandingPage }from '../../Views/index';
 
 
-
-
 describe('Landing Page View', () => {
     it('renders properly', async () => {
         const div = testReact.render(<div />);
