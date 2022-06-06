@@ -1,8 +1,12 @@
 import * as React from "react"
-import { GoogleMap, Header, Copyright, ErrorBoundary } from "../Components/index"
+import { GoogleMap, Header, Copyright, MainViewTextField, ErrorBoundary } from "../Components/index"
+import GlobeModel from '../Helpers/GlobeModel';
+import Stars from '../Helpers/Instances';
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
-import "../Styles/views/MainViewStyle.scss"
+import { Canvas } from '@react-three/fiber';
 
+
+const { Suspense } = React;
 const MainView : React.FC = (props) => {
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')

@@ -1,0 +1,23 @@
+.wrapper-wrapper {
+    width: 100%;
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: auto;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 50%;
+        .minimap-canvas {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 37%;
+            z-index: 1;
+        }
+        .main-view-text-field {
+            width: 100%;
+        }
+    }
+}

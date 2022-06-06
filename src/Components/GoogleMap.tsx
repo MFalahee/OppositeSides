@@ -1,13 +1,17 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker} from './index';
-import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
+import { MapComponent, Marker, MainViewTextField } from './index';
+import { WrapperProps, ControlOptions, MainViewTextFieldProps } from '../Helpers/CustomTypesIndex'
+import { Canvas } from '@react-three/fiber';
+import GlobeModel from '../Helpers/GlobeModel';
+import Stars from '../Helpers/Instances';
 
 const render = (status: Status) => {
     return <h1>{status}</h1>;
 };
 
+const { Suspense } = React;
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
 let ui = true;
@@ -32,10 +36,11 @@ const GoogleMap: React.FC < WrapperProps > = ({
             lng: 0
         });
         const [style, setStyle] = React.useState({
-            width: '100%',
+            width: '50%',
             height: '100%',
             flexGrow: '1',
         });
+        const [theloadedmap, setTheLoadedMap] = React.useState<google.maps.Map>(null);
 
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
                 controlLabel: 'Find my location',
@@ -165,7 +170,8 @@ const GoogleMap: React.FC < WrapperProps > = ({
             if (map) {
                 createControlButton(controls, map, controlOptions)
                 map.controls[overlaySpot('tc')].push(controls);
-
+                
+                setTheLoadedMap(map)
             }
         }
 
@@ -182,9 +188,9 @@ const GoogleMap: React.FC < WrapperProps > = ({
         return <div>Backend isn't live.</div>;
     } else {
         return (
-            <div className="wrapperwrapper"style={{height:"85vh", width:"67vw"}}>
-                <Wrapper apiKey={api} render={render}>
-                    <MapComponent 
+            <div className="wrapper-wrapper" style={{height:"100vh", width:"100vw"}}>
+                <Wrapper  apiKey={api} render={render}>
+                    <MapComponent
                         onClick={onClick} 
                         onIdle={onIdle}
                         center={center} 
@@ -202,6 +208,28 @@ const GoogleMap: React.FC < WrapperProps > = ({
                         ))}
                     </MapComponent>
                 </Wrapper>
+                <div className ='sidebar'>
+                <Canvas 
+                    className="minimap-canvas"
+                    frameloop="always"
+                    style={{height: "fill", width: 'fill',backgroundColor: 'black'}}>
+                    <Suspense>
+                    <GlobeModel scale={1} position={1}/>
+                    <Stars radius={15}/>    
+                    <ambientLight intensity={0.2} castShadow={true} />
+                    </Suspense>
+                </Canvas>
+                <MainViewTextField 
+                    text={['lalala']}
+                    center={center}
+                    weather={'sunny'}
+                    windSpeed='60mph'
+                    windDirection='N'
+                    city={'New York'}
+                    state={'NY'}
+                    country={'USA'}
+                    temperature='' />
+                </div>
             </div>
         )
     } 

@@ -29,6 +29,7 @@ type GLTFResult = GLTF & {
 const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
+  const [mode, setMode] = React.useState('normal')
   useFrame(() => {
                   if (group.current.position.y > -1.5) {
                   group.current.position.y -= 0.004

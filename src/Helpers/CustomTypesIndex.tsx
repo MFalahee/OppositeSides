@@ -52,3 +52,15 @@ export const posObj = {
     BOTTOM_RIGHT: google.maps.ControlPosition,
 }
 
+export interface MainViewTextFieldProps {
+    text?: string[],
+    weather?: string,
+    temperature?: string,
+    windSpeed?: string,
+    windDirection?: string,
+    center?: google.maps.LatLngLiteral
+    city?: string,
+    state?: string,
+    country?: string,
+}
+
