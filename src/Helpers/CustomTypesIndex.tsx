@@ -34,8 +34,9 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick?: () => void;
+    controlClick?: (event: MouseEvent) => void;
     controlLabel?: string;
+    prevClick?: (event: MouseEvent) => void;
 }
 export const posObj = {
     TOP_LEFT: google.maps.ControlPosition,

@@ -1,6 +1,8 @@
 .wrapper-wrapper {
     width: 100%;
+    background-color: $darker-blue-color;
     .sidebar {
+        overflow-x: hidden;
         position: absolute;
         top: 0;
         left: auto;
@@ -13,11 +15,16 @@
             position: absolute;
             top: 0;
             width: 100%;
-            height: 37%;
+            height: 50%;
             z-index: 1;
         }
         .main-view-text-field {
             width: 100%;
+            height: auto;
+            padding: 1em;
+            border: 1em solid $border-color;
+            color: $text-color;
+            background-color: $lighter-salmon-color;
         }
     }
 }

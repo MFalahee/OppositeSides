@@ -40,13 +40,19 @@ const GoogleMap: React.FC < WrapperProps > = ({
             height: '100%',
             flexGrow: '1',
         });
-        const [theloadedmap, setTheLoadedMap] = React.useState<google.maps.Map>(null);
-
         const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
-                controlLabel: 'Find my location',
-                controlClick: null, 
+                controlLabel: 'Take me home',
+                controlClick: (e) => {
+                    geolocate(map);
+                },
             });
         
+
+        /* 
+        #TODO
+        make a func that sends new antipode to the model, 
+        and creates a visual effect of the antipode on the earth model.
+        */
        
         const onClick = (event: google.maps.MapMouseEvent) => {
             // console.log('onClick')
@@ -74,21 +80,11 @@ const GoogleMap: React.FC < WrapperProps > = ({
                        longitude
                    } = position.coords;
 
-                   infoWindow = new google.maps.InfoWindow()
-                   infoWindow.setPosition({
-                       lat: latitude,
-                       lng: longitude
-                   });
-                   infoWindow.setContent('Location found.');
-                   infoWindow.open();
-
-
-                   // I want to add a glide effect to this function
-                   // I'd like to have the map smoothly slide to the user's location from the center of the map
                    setCenter({
                        lat: latitude,
                        lng: longitude
                    });
+
                    flipButton();
                }, () => {
                    handleLocationError(true, infoWindow, map.getCenter() !)
@@ -101,15 +97,16 @@ const GoogleMap: React.FC < WrapperProps > = ({
 
 
         const findAntipode = (map: google.maps.Map) => {
-            let antipodeLngSuppAng = 180 - Math.abs(center.lng)
-            let antipodeLng = (center.lng > 0 ? -1 : 1) * antipodeLngSuppAng
-            let antipodeLat = center.lat * -1
-            setAntipode({ 
-                lat: antipodeLat,
-                lng: antipodeLng
-            })
-
-            flipButton()
+            // this isn't working properly yet for lng I believe
+            // console.log('findAntipode')
+            const pos = map.getCenter();
+            const antipode = {
+                lat: pos.lat() * -1,
+                lng: (pos.lng() * -1) + 180
+            };
+            setAntipode(antipode);
+            setCenter(antipode);
+            flipButton();
         }
 
         const onIdle = (map: google.maps.Map) => {
@@ -119,7 +116,6 @@ const GoogleMap: React.FC < WrapperProps > = ({
         }
 
         const overlaySpot = (direction: string) => { 
-            // this is triggering an error because google isn't defined when this is called?
             let output : google.maps.ControlPosition;
             switch (direction) {
                 case 'bl' : output = window.google.maps.ControlPosition["BOTTOM_LEFT"]; break;
@@ -137,49 +133,48 @@ const GoogleMap: React.FC < WrapperProps > = ({
         }
 
         const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
+            //console.log('createControlButton')
             const mapButton = document.createElement('button');
             mapButton.className = "map-button";
             mapButton.innerHTML = controlOptions.controlLabel;
-            mapButton.addEventListener('click', (event) => controlOptions.controlClick);
+            mapButton.addEventListener('click', controlOptions.controlClick);
             controls.appendChild(mapButton);
         }
 
         const flipButton = () => { 
+            // console.log('flipButton')
             const activeButton = document.querySelector('.map-button');
             if (activeButton) {
-                if (activeButton.innerHTML === 'Find my location') {
+                if (activeButton.innerHTML === 'Take me home') {
                     setControlOptions({
-                        controlLabel: 'Show me my antipode!',
-                        controlClick:() =>  findAntipode(map)
+                        controlLabel: 'Antipode, please.',
+                        controlClick: (e) =>  findAntipode(map),
+                        prevClick: (e) => geolocate(map)
                     })
                 } else {
                     setControlOptions({
-                        controlLabel: 'Find my location',
-                        controlClick:() =>  geolocate(map)
+                        controlLabel: 'Take me home',
+                        controlClick:(e) =>  geolocate(map),
+                        prevClick: (e) => findAntipode(map)
                     })
                 }
             }
         }
 
-        /*
-        this renders the controls over the map
-        */
-
         const handleOnLoad = (map: google.maps.Map) => {
+            // console.log('handleOnLoad')
             const controls = document.createElement('div');
             if (map) {
                 createControlButton(controls, map, controlOptions)
-                map.controls[overlaySpot('tc')].push(controls);
-                
-                setTheLoadedMap(map)
+                map.controls[overlaySpot('tr')].push(controls);
             }
         }
 
         React.useEffect(() => {
             const button = document.querySelector('.map-button')
             if (button) {
-                console.log(button)
-                button.innerHTML = controlOptions.controlLabel;
+                button.addEventListener('click', controlOptions.controlClick)
+
             }
         }, [controlOptions])
 
@@ -214,8 +209,8 @@ const GoogleMap: React.FC < WrapperProps > = ({
                     frameloop="always"
                     style={{height: "fill", width: 'fill',backgroundColor: 'black'}}>
                     <Suspense>
-                    <GlobeModel scale={1} position={1}/>
-                    <Stars radius={15}/>    
+                    <GlobeModel scale={1} position={1} />
+                    <Stars radius={150}/>    
                     <ambientLight intensity={0.2} castShadow={true} />
                     </Suspense>
                 </Canvas>

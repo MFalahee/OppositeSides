@@ -21,7 +21,7 @@ const { Suspense } = React;
                 style={{height:"100vh", width:"100vw"}}
                 camera={{fov: 60, position: [0,0,15]}}>
                 <Suspense fallback={null}>
-                        <GlobeModel scale={0.1}/>
+                        {/* <GlobeModel scale={0.1}/> */}
                         <ambientLight intensity={0.2} />
                 </Suspense>
             </Canvas>
