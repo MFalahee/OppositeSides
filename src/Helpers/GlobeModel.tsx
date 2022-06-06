@@ -31,10 +31,9 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
   const [mode, setMode] = React.useState('normal')
-  
+
   useFrame(() => {
     const location = window.location.pathname.toString()
-    console.log(location);
     if (location === '/') {
       setMode('normal')
     } else if (location === '/go') {
@@ -42,6 +41,7 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
     } 
 
     if (mode === 'normal') {
+      // Animate for normal mode
       if (group.current.position.y > -1.5) {
             group.current.position.y -= 0.004
               }
@@ -49,12 +49,9 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
             invalidate();
     }
     if (mode === 'go') {
-      if (group.current.position.y < -0.5) {
-            group.current.position.y += 0.004
-              }
-            group.current.rotation.x += 0.0005;
-            invalidate();
-    }
+      // animate for maps page
+      //
+    } 
   })
              
 

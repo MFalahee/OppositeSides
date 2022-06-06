@@ -13,6 +13,7 @@ interface StarsProps {
 }
 
 const Stars : React.FC<StarsProps> = (props) => {
+    const [mode, setMode] = React.useState('normal')
     const ref = React.useRef<THREE.Group>();
     let positionsBuffer = new Float32Array(50000);
     // Need to fix this and subtract the inner radius of positions.
@@ -20,9 +21,19 @@ const Stars : React.FC<StarsProps> = (props) => {
     positionsBuffer = onBox(positionsBuffer,{sides: 100, center: [0,-15,0]});
 
     useFrame(() => {
+        const location = window.location.pathname.toString()
+        if (location === '/') {
+          setMode('normal')
+        } 
+        if (mode === 'normal') {
         if (ref.current) {
             ref.current.rotation.y += 0.00005;
         }
+    }
+    if (mode === 'go') {
+        // animate for maps page
+        //
+    }
     })
     function moveStars(event: MouseEvent) {
         // I want this function to set the current rotation of Points towards the position of the cursor.
