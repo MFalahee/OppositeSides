@@ -1,13 +1,12 @@
 export { default as GoogleMap } from './GoogleMap';
-export { default as InfoField } from './InfoField';
 export { default as MapComponent } from './MapComponent';
 export { default as Marker } from './Marker';
 export { default as Weather } from './Weather';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Header } from './Header';
 export { default as Copyright } from './Copyright';
-export { default as ExpandIcon } from './ExpandIcon';
 export { default as CustomTitle } from './CustomTitle';
 export { default as Slide } from './Slide';
 export { default as Slideshow } from './Slideshow';
-// export { default as GlobeModel } from './GlobeModel';
+export { default as Fallback } from './Fallback';
+export { default as MainViewTextField } from './MainViewTextField';

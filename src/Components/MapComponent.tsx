@@ -1,9 +1,9 @@
 import * as React from 'react'
-
 import { createCustomEqual } from "fast-equals";
 import { MapProps } from '../Helpers/CustomTypesIndex'
-import { StringLiteralLike } from "typescript";
 import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
+
+
 /*
 I don't know exactly how deepCompareEquals works yet.
 useEffect info : https://reactjs.org/docs/hooks-effect.html
@@ -27,9 +27,6 @@ const deepCompareEqualsForMaps = createCustomEqual(
         return new google.maps.LatLng(a).equals(new google.maps.LatLng(b));
       }
   
-      // TODO extend to other types
-  
-      // use fast-equals for other objects
       return deepEqual(a, b);
     }
   );

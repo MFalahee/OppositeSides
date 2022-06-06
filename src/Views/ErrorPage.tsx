@@ -3,7 +3,7 @@ import * as React from 'react'
 
 const ErrorPage : React.FC = (props) => {
     return (
-        <div className="view-wrapper">
+        <div className="view-wrapper" role="group">
         </div>
     )
 }

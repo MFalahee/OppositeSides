@@ -12,16 +12,16 @@ const TestView: React.FC = () => {
 const { Suspense } = React;
 
     return(
-        <div className='test-view'>
+        <div className='test-view' role="group">
             <h1>Test View</h1>
-            <div className='canvas-wrapper'>
+            <div className='canvas-wrapper' role="group">
             <ErrorBoundary >
             <Canvas 
                 className="canvas-element" 
                 style={{height:"100vh", width:"100vw"}}
                 camera={{fov: 60, position: [0,0,15]}}>
                 <Suspense fallback={null}>
-                        <GlobeModel scale={0.1}/>
+                        {/* <GlobeModel scale={0.1}/> */}
                         <ambientLight intensity={0.2} />
                 </Suspense>
             </Canvas>

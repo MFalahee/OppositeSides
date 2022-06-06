@@ -1,223 +1,265 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { MapComponent, Marker} from './index';
-import { WrapperProps, ControlOptions } from '../Helpers/CustomTypesIndex'
-import { nodeModuleNameResolver } from 'typescript';
-
-
-/*
-
-Weather will be pulled into this component from Weather.tsx
-Not sure what to do with that yet
-
-*/
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { MapComponent, Marker, MainViewTextField } from "./index";
+import {
+  WrapperProps,
+  ControlOptions,
+  MainViewTextFieldProps,
+} from "../Helpers/CustomTypesIndex";
+import { Canvas } from "@react-three/fiber";
+import GlobeModel from "../Helpers/GlobeModel";
+import Stars from "../Helpers/Instances";
+import * as THREE from 'three'
 
 const render = (status: Status) => {
-    return <h1>{status}</h1>;
+  return <h1>{status}</h1>;
 };
 
+const { Suspense } = React;
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
-let customDependencies = {};
 let ui = true;
+let base = new THREE.Vector3(0, 0, 0);
 
-let uiOptions = {
-    zoomControl: true,
-    streetViewcontrol: true,
-    fullscreenControl: true,
-    rotateControl: true
-}
+// const styleElement = (styles: Object, element: HTMLElement) => {
+//     for (let key in styles) {
+//         element.style[key] = styles[key];
+//     }
+// }
 
-const styleElement = (styles: Object, element: HTMLElement) => { 
-    for (let key in styles) {
-        element.style[key] = styles[key];
-    }
-}
+const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
+  const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
+  const [zoom, setZoom] = React.useState(4);
+  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
+    lat: -25.344,
+    lng: 131.031,
+  });
+  const [antipode, setAntipode] = React.useState<google.maps.LatLngLiteral>({
+    lat: 0,
+    lng: 0,
+  });
+  const [style, setStyle] = React.useState({
+    width: "50%",
+    height: "100%",
+    flexGrow: "1",
+  });
+  const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
+    controlLabel: "Take me home",
+    controlClick: (e) => {
+      geolocate(map);
+    },
+  });
+  const [directionalLightPos, setDirectionalLightPos] = React.useState<THREE.Vector3>(base);
 
-const GoogleMap: React.VFC < WrapperProps > = ({
-        api
-    }) => {
-        const [clicks, setClicks] = React.useState <google.maps.LatLng[]> ([]);
-        const [zoom, setZoom] = React.useState(4);
-        const [center, setCenter] = React.useState <google.maps.LatLngLiteral> ({
-            lat: -25.344,
-            lng: 131.031
-        });
-        const [buttonToggle, setButtonToggle] = React.useState<Boolean>(true);
-        const [weather, setWeather] = React.useState <string> ('');
-        const [antipode, setAntipode] = React.useState <google.maps.LatLngLiteral> ({
-            lat: 0,
-            lng: 0
-        });
-        const [style, setStyle] = React.useState({
-            width: '100%',
-            height: '100%',
-            flexGrow: '1',
-        });
-
-        const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
-            controlLabel: 'Geolocate',
-            controlToggle: true,
-            controlClick: (e : React.MouseEvent) => {
-                return null
-            }
-        });
-        
-        // infoWindow = new google.maps.InfoWindow();
-        function initInfoWindow() {
-            infoWindow = new google.maps.InfoWindow()
-         }
-
-       
-        const onClick = (event: google.maps.MapMouseEvent) => {
-            // console.log('onClick')
-            //google says to avoid directly mutating state
-            setClicks([...clicks, event.latLng]);
-        };
-
-        function handleLocationError(
-            browserHasGeolocation: boolean,
-            infoWindow: google.maps.InfoWindow,
-            pos: google.maps.LatLng,
-        ) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-            infoWindow.open(map);
-        }
-
-       const geolocate = () => {
-           if (navigator.geolocation) {
-               navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-                   const {
-                       latitude,
-                       longitude
-                   } = position.coords;
-
-                   infoWindow = new google.maps.InfoWindow()
-                   infoWindow.setPosition({
-                       lat: latitude,
-                       lng: longitude
-                   });
-                   infoWindow.setContent('Location found.');
-                   infoWindow.open(map);
-
-
-                   // I want to add a glide effect to this function
-                   // I'd like to have the map smoothly slide to the user's location from the center of the map
-                   setCenter({
-                       lat: latitude,
-                       lng: longitude
-                   });
-
-                   setButtonToggle(false);
-
-               }, () => {
-                   handleLocationError(true, infoWindow, map.getCenter() !)
-               });
-           } else {
-               // Browser doesn't support Geolocation
-               handleLocationError(false, infoWindow, map.getCenter() !)
-           }
-       }
-
-
-        const findAntipode = (event: React.MouseEvent) => {
-            let antipodeLngSuppAng = 180 - Math.abs(center.lng)
-            let antipodeLng = (center.lng > 0 ? -1 : 1) * antipodeLngSuppAng
-            let antipodeLat = center.lat * -1
-            setAntipode({ 
-                lat: antipodeLat,
-                lng: antipodeLng
-            })
-
-            setButtonToggle(true);
-        }
-
-        const onIdle = (map: google.maps.Map) => {
-            // console.log('onIdle')
-            setZoom(map.getZoom());
-            setCenter(map.getCenter().toJSON());
-        }
-
-
-        const overlaySpot = (direction: string) => { 
-            // this is triggering an error because google isn't defined when this is called?
-            let output : google.maps.ControlPosition;
-            switch (direction) {
-                case 'bl' : output = window.google.maps.ControlPosition["BOTTOM_LEFT"]; break;
-                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
-                case 'br' : output = window.google.maps.ControlPosition["BOTTOM_RIGHT"];break;
-                case 'tl' : output = window.google.maps.ControlPosition["TOP_LEFT"];break;
-                case 'tc' : output = window.google.maps.ControlPosition["TOP_CENTER"];break;
-                case 'tr' : output = window.google.maps.ControlPosition["TOP_RIGHT"];break;
-                case 'lc' : output = window.google.maps.ControlPosition["LEFT_CENTER"];break;
-                case 'rc' : output = window.google.maps.ControlPosition["RIGHT_CENTER"];break;
-                case 'bc' : output = window.google.maps.ControlPosition["BOTTOM_CENTER"];break;
-                default: output =  window.google.maps.ControlPosition["BOTTOM_CENTER"];
-            }
-            return output;
-        }
-
-        
-        const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => { 
-            const mapButton = document.createElement('button');
-            mapButton.className = "map-button";
-            mapButton.innerHTML = controlOptions.controlLabel;
-            mapButton.addEventListener('click', (e) => controlOptions.controlClick);
-            controls.appendChild(mapButton);
-        }
-
-        /*
-        this renders the controls over the map
+  /* 
+        #TODO
+        make a func that sends new antipode to the model, 
+        and creates a visual effect of the antipode on the earth model.
         */
 
+  const onClick = (event: google.maps.MapMouseEvent) => {
+    // console.log('onClick')
+    //google says to avoid directly mutating state
+    setClicks([...clicks, event.latLng]);
+  };
 
-        const handleOnLoad = (map: google.maps.Map) => {
-            const controls = document.createElement('div');
-            if (map) {
-                createControlButton(controls, map, controlOptions)
-                map.controls[overlaySpot('tc')].push(controls);
-            }
-            // root.render(<MapControl />)
+  function handleLocationError(
+    browserHasGeolocation: boolean,
+    infoWindow: google.maps.InfoWindow,
+    pos: google.maps.LatLng
+  ) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+      browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation."
+    );
+    infoWindow.open(map);
+  }
+
+  const geolocate = (map: google.maps.Map) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          const { latitude, longitude } = position.coords;
+
+          setCenter({
+            lat: latitude,
+            lng: longitude,
+          });
+
+          flipButton();
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter()!);
         }
-    
-
-    if (api === ''){
-        return <div>Backend isn't live.</div>;
+      );
     } else {
-        return (
-            <div className="wrapperwrapper"style={{display: "flex", height:"100vh", width:"100vw"}}>
-                <Wrapper apiKey={api} render={render}>
-                    <MapComponent 
-                        onClick={onClick} 
-                        onIdle={onIdle}
-                        center={center} 
-                        zoom={zoom} 
-                        style={style}
-                        disableDefaultUI={ui}
-                        zoomControl= {true}
-                        streetViewControl= {true}
-                        fullscreenControl= {true}
-                        rotateControl= {true}
-                        onLoad={handleOnLoad}
-                        >
-                        {clicks.map((latLng, i) => (
-                            <Marker key={i} position={latLng} />
-                        ))}
-                    </MapComponent>
-                </Wrapper>
-            </div>
-        )
-    } 
-}
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter()!);
+    }
+  };
 
+  const findAntipode = (map: google.maps.Map) => {
+    // this isn't working properly yet for lng I believe
+    // console.log('findAntipode')
+    const pos = map.getCenter();
+    const antipode = {
+      lat: pos.lat() * -1,
+      lng: pos.lng() * -1 + 180,
+    };
+    setAntipode(antipode);
+    setCenter(antipode);
+    flipButton();
+  };
 
-export default GoogleMap
-/*
+  const onIdle = (map: google.maps.Map) => {
+    // console.log('onIdle')
+    setZoom(map.getZoom());
+    setCenter(map.getCenter().toJSON());
+  };
 
- 
-*/
+  const overlaySpot = (direction: string) => {
+    let output: google.maps.ControlPosition;
+    switch (direction) {
+      case "bl":
+        output = window.google.maps.ControlPosition["BOTTOM_LEFT"];
+        break;
+      case "bc":
+        output = window.google.maps.ControlPosition["BOTTOM_CENTER"];
+        break;
+      case "br":
+        output = window.google.maps.ControlPosition["BOTTOM_RIGHT"];
+        break;
+      case "tl":
+        output = window.google.maps.ControlPosition["TOP_LEFT"];
+        break;
+      case "tc":
+        output = window.google.maps.ControlPosition["TOP_CENTER"];
+        break;
+      case "tr":
+        output = window.google.maps.ControlPosition["TOP_RIGHT"];
+        break;
+      case "lc":
+        output = window.google.maps.ControlPosition["LEFT_CENTER"];
+        break;
+      case "rc":
+        output = window.google.maps.ControlPosition["RIGHT_CENTER"];
+        break;
+      case "bc":
+        output = window.google.maps.ControlPosition["BOTTOM_CENTER"];
+        break;
+      default:
+        output = window.google.maps.ControlPosition["BOTTOM_CENTER"];
+    }
+    return output;
+  };
+
+  const createControlButton = (
+    controls: Element,
+    map: google.maps.Map,
+    controlOptions: ControlOptions
+  ) => {
+    //console.log('createControlButton')
+    const mapButton = document.createElement("button");
+    mapButton.className = "map-button";
+    mapButton.innerHTML = controlOptions.controlLabel;
+    mapButton.addEventListener("click", controlOptions.controlClick);
+    controls.appendChild(mapButton);
+  };
+
+  const flipButton = () => {
+    // console.log('flipButton')
+    const activeButton = document.querySelector(".map-button");
+    if (activeButton) {
+      if (activeButton.innerHTML === "Take me home") {
+        setControlOptions({
+          controlLabel: "Antipode, please.",
+          controlClick: (e) => findAntipode(map),
+          prevClick: (e) => geolocate(map),
+        });
+      } else {
+        setControlOptions({
+          controlLabel: "Take me home",
+          controlClick: (e) => geolocate(map),
+          prevClick: (e) => findAntipode(map),
+        });
+      }
+    }
+  };
+
+  const handleOnLoad = (map: google.maps.Map) => {
+    // console.log('handleOnLoad')
+    const controls = document.createElement("div");
+    if (map) {
+      createControlButton(controls, map, controlOptions);
+      map.controls[overlaySpot("tr")].push(controls);
+    }
+  };
+
+  React.useEffect(() => {
+    const button = document.querySelector(".map-button");
+    if (button) {
+      button.addEventListener("click", controlOptions.controlClick);
+    }
+  }, [controlOptions]);
+
+  if (api === "") {
+    return <div>Backend isn't live.</div>;
+  } else {
+    return (
+      <div
+        className="wrapper-wrapper"
+        style={{ height: "100vh", width: "100vw" }}
+      >
+        <Wrapper apiKey={api} render={render}>
+          <MapComponent
+            onClick={onClick}
+            onIdle={onIdle}
+            center={center}
+            zoom={zoom}
+            style={style}
+            disableDefaultUI={ui}
+            zoomControl={true}
+            streetViewControl={true}
+            fullscreenControl={true}
+            rotateControl={true}
+            onLoad={handleOnLoad}
+          >
+            {clicks.map((latLng, i) => (
+              <Marker key={i} position={latLng} />
+            ))}
+          </MapComponent>
+        </Wrapper>
+        <div className="sidebar">
+          <Canvas
+            className="minimap-canvas"
+            frameloop="always"
+            style={{ height: "fill", width: "fill", backgroundColor: "black" }}
+          >
+            <Suspense>
+              <GlobeModel scale={2.5} position={0}/>
+              <ambientLight intensity={0} castShadow={true} />
+              <directionalLight color={"94d2a5"} intensity={0.7} position={directionalLightPos}/>
+            </Suspense>
+          </Canvas>
+          <MainViewTextField
+            text={["lalala"]}
+            center={center}
+            weather={"sunny"}
+            windSpeed="60mph"
+            windDirection="N"
+            city={"New York"}
+            state={"NY"}
+            country={"USA"}
+            temperature=""
+          />
+        </div>
+      </div>
+    );
+  }
+};
+
+export default GoogleMap;
 

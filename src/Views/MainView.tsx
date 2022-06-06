@@ -1,20 +1,21 @@
 import * as React from "react"
-import { GoogleMap, InfoField, Header, Copyright, ErrorBoundary } from "../Components/index"
+import { GoogleMap, Header, Copyright, MainViewTextField, ErrorBoundary } from "../Components/index"
+import GlobeModel from '../Helpers/GlobeModel';
+import Stars from '../Helpers/Instances';
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
-import { Typography, PageHeader } from "antd";
-import "../Styles/views/MainViewStyle.scss"
+import { Canvas } from '@react-three/fiber';
 
-const { Title, Text, Link } = Typography;
 
+const { Suspense } = React;
 const MainView : React.FC = (props) => {
-
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')
-
     React.useEffect(() => {
-        axiosWithAuth.get(`/api`)
+        if (process.env.NODE_ENV != 'test') {
+            axiosWithAuth.get(`/api`)
             .then(res => {
                 setMapsKey(res.data)
+                // 
             }).catch(err => {
                 console.error(err)
             })
@@ -23,17 +24,16 @@ const MainView : React.FC = (props) => {
             }).catch(err => {
                 console.error(err)
             })
+        }
     }, [])
 
-        return(
-            <div className="view-wrapper">
-                <Header title="Opposite Sides" subtitle="Who knows why I made this" />
-                <div className="upper-content-wrapper">
+        return(<>
+                <Header title="Opposite Sides" subtitle="sides sides sides sides" />
+                <div className="upper-content-wrapper" role="group">
                     <GoogleMap api={mapsKey} weather={weatherKey} />
-                    <InfoField />
                 </div>
                 <Copyright />
-            </div>
+            </>
         )
 }
 

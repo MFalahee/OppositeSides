@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Typography } from 'antd';
-import { CalculatorFilled } from '@ant-design/icons';
 
-const { Text, Title, Link, Paragraph } = Typography;
+const {Title} = Typography;
 
 interface CustomTitleProps {
     title: string;

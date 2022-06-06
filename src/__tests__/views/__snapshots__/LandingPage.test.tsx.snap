@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Landing Page View renders properly 1`] = `
+<div>
+  <div
+    aria-label="vw"
+    class="view-wrapper"
+    role="group"
+  >
+    <div
+      aria-label="cw"
+      class="canvas-wrapper"
+      role="group"
+    >
+      <div>
+        <div
+          class="canvas-element"
+          style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background-color: black;"
+        >
+          <div
+            style="width: 100%; height: 100%;"
+          >
+            <canvas
+              style="display: block;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-space ant-space-vertical landing-page"
+      style="width: 75%;"
+    >
+      <div
+        class="ant-space-item"
+      >
+        <div
+          class="style-div"
+        >
+          <article
+            class="ant-typography lp-typo"
+          >
+            <div
+              class="ant-space ant-space-horizontal ant-space-align-center slideshow-space"
+            >
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper active-slide"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography slide-text"
+                    >
+                      In a time of great uncertainty-
+                    </div>
+                    <span
+                      aria-label="up"
+                      class="anticon anticon-up next-slide-arrow"
+                      role="button"
+                      tabindex="-1"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="up"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      aria-label="down"
+                      class="anticon anticon-down prev-slide-arrow"
+                      role="button"
+                      tabindex="-1"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      When our basic ideals are causing deadly fights between us,
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      We know so much about what plagues the world and our society,
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      Yet, we can't seem to come together to stop it.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      Aren't you sick of it?
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      I am.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      I made a whimsical website that finds your antipode.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      Yeah, I didn't know that was a thing either.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+                style="margin-right: 8px;"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      An [[Antipode]] is the opposite side of the planet from where you are standing (most likely sitting) right now.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="ant-space-item"
+              >
+                <div
+                  class="slide-wrapper"
+                >
+                  <div
+                    class="slide-content"
+                  >
+                    <div
+                      class="ant-typography"
+                    >
+                      Lets shoot a line straight through the earth and see where it hits.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-label="cr"
+      class="copyright-wrapper"
+      role="group"
+    >
+      <span
+        class="ant-typography"
+      >
+        Copyright © 2022 - Michael Falahee
+      </span>
+    </div>
+  </div>
+</div>
+`;

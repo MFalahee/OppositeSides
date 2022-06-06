@@ -34,9 +34,9 @@ export interface MapControlProps {
 }
 
 export interface ControlOptions {
-    controlClick: (props : React.MouseEvent) => any;
-    controlLabel: string;
-    controlToggle: boolean;
+    controlClick?: (event: MouseEvent) => void;
+    controlLabel?: string;
+    prevClick?: (event: MouseEvent) => void;
 }
 export const posObj = {
     TOP_LEFT: google.maps.ControlPosition,
@@ -51,5 +51,17 @@ export const posObj = {
     BOTTOM_LEFT: google.maps.ControlPosition,
     BOTTOM_CENTER: google.maps.ControlPosition,
     BOTTOM_RIGHT: google.maps.ControlPosition,
+}
+
+export interface MainViewTextFieldProps {
+    text?: string[],
+    weather?: string,
+    temperature?: string,
+    windSpeed?: string,
+    windDirection?: string,
+    center?: google.maps.LatLngLiteral
+    city?: string,
+    state?: string,
+    country?: string,
 }
 
