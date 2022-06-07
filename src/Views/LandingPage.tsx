@@ -13,7 +13,11 @@ import { Canvas } from '@react-three/fiber';
 const { useState, Suspense } = React
 
 
-const sunPosition = new THREE.Vector3(0, 10, 0);
+const sunPosition = new THREE.Vector3(0, 0, 100);
+const globePosition =new THREE.Vector3(0, 0, 0);
+const cameraPosition = new THREE.Vector3(15,0,0);
+const rotateWorldAxisGroup = new THREE.Group();
+
 //  people ask me where I'm from. I point to my hand. incorporate this somehow?
 const introSlides = [
     'In a time of great uncertainty-',
@@ -41,7 +45,8 @@ const introSlides = [
 const LandingPage : React.FC = (props) => { 
     const [titleBool, setTitleBool] = useState(false);
     const [mousePos, setMousePos] = useState({x: 0, y: 0});
-
+    const axis = new THREE.Vector3(0, 0, 1);
+    const angle = 0.003;
     return(
         // If we could request location here, we could include the antipode in the 3d model as we talk about it.
         // I'd like to make the little arrows on the side of the page clickable to hide the section of text, or expand. The first section will be displayed by default.
@@ -52,16 +57,17 @@ const LandingPage : React.FC = (props) => {
                     frameloop="demand"
                     className="canvas-element" 
                     style={{height:"100vh", width:"100vw", backgroundColor: 'black'}}
-                    camera={{fov: 25, position: [0,-15,0]}}
+                    camera={{fov: 100, position: cameraPosition, near: 0.5, far: 1000}}
                     resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
                 >
                     <Suspense fallback={null}>
-                            <GlobeModel scale={10} position={7.7}/>
-                            <SunModel scale={1} position={sunPosition} />
-                            <Stars radius={300}/>                            
-                            <ambientLight intensity={0.2} castShadow={true} />
-                            <directionalLight intensity={0.5} position={[0,1,1]}/>
-                            <directionalLight intensity={1} color={'red'} position={[0,15,0]}/>
+
+                            {/* <SunModel scale={1} position={sunPosition} /> */}
+                            <GlobeModel scale={3} position={globePosition} rotateOnWorldAxis={(axis, angle) => rotateWorldAxisGroup} />
+                            <Stars radius={500}/>                            
+                            <ambientLight intensity={0.5} castShadow={true} />
+                            <directionalLight intensity={0.5} color={'blue'} position={sunPosition}/>
+                            {/* <directionalLight intensity={0.5} color={'yellow'} position={[0,15,0]}/> */}
                     </Suspense>
                 </Canvas>
                 </ErrorBoundary>

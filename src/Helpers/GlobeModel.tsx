@@ -29,12 +29,22 @@ type GLTFResult = GLTF & {
 const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
-  const [mode, setMode] = React.useState('normal')
-  const [step, setStep] = React.useState(0)
+  const [mode, setMode] = React.useState<String>('normal')
+  const [startup, setStartup] = React.useState<Boolean>(true);
+  const [step, setStep] = React.useState<number>(0)
+  const [startupAxis, setStartupAxis] = React.useState<THREE.Vector3>(new THREE.Vector3(-1, 0, 0));
+  const [axis, setAxis] = React.useState<THREE.Vector3>(new THREE.Vector3(0,0,1))
+  const [startupAngle, setStartupAngle] = React.useState<number>(1.5708)
+  const [angle, setAngle] = React.useState<number>(1.5708)
 
-
-
+  
   useFrame(() => {
+    if (startup) {
+      setStartup(false)
+      group.current.rotateOnAxis(startupAxis, startupAngle)
+    }
+
+
     const location = window.location.pathname.toString()
     if (location === '/') {
       setMode('normal')
@@ -42,35 +52,25 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
       setMode('go')
     } 
     if (mode === 'normal') {
-      // Animate for normal mode
-      switch (step) {
-        case 0:
-          group.current.position.set(0, 100, 0)
-          group.current.rotateOnAxis(new THREE.Vector3(-1, -1, 0), .001)
-          break
-        case 1:
-          group.current.position.set(0, 15, 0)
-          group.current.rotateOnAxis(new THREE.Vector3(-1, -1, 0), .0001)
-          break
-          
-        case 2:
-        case 3:
-      }
+      group.current.rotation.z += 0.001;
       invalidate();
     }
     else if (mode === 'go') {
+      
       // animate for maps page
       //
     } 
+    // group.current.rotateOnAxis(axis, angle);
+    invalidate();
   })
-  
   
 
   if (nodes && materials) {
+    
     materials['Material.002'].transparent = false;
   return (
     <group ref={group} {...props} dispose={null}>
-            <mesh geometry={nodes.Sphere_Material002_0.geometry} material={materials['Material.002']}  onWheel={(e) => {
+            <mesh geometry={nodes.Sphere_Material002_0.geometry} material={materials['Material.002']} onWheel={(e) => {
             }} />
           </group>
   )}

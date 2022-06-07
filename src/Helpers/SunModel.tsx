@@ -20,17 +20,12 @@ type GLTFResult = GLTF & {
 const SunModel : React.FC<JSX.IntrinsicElements['group']> = (props) => {
     const group = React.useRef<THREE.Group>()
     const { nodes, materials } = Drei.useGLTF('sun.gltf') as GLTFResult
-
-    
     useFrame(() => {
         group.current.rotation.y += 0.01
         group.current.rotation.x += 0.01
         invalidate();
     })
     if (nodes && materials) {
-    // materials['Material.001'].map = taco
-    console.log()
-
     return (
             <group {...props} ref={group}>
                 <mesh geometry={nodes.Sphere.geometry} material={materials['Material.001']}/>
