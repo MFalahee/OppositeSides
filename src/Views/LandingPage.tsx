@@ -1,13 +1,19 @@
 import * as React from 'react'
+import * as THREE from 'three'
 import { Typography, Space } from 'antd'
 import { Copyright, CustomTitle, Slideshow, ErrorBoundary} from '../Components/index'
+
+// 3d imports
 import GlobeModel from '../Helpers/GlobeModel';
 import Stars from '../Helpers/Instances';
+import SunModel from '../Helpers/SunModel';
 import { Canvas } from '@react-three/fiber';
+
 
 const { useState, Suspense } = React
 
 
+const sunPosition = new THREE.Vector3(0, 10, 0);
 //  people ask me where I'm from. I point to my hand. incorporate this somehow?
 const introSlides = [
     'In a time of great uncertainty-',
@@ -51,6 +57,7 @@ const LandingPage : React.FC = (props) => {
                 >
                     <Suspense fallback={null}>
                             <GlobeModel scale={10} position={7.7}/>
+                            <SunModel scale={1} position={sunPosition} />
                             <Stars radius={300}/>                            
                             <ambientLight intensity={0.2} castShadow={true} />
                             <directionalLight intensity={0.5} position={[0,1,1]}/>

@@ -15,11 +15,20 @@ interface StarsProps {
 const Stars : React.FC<StarsProps> = (props) => {
     const [mode, setMode] = React.useState('normal')
     const ref = React.useRef<THREE.Group>();
-    let positionsBuffer = new Float32Array(50000);
+    let positionsBuffer;
+    
     // Need to fix this and subtract the inner radius of positions.
-    // would fix the inner radius of the stars that act weirdly.
-    positionsBuffer = onBox(positionsBuffer,{sides: 100, center: [0,-15,0]});
+    // would fix the inner radius of the stars that act weirdly. 
 
+    //need inner radius of the stars to be removed from positionsbuffer
+    // positionsBuffer = (onBox(positionsBuffer,{sides: 100, center: [0,-15,0]})).reduce((acc: , curr: ) => {
+        
+    positionsBuffer = (onBox(new Float32Array(50000),{sides: 1000, center: [0,-15,0]}));
+    const actualBuffer: Float32Array = positionsBuffer.map((pos: number) => { 
+            if ((pos >= 5) || (pos <= -5)) {
+                return pos;
+            }
+        })
     useFrame(() => {
         const location = window.location.pathname.toString()
         if (location === '/') {
@@ -51,7 +60,7 @@ const Stars : React.FC<StarsProps> = (props) => {
     document.addEventListener('mousemove',moveStars);
     return(
         <group ref={ref}>
-            <Points limit={10000} positions={positionsBuffer}>
+            <Points limit={10000} positions={actualBuffer}>
                 <PointMaterial size={1} scale={0.1} color='white' sizeAttenuation={false}/>
             </Points>
         </group>
