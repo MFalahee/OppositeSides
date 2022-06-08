@@ -8,9 +8,11 @@ import GlobeModel from '../Helpers/GlobeModel';
 import Stars from '../Helpers/Instances';
 import SunModel from '../Helpers/SunModel';
 import { Canvas } from '@react-three/fiber';
-import { Scene } from 'three';
+import { MeshBasicMaterial, Scene } from 'three';
 import { EffectComposer, Select, Selection, GodRays, Outline, Bloom, Noise} from '@react-three/postprocessing';
 import { BlendFunction, KernelSize } from 'postprocessing';
+import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
+import { Plane } from '@react-three/drei';
 
 
 
@@ -49,11 +51,15 @@ const LandingPage : React.FC = (props) => {
     const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(-100, 0, 10))
     const [globePosition, setGlobePos] = useState<THREE.Vector3>(new THREE.Vector3(0, 5, 0));
     const [cameraPosition, setCameraPos ] = useState<THREE.Vector3>(new THREE.Vector3(15, 0, 0));
+    const meshRef = new THREE.Mesh;
+    meshRef.geometry = new THREE.SphereGeometry(0.5, 8, 6);
+    meshRef.material = new THREE.MeshBasicMaterial({color: 'red', wireframe: false});
     
-    const rayMesh = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({color: 'red', wireframe: true, transparent: true, opacity: 0.5}));
+
+    React.useEffect(() => {
+    }, [])
 
     function globeClick(e?:THREE.Event) {
-        
         console.log(e)
         console.log("globeClick");
     }
@@ -77,28 +83,30 @@ const LandingPage : React.FC = (props) => {
                     <Suspense fallback={null}>
                     <EffectComposer >
                         <GodRays 
-                            sun={rayMesh}
+                            sun={meshRef}
                             blendFunction={BlendFunction.SCREEN}
                             samples={60}
-                            density={0.96}
-                            decay={0.9}
-                            weight={0.4}
-                            exposure={0.6} // A constant attenuation coefficient.
+                            density={0.5}
+                            decay={0.95}
+                            weight={0.7}
+                            exposure={0.5} // A constant attenuation coefficient.
                             clampMax={1} // An upper bound for the saturation of the overall effect.
                             kernelSize={KernelSize.SMALL} // The blur kernel size. Has no effect if blur is disabled.
                             blur={1} // Whether the god rays should be blurred to reduce artifacts.
                         />
-                        <Outline blur edgeStrength={0}/>
+                        <Outline blur edgeStrength={1}/>
                         <Bloom intensity={0.5} luminanceSmoothing={0.025} luminanceThreshold={0.4}/>
-                        <Noise premultiply={true} blendFunction={BlendFunction.ADD} />
+                        <Noise premultiply={true} opacity={0.6} blendFunction={BlendFunction.ADD} />
                     </EffectComposer>
+                            {/* <mesh ref={meshRef} dispose={null}> 
+                                 <Plane position={[0, 0, -10]}  receiveShadow={true}/>
+                                <meshBasicMaterial color={0xffffff} transparent={true} opacity={0.5}/> 
+                            </mesh> */}
                             <SunModel scale={5} position={sunPosition} />
                             <GlobeModel scale={3} position={globePosition} onClick={e => globeClick()} onWheel={e => globeOnWheel()} />
                             <hemisphereLight intensity={0.7} groundColor={'black'} color={'white'} />
                             <Stars radius={500}/>                            
-                            <ambientLight intensity={0.1} castShadow={true} />
-                        {/* <directionalLight intensity={0.5} color={'yellow'} position={[0,15,0]}/> */}
-        
+                            <ambientLight intensity={0.1} castShadow={true} />        
                     </Suspense>
                    
                 </Selection>
