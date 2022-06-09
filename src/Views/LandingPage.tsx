@@ -7,12 +7,10 @@ import { Copyright, CustomTitle, Slideshow, ErrorBoundary} from '../Components/i
 import GlobeModel from '../Helpers/GlobeModel';
 import Stars from '../Helpers/Instances';
 import SunModel from '../Helpers/SunModel';
-import { Canvas } from '@react-three/fiber';
-import { MeshBasicMaterial, Scene } from 'three';
+import { Canvas, invalidate, ThreeEvent, useFrame } from '@react-three/fiber';
 import { EffectComposer, Select, Selection, GodRays, Outline, Bloom, Noise} from '@react-three/postprocessing';
 import { BlendFunction, KernelSize } from 'postprocessing';
-import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
-import { Plane } from '@react-three/drei';
+
 
 
 
@@ -48,26 +46,29 @@ use tensorflowjs to track face via webcam and control the camera of the canvas |
 const LandingPage : React.FC = (props) => { 
     const [titleBool, setTitleBool] = useState(false);
     const [mousePos, setMousePos] = useState({x: 0, y: 0});
-    const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(-100, 0, 10))
+    const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(-100, 0, 0))
     const [globePosition, setGlobePos] = useState<THREE.Vector3>(new THREE.Vector3(0, 5, 0));
-    const [cameraPosition, setCameraPos ] = useState<THREE.Vector3>(new THREE.Vector3(15, 0, 0));
-    const meshRef = new THREE.Mesh;
-    meshRef.geometry = new THREE.SphereGeometry(0.5, 8, 6);
-    meshRef.material = new THREE.MeshBasicMaterial({color: 'red', wireframe: false});
+    const [cameraPosition, setCameraPos ] = useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0));
     
-
-    React.useEffect(() => {
-    }, [])
-
-    function globeClick(e?:THREE.Event) {
-        console.log(e)
-        console.log("globeClick");
+    
+    let geo = new THREE.SphereGeometry(0.1, 10, 10);
+    let mat= new THREE.MeshBasicMaterial({
+        color: '#ffea00',
+        wireframe: true,
+        wireframeLinewidth: 2,
+        transparent: true,
+        opacity: 0.5,
+        visible: true,
+                        });
+    let godMesh = new THREE.Mesh(geo, mat);
+    let godMesh2 = new THREE.Mesh(geo, mat);
+    godMesh.position.set(-100, 0, 0);
+    godMesh2.position.set(-100, 0, 0);
+    godMesh2.material.color.set('#ff7b00');
+    function sunClick(e: ThreeEvent<MouseEvent>) {
+        console.log(e.eventObject.parent.getObjectById(1))
     }
 
-    function globeOnWheel(e?:THREE.Event) {
-        console.log(e)
-        console.log("globeOnWheel");
-    }
     return(
         <div className="view-wrapper" role="group" aria-label="vw">
             <div className='canvas-wrapper' role="group" aria-label="cw">
@@ -81,15 +82,30 @@ const LandingPage : React.FC = (props) => {
                 > 
                 <Selection>
                     <Suspense fallback={null}>
-                    <EffectComposer >
+                    <EffectComposer 
+                        autoClear={false}
+
+                    >
                         <GodRays 
-                            sun={meshRef}
+                            sun={godMesh}
                             blendFunction={BlendFunction.SCREEN}
-                            samples={60}
-                            density={0.5}
-                            decay={0.95}
-                            weight={0.7}
+                            samples={64}
+                            density={0.7}
+                            decay={0.90}
+                            weight={1}
                             exposure={0.5} // A constant attenuation coefficient.
+                            clampMax={1} // An upper bound for the saturation of the overall effect.
+                            kernelSize={KernelSize.SMALL} // The blur kernel size. Has no effect if blur is disabled.
+                            blur={1} // Whether the god rays should be blurred to reduce artifacts.
+                        />
+                        <GodRays 
+                            sun={godMesh2}
+                            blendFunction={BlendFunction.SCREEN}
+                            samples={64}
+                            density={0.9}
+                            decay={0.95}
+                            weight={0.8}
+                            exposure={1} // A constant attenuation coefficient.
                             clampMax={1} // An upper bound for the saturation of the overall effect.
                             kernelSize={KernelSize.SMALL} // The blur kernel size. Has no effect if blur is disabled.
                             blur={1} // Whether the god rays should be blurred to reduce artifacts.
@@ -98,14 +114,10 @@ const LandingPage : React.FC = (props) => {
                         <Bloom intensity={0.5} luminanceSmoothing={0.025} luminanceThreshold={0.4}/>
                         <Noise premultiply={true} opacity={0.6} blendFunction={BlendFunction.ADD} />
                     </EffectComposer>
-                            {/* <mesh ref={meshRef} dispose={null}> 
-                                 <Plane position={[0, 0, -10]}  receiveShadow={true}/>
-                                <meshBasicMaterial color={0xffffff} transparent={true} opacity={0.5}/> 
-                            </mesh> */}
-                            <SunModel scale={5} position={sunPosition} />
-                            <GlobeModel scale={3} position={globePosition} onClick={e => globeClick()} onWheel={e => globeOnWheel()} />
+                            <SunModel scale={5} position={sunPosition} onClick={e=> sunClick(e)}/>
+                            <GlobeModel scale={3} position={globePosition} /> 
                             <hemisphereLight intensity={0.7} groundColor={'black'} color={'white'} />
-                            <Stars radius={500}/>                            
+                            <Stars radius={500} />                            
                             <ambientLight intensity={0.1} castShadow={true} />        
                     </Suspense>
                    

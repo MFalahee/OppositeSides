@@ -28,6 +28,23 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
     if (startup) {
       setStartup(false)
       group.current.rotateOnAxis(startupAxis, startupAngle)
+      const globePosition = group.current.position
+      const globeRotation = group.current.rotation
+      const globeScale = group.current.scale
+      const globeRadius = globeScale.x * 0.5
+      const globeStats = {
+        x: globePosition.x,
+        y: globePosition.y,
+        z: globePosition.z,
+        rx: globeRotation.x,
+        ry: globeRotation.y,
+        rz: globeRotation.z,
+        sx: globeScale.x,
+        sy: globeScale.y,
+        sz: globeScale.z,
+        r: globeRadius
+      }
+      // console.log(globeStats)
     }
 
 
@@ -47,9 +64,23 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
     invalidate();
   })
   
+  function moveGlobe(event: MouseEvent) {
+    const x = event.clientX / window.innerWidth * 2 - 1;
+    const y = -(event.clientY / window.innerHeight) * 2 + 1;
+    const mouse = new THREE.Vector2(x, y);
+    
+    if (group.current !== null) {
+      // move the globe by a bit based on the mouse position, but keep it within the bounds of the screen, and keep it out of the way of the sun (which is the center of the screen)
+      const mousePosition = new THREE.Vector3(mouse.x, mouse.y, 5)
+      group.current.position.set(mousePosition.x, mousePosition.y, mousePosition.z)
+
+    }
+
+  }
+
 
   if (nodes && materials) {
-    
+    document.addEventListener('mousemove', moveGlobe);
     materials['Material.002'].transparent = false;
   return (
     <group ref={group} {...props} dispose={null}>
