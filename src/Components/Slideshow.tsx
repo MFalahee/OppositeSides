@@ -4,6 +4,7 @@ import { Slide } from './index'
 
 interface SlideShowProps {
     slides: Array<string>;
+    
 }
 
 
@@ -49,7 +50,7 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         <Space className="slideshow-space">
             {props.slides.map((slide, index) => { 
                 return(
-                    <Slide key={index} id={index} content={slide} activeSlide={slideIndex} nextClick={(e) => click(e, nextSlideHandler)} prevClick={(e) => click(e, prevSlideHandler)}/>
+                    <Slide key={index} id={index} content={slide} count={slideCount} activeSlide={slideIndex} nextClick={(e) => click(e, nextSlideHandler)} prevClick={(e) => click(e, prevSlideHandler)}/>
             )})}
         </Space>
     )

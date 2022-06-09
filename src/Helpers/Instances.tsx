@@ -2,27 +2,19 @@ import * as React from 'react'
 import * as THREE from 'three'
 import { Points, PointMaterial } from '@react-three/drei';
 // @ts-ignore
-import  { onBox } from 'maath/random/dist/maath-random.esm'
 import { invalidate, useFrame } from '@react-three/fiber';
-
 
 interface StarsProps {
     radius?: number;
     radius2?: number;
     scale?: number;
+    stars?: Float32Array;
 }
 
 const Stars : React.FC<StarsProps> = (props) => {
     const [mode, setMode] = React.useState('normal')
+    const [setup, setSetup] = React.useState<Boolean>(true);
     const ref = React.useRef<THREE.Group>();
-    let positionsBuffer;
-  
-    positionsBuffer = (onBox(new Float32Array(50000),{sides: 1000, center: [0,-15,0]}));
-    const actualBuffer: Float32Array = positionsBuffer.map((pos: number) => { 
-            if ((pos >= 5) || (pos <= -5)) {
-                return pos;
-            }
-        })
     useFrame(() => {
         const location = window.location.pathname.toString()
         if (location === '/') {
@@ -37,8 +29,7 @@ const Stars : React.FC<StarsProps> = (props) => {
         // animate for maps page
         //
     }})
-
-
+    
     function moveStars(event: MouseEvent) {
         // I want this function to set the current rotation of Points towards the position of the cursor.
         // This effect should make the stars rotate smoothly around the screen towards the cursor.
@@ -56,7 +47,7 @@ const Stars : React.FC<StarsProps> = (props) => {
     document.addEventListener('mousemove', moveStars);
     return(
         <group ref={ref}>
-            <Points limit={10000} positions={actualBuffer}>
+            <Points limit={10000} positions={props.stars}>
                 <PointMaterial size={1} scale={0.1} color='white' sizeAttenuation={false}/>
             </Points>
         </group>

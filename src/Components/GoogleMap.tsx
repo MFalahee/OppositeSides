@@ -22,12 +22,6 @@ let map: google.maps.Map;
 let ui = true;
 let base = new THREE.Vector3(0, 0, 0);
 
-// const styleElement = (styles: Object, element: HTMLElement) => {
-//     for (let key in styles) {
-//         element.style[key] = styles[key];
-//     }
-// }
-
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
   const [zoom, setZoom] = React.useState(4);
@@ -50,7 +44,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       geolocate(map);
     },
   });
-  const [directionalLightPos, setDirectionalLightPos] = React.useState<THREE.Vector3>(base);
 
   /* 
         #TODO
@@ -206,7 +199,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   }, [controlOptions]);
 
   if (api === "") {
-    return <div>Backend isn't live.</div>;
+    return <div>Backend isn't currently live. Sorry about that!</div>;
   } else {
     return (
       <div
@@ -222,14 +215,14 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             style={style}
             disableDefaultUI={ui}
             zoomControl={true}
-            streetViewControl={true}
-            fullscreenControl={true}
-            rotateControl={true}
+            streetViewControl={false}
+            fullscreenControl={false}
+            rotateControl={false}
             onLoad={handleOnLoad}
           >
-            {clicks.map((latLng, i) => (
+            {/* {clicks.map((latLng, i) => (
               <Marker key={i} position={latLng} />
-            ))}
+            ))} */}
           </MapComponent>
         </Wrapper>
         <div className="sidebar">
@@ -241,7 +234,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             <Suspense>
               <GlobeModel scale={3} position={0}/>
               <ambientLight intensity={0} castShadow={true} />
-              <directionalLight color={"94d2a5"} intensity={0.7} position={directionalLightPos}/>
             </Suspense>
           </Canvas>
           <MainViewTextField

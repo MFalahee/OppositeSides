@@ -11,7 +11,9 @@ interface SlideProps {
     prevClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     content: string;
     activeSlide: number;
+    count: number;
 }
+
 const Slide : React.FC<SlideProps> = (props) => {
     const [isActive, setIsActive] = React.useState(false);
     const [isHover, setIsHover] = React.useState(false);
@@ -31,6 +33,7 @@ const Slide : React.FC<SlideProps> = (props) => {
 
                     {/* the previous arrow button is currently broken. Going to next slide instead of previous. */}
                     <UpOutlined className="next-slide-arrow" onClick={props.nextClick} role="button"/>
+                    <span className="slide-counter">{props.activeSlide+1}/{props.count}</span>
                     <DownOutlined className="prev-slide-arrow" onClick={props.prevClick} role="button" />
                 </div>
             </div>

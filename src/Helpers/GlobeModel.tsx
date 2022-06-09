@@ -46,8 +46,6 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
       }
       // console.log(globeStats)
     }
-
-
     const location = window.location.pathname.toString()
     if (location === '/') {
       setMode('normal')
@@ -55,6 +53,7 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
       setMode('go')
     } 
     if (mode === 'normal') {
+      // I want to make this globe orbit the sun located at -100, 0, 0.
       group.current.rotation.z += 0.001;
       invalidate();
     }
@@ -80,7 +79,7 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
 
 
   if (nodes && materials) {
-    document.addEventListener('mousemove', moveGlobe);
+    // document.addEventListener('mousemove', moveGlobe);
     materials['Material.002'].transparent = false;
   return (
     <group ref={group} {...props} dispose={null}>
