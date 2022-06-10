@@ -26,6 +26,7 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-spring": "^9.4.5",
     "sass": "^1.51.0",
     "tall": "^5.0.0",
     "three": "^0.140.2",

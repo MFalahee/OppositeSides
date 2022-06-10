@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as React from 'react'
 import * as Drei from '@react-three/drei'
 import { invalidate, useFrame } from '@react-three/fiber'
+import { useSpring, animated } from 'react-spring';
 // @ts-ignore
 type GLTFResult = GLTF & {
   nodes: {
@@ -11,6 +12,7 @@ type GLTFResult = GLTF & {
     ['Material.002']: THREE.MeshStandardMaterial
   }
 }
+
 // eventually maybe a resize function to make the globe bigger or smaller when the user hovers and mousewheels?
 // Going to sync this with the slideshow component.
 // Need to add "step" out of steps to the props in order to make the globe animate alongside the slideshow.
@@ -22,6 +24,7 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
   const [startup, setStartup] = React.useState<Boolean>(true);
   const [startupAxis, setStartupAxis] = React.useState<THREE.Vector3>(new THREE.Vector3(-1, 0, 0));
   const [startupAngle, setStartupAngle] = React.useState<number>(1.5708)
+
 
   
   useFrame(() => {
@@ -44,7 +47,6 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
         sz: globeScale.z,
         r: globeRadius
       }
-      // console.log(globeStats)
     }
     const location = window.location.pathname.toString()
     if (location === '/') {

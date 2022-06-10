@@ -37,6 +37,13 @@ const introSlides = [
     // Transition to google maps page --> Ask for location --> Animate mini globe.
 ];
 
+// Globe animation positions
+const startingPos = new THREE.Vector3(2,2,8);
+const middlePos = new THREE.Vector3(2, 0, 1);
+const finalPos = new THREE.Vector3(-40,-5,-20);
+
+const globePosArray = [startingPos, middlePos, endingPos]
+
 /* 
 @@@TODO
 I'd like to add a couple transitions w/ the animation synced to the text.
@@ -46,7 +53,7 @@ const LandingPage : React.FC = (props) => {
     const [titleBool, setTitleBool] = useState(false);
     const [mousePos, setMousePos] = useState({x: 0, y: 0});
     const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(-250, 0, 0))
-    const [globePosition, setGlobePos] = useState<THREE.Vector3>(new THREE.Vector3(2, 2, 8));
+    const [globePosition, setGlobePos] = useState<THREE.Vector3>(startingPos);
     const [cameraPosition, setCameraPos ] = useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0));
     const [globeHoverBool, setGlobeHoverBool] = useState(false);
     const [sunHoverBool, setSunHoverBool] = useState(false);
