@@ -36,11 +36,11 @@ display: inline-block;
         transform: rotate(90deg);
         position: absolute;
         left: auto;
-        right: 0;
+        right: 0%;
     }
     .slide-counter{
         position: absolute;
-        left: 50%;
+        left: 47%;
         padding-top: 1em;
         font-size: 0.5em;
         font-weight: 400;
@@ -50,7 +50,7 @@ display: inline-block;
         padding-top: 1em;
         transform: rotate(90deg);
         position: absolute;
-        left: 0;
+        left: 5%;
         right: auto;
     }
 }

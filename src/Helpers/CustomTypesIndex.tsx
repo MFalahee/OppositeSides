@@ -65,3 +65,19 @@ export interface MainViewTextFieldProps {
     country?: string,
 }
 
+
+// @Slideshow
+
+export interface SlideShowProps {
+    slides: Array<string>;
+}
+
+export interface SlideProps {
+    id: number;
+    nextClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+    prevClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+    content: string;
+    activeSlide: number;
+    count: number;
+}
+

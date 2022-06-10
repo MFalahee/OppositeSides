@@ -1,48 +1,62 @@
 import * as React from 'react';
 import { Typography, Space } from 'antd';
 import { Slide } from './index'
-
-interface SlideShowProps {
-    slides: Array<string>;
-    
-}
-
-
+import { SlideShowProps } from '../Helpers/CustomTypesIndex';
 
 const Slideshow : React.FC<SlideShowProps> = (props) => {
     const [slideIndex, setSlideIndex] = React.useState(0);
+    const [prevIndex, setPrevIndex] = React.useState(0);
     const [slides, setSlides] = React.useState(props.slides);
     const [slideCount, setSlideCount] = React.useState(props.slides.length);
-    const [slideWidth, setSlideWidth] = React.useState(0);
-    const [slideHeight, setSlideHeight] = React.useState(0);
-
 
     React.useEffect(() => {
-        setSlideCount(props.slides.length)
-        setSlideIndex(0);
+        // console.log('slides changed');
     }, [props.slides])
 
+    React.useEffect(() => {
+        // console.log('change active slide');
+        setActiveSlide(slideIndex);
+    }, [slideIndex])
+
+    function setActiveSlide(index: number) {
+        const prevActive = document.getElementsByClassName('active-slide');
+        if (prevActive.length > 0) { 
+            prevActive[0].classList.remove('active-slide');
+        }
+
+        const nextActive = document.getElementsByClassName('slide-wrapper')[index];
+        nextActive.classList.add('active-slide');
+    }
+
     function nextSlideHandler() {
+        // console.log('next slide');
+        // console.log('slideIndex: ', slideIndex)
         if (slideIndex < slideCount - 1) {
+            setPrevIndex(slideIndex);
             setSlideIndex(slideIndex + 1);
         } else {
             // last slide reached
             // need to change this to show options for next steps
+            setPrevIndex(slideIndex);
             setSlideIndex(0);
         }
     }
-
     function prevSlideHandler() {
-        if (slideIndex > 0) {
+        let temp = slideIndex;
+        // console.log('prev slide');
+        // console.log('slideIndex: ', temp)
+        if (temp > 0) { 
+            setPrevIndex(slideIndex);
             setSlideIndex(slideIndex - 1);
         } else {
-            // first slide reached
-            // need to change this to show options for next steps
-            setSlideIndex(slideCount - 1);
+            let t2 = slideCount - 1;
+            // first slide -> go to last slide
+            setPrevIndex(0);
+            setSlideIndex(slideCount-1);
         }
     }
 
-    function click(e: React.MouseEvent<HTMLDivElement, MouseEvent>, handler: () => void) { 
+    function click(e: React.MouseEvent<HTMLSpanElement, MouseEvent>, handler: () => void) { 
         handler();
     }
 
@@ -50,25 +64,10 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         <Space className="slideshow-space">
             {props.slides.map((slide, index) => { 
                 return(
-                    <Slide key={index} id={index} content={slide} count={slideCount} activeSlide={slideIndex} nextClick={(e) => click(e, nextSlideHandler)} prevClick={(e) => click(e, prevSlideHandler)}/>
+                    <Slide key={index} id={index} content={slide} count={slideCount} activeSlide={slideIndex} nextClick={(e?) => click(e, nextSlideHandler)} prevClick={(e?) => click(e, prevSlideHandler)}/>
             )})}
         </Space>
     )
 }
 
 export default Slideshow;
-/* Temp storage for text content of landing page 
-*
-*
-*
-*
-In a time of great uncertainty- 
-When being on "opposite sides" invokes childishness, or even hate and pain,
-Aren't you sick of it?
-I am. 
-So I made a whimsical website that flips the world upside down. or something. 
-*
-*
-*
-*
-*/
