@@ -8,6 +8,8 @@
     "@google/model-viewer": "^1.12.0",
     "@googlemaps/react-wrapper": "^1.1.32",
     "@googlemaps/typescript-guards": "^1.0.14",
+    "@react-spring/three": "^9.4.5",
+    "@react-spring/types": "^9.4.5",
     "@react-three/drei": "^9.11.2",
     "@react-three/fiber": "^8.0.19",
     "@react-three/postprocessing": "^2.3.2",

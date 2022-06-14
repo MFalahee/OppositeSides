@@ -24,6 +24,7 @@ const SunModel : React.FC<JSX.IntrinsicElements['group']> = (props) => {
         invalidate();
     })
     if (nodes && materials) {
+      materials['Material.001'].transparent = false;
     return (
             <group {...props} ref={group} dispose={null} >
                 <mesh geometry={nodes.Sphere.geometry} material={materials['Material.001']}/>

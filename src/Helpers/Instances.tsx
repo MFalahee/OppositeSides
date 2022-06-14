@@ -9,6 +9,7 @@ interface StarsProps {
     radius2?: number;
     scale?: number;
     stars?: Float32Array;
+    fn?: (event: MouseEvent, stars: THREE.Group) => void;
 }
 
 const Stars : React.FC<StarsProps> = (props) => {
@@ -30,23 +31,8 @@ const Stars : React.FC<StarsProps> = (props) => {
         //
     }})
     
-    function moveStars(event: MouseEvent) {
-        // I want this function to set the current rotation of Points towards the position of the cursor.
-        // This effect should make the stars rotate smoothly around the screen towards the cursor.
-        let w = window.innerWidth;
-        let h = window.innerHeight;
-        let x = event.clientX;
-        let y = event.clientY;
-        if (ref.current) {
-            let x_pos = ((x / w) * 2) + 1;
-            let y_pos = ((y / h) * 2) + 1;
-            ref.current.rotation.x = (y_pos * 0.3);
-            ref.current.rotation.y = (x_pos * 0.3);
-        }
-    }
-    document.addEventListener('mousemove', moveStars);
     return(
-        <group ref={ref}>
+        <group ref={ref} >
             <Points limit={10000} positions={props.stars}>
                 <PointMaterial size={1} scale={0.1} color='white' sizeAttenuation={false}/>
             </Points>

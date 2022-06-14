@@ -232,7 +232,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             style={{ height: "fill", width: "fill", backgroundColor: "black" }}
           >
             <Suspense>
-              <GlobeModel scale={3} position={0}/>
+              {/* <GlobeModel scale={3} position={0}/> */}
               <ambientLight intensity={0} castShadow={true} />
             </Suspense>
           </Canvas>
