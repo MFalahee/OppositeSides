@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as THREE from 'three'
-import { Typography, Space } from 'antd'
+import { Typography, Space, Button } from 'antd'
 import { Copyright, CustomTitle, Slideshow, ErrorBoundary} from '../Components/index'
+import { Link } from 'react-router-dom';
 
 // 3d imports
 
@@ -10,7 +11,6 @@ import SunModel from '../Helpers/SunModel';
 import { animated, useSpring } from 'react-spring'
 import '@react-spring/three'
 import GlobeModel from '../Helpers/GlobeModel';
-import MovementAnchor from '../Helpers/MovementAnchor';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { EffectComposer, Select, Selection, GodRays, Outline, Bloom, Noise} from '@react-three/postprocessing';
 import { BlendFunction, KernelSize } from 'postprocessing';
@@ -23,9 +23,6 @@ const startingPos = new THREE.Vector3(2,2,8);
 const middlePos = new THREE.Vector3(2, 0, 1);
 const finalPos = new THREE.Vector3(-40,-5,-20);
 
-//  people ask me where I'm from. I point to my hand. incorporate this somehow?
-// did you know that only 15% of land has antipode? ~ source
-//  
 const introSlides = [
     'In a time of great uncertainty-',
     'When our basic ideals are causing deadly fights between us,',
@@ -36,38 +33,36 @@ const introSlides = [
     'Aren\'t you sick of it?',
     'I know I am.',
     // Transition
-    "I don't even know what to do about the unrest inside me most days.",
-    "I'm not even sure what to do about it right now, as I make this website.",
+    "I don't know what to do about the unrest inside myself most days.",
+    'So, I made something a little pointless. Do you know what an [[Antipode]] is?',
+    'Your [[Antipode]] is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
+    "SKIP HERE--> TO ANTIPODE",
     // Transition
-    'So, I made something a little pointless. Do you know what an Antipode is?',
-    'Yeah, I didn\'t know it was a thing before this project either.',
-    'An [[Antipode]] is the opposite side of the planet from where you are standing (or most likely sitting) right now.',
-    `I'll help you find your antipode. Though, fair warning, it's probably just..  ${'💧'}`,
+    "I'm sure you've noticed us inhabitants of planet earth have a tendency to divide eachother into groups;",
+    "Leaders and followers, politicians and their constituents, Landowners or immigrants, or teachers, even homeless.",
+    "All people, All named differently by us. All with different values and goals.",
+    "Except, we have one great thing in common no matter what- we are all on this beautiful planet.",
+    "WE ARE ALL ON THIS PLANET TOGETHER. That is fact.",
+    // Transition
+    "This is going to make it simple. You either have an antipode on land, or you don't.",
     // 'Unless you are accessing this website sometime in the not so distant future.',
-    // Transition
-    // Transition to google maps page --> Ask for location --> Animate mini globe.
 ];
 
 // Globe animation positions
 /* 
 @@@TODO
 I'd like to add a couple transitions w/ the animation synced to the text.
-use tensorflowjs to track face via webcam and control the camera of the canvas || fallback is the movement with the mouse?
 */
+
 const LandingPage : React.FC = (props) => { 
     const [titleBool, setTitleBool] = useState(false);
-    const [mousePos, setMousePos] = useState({x: 0, y: 0});
     const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(0, 0, 0))
     const [globePosition, setGlobePos] = useState<THREE.Vector3>(startingPos);
     const [cameraPosition, setCameraPos ] = useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0));
-    const [globeHoverBool, setGlobeHoverBool] = useState(false);
-    const [sunHoverBool, setSunHoverBool] = useState(false);
     const [stars, setStars] = useState<Float32Array>(generateStarPositions(50000));
-    const [slideIndex, setSlideIndex] = useState<number>(0);
-    const [active, setActive] = useState<boolean>(false);
-    const [anchorBool, setAnchorBool] = useState(false);
-    let geo = new THREE.SphereGeometry(0.1, 10, 10);
-    let mat= new THREE.MeshBasicMaterial({
+
+    let geo = new THREE.SphereGeometry(0.05, 16, 16)
+    let mat=  new THREE.MeshBasicMaterial({
         color: '#ffea00',
         wireframe: false,
         transparent: true,
@@ -76,32 +71,24 @@ const LandingPage : React.FC = (props) => {
     });
     let godMesh = new THREE.Mesh(geo, mat);
     let godMesh2 = new THREE.Mesh(geo, mat);
-    godMesh.position.set(sunPosition.x, sunPosition.y, sunPosition.z);
+    godMesh.position.set(0, 0, 0);
     godMesh.material.visible = true;
-    godMesh2.position.set(sunPosition.x, sunPosition.y, sunPosition.z);
+    godMesh2.position.set(0, 0, 0);
     godMesh2.material.color.set('#ff7b00');
     godMesh2.material.visible = true;
 
     React.useEffect(() => {
-        if (document.querySelector('.slide-counter') !== null) {
-            if (slideIndex != Number(document.querySelector('.slide-counter').innerHTML[0])) {
-            let temp = document.querySelector('.slide-counter').innerHTML[0]
-            setSlideIndex(Number(temp));
-            if (!active) {
-                setActive(true);
-            }
-            }
-        }}, [stars])
+        }, [])
         
     function Rig() {
         const { camera, mouse, scene } = useThree();
+        console.log(scene)
         const vec = new THREE.Vector3()
         return useFrame(() => camera.position.lerp(vec.set(camera.position.x, mouse.y * 1, mouse.x * 3), 0.02))
-        }
+    }
+
 
     function moveStars(event: MouseEvent, stars: THREE.Group) {
-        // I want this function to set the current rotation of Points towards the position of the cursor.
-        // This effect should make the stars rotate smoothly around the screen towards the cursor.
         let w = window.innerWidth;
         let h = window.innerHeight;
         let x = event.clientX;
@@ -113,6 +100,8 @@ const LandingPage : React.FC = (props) => {
             stars.rotation.y = (x_pos * 0.3);
         }
     }
+
+
     return(
         <div className="view-wrapper" role="group" aria-label="vw">
             <div className='canvas-wrapper' role="group" aria-label="cw">
@@ -158,11 +147,10 @@ const LandingPage : React.FC = (props) => {
                     <Noise premultiply={true} opacity={0.4} blendFunction={BlendFunction.ADD} />
                 </EffectComposer>   
                     </Suspense>
-                    
                 </Selection>
                 <hemisphereLight intensity={0.7} groundColor={'black'} color={'white'} />
                 <ambientLight intensity={0.1} castShadow={true} />
-                {/* <Rig /> */}
+                <Rig />
                 </Canvas>
             </div>
             <Space className="landing-page" direction="vertical" size="large" style={{ width: '75%' }}>

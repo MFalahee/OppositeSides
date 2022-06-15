@@ -1,8 +1,9 @@
 import * as React from "react"
-import { GoogleMap, Header, Copyright, MainViewTextField, ErrorBoundary } from "../Components/index"
+import { GoogleMap, Copyright, MainViewTextField, ErrorBoundary } from "../Components/index"
 import GlobeModel from '../Helpers/GlobeModel';
 import Stars from '../Helpers/Instances';
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
+import { PageHeader } from 'antd';
 import { Canvas } from '@react-three/fiber';
 
 
@@ -10,6 +11,11 @@ const { Suspense } = React;
 const MainView : React.FC = (props) => {
     const [mapsKey, setMapsKey] = React.useState('')
     const [weatherKey, setWeatherKey] = React.useState('')
+
+    let headerStyle = {
+        // background color = $darker blue
+        backgroundColor: '#2B313B',
+    }
     React.useEffect(() => {
         if (process.env.NODE_ENV != 'test') {
             axiosWithAuth.get(`/api`)
@@ -28,7 +34,13 @@ const MainView : React.FC = (props) => {
     }, [])
 
         return(<>
-                <Header title="Opposite Sides" subtitle="sides sides sides sides" />
+                <PageHeader 
+                className="site-page-header"
+                title={"Opposite Sides"}
+                subTitle={"sides sides sides sides"}
+                backIcon={true}
+                style={headerStyle}
+                />
                 <div className="upper-content-wrapper" role="group">
                     <GoogleMap api={mapsKey} weather={weatherKey} />
                 </div>

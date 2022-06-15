@@ -55,6 +55,12 @@
         display: flex;
         flex-direction: column;
     }
+
+    .lp-button {
+        position: relative;
+        display: inline-block;
+        text-transform: uppercase;
+    }
 }
 
 

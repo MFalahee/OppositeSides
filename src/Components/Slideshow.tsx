@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Typography, Space } from 'antd';
+import { Link } from 'react-router-dom';
+import { Typography, Space, Button } from 'antd';
 import { Slide } from './index'
 import { SlideShowProps } from '../Helpers/CustomTypesIndex';
 
@@ -19,13 +20,13 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
     }, [slideIndex])
 
     function setActiveSlide(index: number) {
-        const prevActive = document.getElementsByClassName('active-slide');
-        if (prevActive.length > 0) { 
-            prevActive[0].classList.remove('active-slide');
-        }
+        // const prevActive = document.getElementsByClassName('active-slide');
+        // if (prevActive.length > 0) { 
+        //     prevActive[0].classList.remove('active-slide');
+        // }
 
-        const nextActive = document.getElementsByClassName('slide-wrapper')[index];
-        nextActive.classList.add('active-slide');
+        // const nextActive = document.getElementsByClassName('slide-wrapper')[index];
+        // nextActive.classList.add('active-slide');
     }
 
     function nextSlideHandler() {
@@ -60,13 +61,50 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         handler();
     }
 
+    function RenderButton() {
+        if (slideIndex === props.slides.length - 1) {
+            return (
+                <Link to="/go">
+                    <Button type="primary" size="large" shape="round" style={{marginTop: '1rem'}}>
+                        GO -{'>'} 
+                    </Button>
+                </Link>
+            )
+        }
+            // at end of slides, render go button
+            // at half of slides render skip button
+        else if (slideIndex >= props.slides.length / 2) {
+                return (
+           <Link to="/go">
+                <Button className="lp-button" color="primary">
+                    TOO LONG SKIIIIIIIIP--{'>'}
+                </Button>
+            </Link>
+                )}
+        else {
+            return null
+        }
+        
+    }
+
+    document.addEventListener('keydown', (e) => {
+        //    if they press enter or space, go forward a slide
+        console.log(e)
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+            nextSlideHandler();
+        } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+            prevSlideHandler();
+        }
+        })
+
     return(
         <Space className="slideshow-space">
             {props.slides.map((slide, index) => { 
                 return(
                     <Slide key={index} id={index} content={slide} count={slideCount} activeSlide={slideIndex} nextClick={(e?) => click(e, nextSlideHandler)} prevClick={(e?) => click(e, prevSlideHandler)}/>
             )})}
-        </Space>
+                <RenderButton/>        
+            </Space>
     )
 }
 

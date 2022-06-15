@@ -4,32 +4,26 @@
     .sidebar {
         overflow-x: hidden;
         position: absolute;
+        height: 100%;
         top: 0;
         left: auto;
         right: 0;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        align-items: center;
         width: 50%;
         .minimap-canvas {
-            position: absolute;
-            max-width: 600px;
-            top: 0;
-            right: 0;
-            align-items: end;
-            justify-content: flex-end;
-            left: auto;
             width: 100%;
-            height: 50%;
+            height: 40%;
             z-index: 1;
         }
         .main-view-text-field {
             width: 100%;
-            height: auto;
+            height: 60%;
             padding: 1em;
             border: 1em solid $border-color;
             color: $text-color;
-            background-color: $lighter-salmon-color;
-        }
+            background-color: $darker-blue-color;
     }
+  }
 }

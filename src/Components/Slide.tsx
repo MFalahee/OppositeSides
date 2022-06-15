@@ -6,8 +6,10 @@ const {Paragraph, Title, Text} = Typography;
 
 
 const Slide : React.FC<SlideProps> = (props) => {
+  
+    if (props.activeSlide == props.id) {
         return (
-            <div className="slide-wrapper">
+            <div className="slide-wrapper active-slide">
                 <div className="slide-content">
                     <Paragraph className="slide-text">{props.content}</Paragraph>
                     <UpOutlined className="next-slide-arrow" onClick={(event) => props.nextClick(event)} role="button"/>
@@ -16,6 +18,10 @@ const Slide : React.FC<SlideProps> = (props) => {
                 </div>
             </div>
         )
+    }
+    else {
+        return null
+    }
 }
 
 export default Slide;

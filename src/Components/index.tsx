@@ -3,7 +3,6 @@ export { default as MapComponent } from './MapComponent';
 export { default as Marker } from './Marker';
 export { default as Weather } from './Weather';
 export { default as ErrorBoundary } from './ErrorBoundary';
-export { default as Header } from './Header';
 export { default as Copyright } from './Copyright';
 export { default as CustomTitle } from './CustomTitle';
 export { default as Slide } from './Slide';
