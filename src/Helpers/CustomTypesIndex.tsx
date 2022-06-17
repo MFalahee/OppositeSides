@@ -14,7 +14,6 @@ export interface HeaderProps {
 
 export interface WrapperProps {
     api: string;
-    weather: string;
 }
 
 export interface MapProps extends google.maps.MapOptions {

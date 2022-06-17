@@ -1,12 +1,13 @@
 .wrapper-wrapper {
     width: 100%;
     background-color: $darker-blue-color;
+    display: block;
+    position: relative;
     .sidebar {
-        overflow-x: hidden;
+        border: 0.5em solid $border-color;
         position: absolute;
         height: 100%;
         top: 0;
-        left: auto;
         right: 0;
         display: flex;
         flex-direction: column;
@@ -21,7 +22,7 @@
             width: 100%;
             height: 60%;
             padding: 1em;
-            border: 1em solid $border-color;
+            border-top: 1em solid $border-color;
             color: $text-color;
             background-color: $darker-blue-color;
     }

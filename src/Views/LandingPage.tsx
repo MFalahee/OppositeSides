@@ -33,7 +33,7 @@ const introSlides = [
     'Aren\'t you sick of it?',
     'I know I am.',
     // Transition
-    "I don't know what to do about the unrest inside myself most days.",
+    "I don't know what to do about the uncertainty myself most days.",
     'So, I made something a little pointless. Do you know what an [[Antipode]] is?',
     'Your [[Antipode]] is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
     "SKIP HERE--> TO ANTIPODE",

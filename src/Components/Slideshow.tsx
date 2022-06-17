@@ -14,21 +14,6 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         // console.log('slides changed');
     }, [props.slides])
 
-    React.useEffect(() => {
-        // console.log('change active slide');
-        setActiveSlide(slideIndex);
-    }, [slideIndex])
-
-    function setActiveSlide(index: number) {
-        // const prevActive = document.getElementsByClassName('active-slide');
-        // if (prevActive.length > 0) { 
-        //     prevActive[0].classList.remove('active-slide');
-        // }
-
-        // const nextActive = document.getElementsByClassName('slide-wrapper')[index];
-        // nextActive.classList.add('active-slide');
-    }
-
     function nextSlideHandler() {
         // console.log('next slide');
         // console.log('slideIndex: ', slideIndex)
@@ -42,6 +27,7 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
             setSlideIndex(0);
         }
     }
+
     function prevSlideHandler() {
         let temp = slideIndex;
         // console.log('prev slide');
@@ -65,7 +51,7 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         if (slideIndex === props.slides.length - 1) {
             return (
                 <Link to="/go">
-                    <Button type="primary" size="large" shape="round" style={{marginTop: '1rem'}}>
+                    <Button  className="lp-button" type="primary" size="large" shape="round" style={{marginTop: '1rem'}}>
                         GO -{'>'} 
                     </Button>
                 </Link>
@@ -73,18 +59,14 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
         }
             // at end of slides, render go button
             // at half of slides render skip button
-        else if (slideIndex >= props.slides.length / 2) {
+        else  {
                 return (
            <Link to="/go">
-                <Button className="lp-button" color="primary">
-                    TOO LONG SKIIIIIIIIP--{'>'}
+                <Button className="lp-button" color="white">
+                   {'Skip ->'}
                 </Button>
             </Link>
-                )}
-        else {
-            return null
-        }
-        
+                )}  
     }
 
     document.addEventListener('keydown', (e) => {

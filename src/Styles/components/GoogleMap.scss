@@ -1,21 +1,18 @@
 .wrapper-wrapper {
-    display: block;
-    position: relative;
     .map-button {
         font-weight: 550;
         font-size: 1.5em;
         background: $blue-color;
         padding: 1em 1.5em;
         margin: 1em;
-        transition: border 0.1s ease-in-out;
         border-top: .5em solid $green-blue;
-        border-left: .3em solid $salmon-color;
-        border-right: .3em solid $lighter-salmon-color;
+        // border-left: .3em solid $salmon-color;
+        // border-right: .3em solid $lighter-salmon-color;
         border-bottom: .5em solid $darker-blue-color;
         &:hover {
             border-top: .5em solid $blue-color;
-            border-left: .3em solid $green-blue;
-            border-right: .3em solid $salmon-color;
+            // border-left: .3em solid $green-blue;
+            // border-right: .3em solid $salmon-color;
             border-bottom: .5em solid $lighter-salmon-color;
         }
         &:active {
