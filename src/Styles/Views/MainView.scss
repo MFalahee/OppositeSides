@@ -16,7 +16,6 @@
         .minimap-canvas {
             width: 100%;
             height: 40%;
-            z-index: 1;
         }
         .main-view-text-field {
             width: 100%;
@@ -24,7 +23,18 @@
             padding: 1em;
             border-top: 1em solid $border-color;
             color: $text-color;
+            background-color: $blackish;
+
+        .ant-descriptions-title {
+            color: whitesmoke;
+        }
+        .ant-descriptions-item-content {
+            color: white;
+        }
+        .ant-descriptions-item-label {
+            color: white;
             background-color: $darker-blue-color;
+        }
     }
   }
 }

@@ -14,6 +14,7 @@ const MainViewTextField: React.FC<MainViewTextFieldProps> = (props) => {
                 title="Location Info:"
                 column={2}
                 size="middle"
+                bordered={true}
                 >
                 <Descriptions.Item label={`Longitude:`}>{props.center.lng}</Descriptions.Item>
                 <Descriptions.Item label={` Latitude:`}>{props.center.lat}</Descriptions.Item> 

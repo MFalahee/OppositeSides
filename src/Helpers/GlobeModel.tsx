@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import * as React from 'react'
 import * as Drei from '@react-three/drei'
 import { invalidate, useFrame, useThree } from '@react-three/fiber'
-import { useSpring, animated } from 'react-spring';
 
 // @ts-ignore
 type GLTFResult = GLTF & {
@@ -30,8 +29,17 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
       setStartup(false)
       group.current.rotateOnAxis(startupAxis, startupAngle);      
     }
+    let location = window.location.pathname;
+    if (location === '/go') {
+      // console.log(group.current.parent)
+      
+      // I think this is where we put the logic to move our mini globe.
+    } else {
       group.current.rotation.z += 0.001;
       invalidate();
+    }
+    // console.log(location)
+    
   })
 
   if (nodes && materials) {

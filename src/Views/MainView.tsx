@@ -27,7 +27,6 @@ const MainView : React.FC = (props) => {
                 <div className="upper-content-wrapper" role="group">
                     <GoogleMap api={mapsKey} />
                 </div>
-                <Copyright />
             </>
         )
 }
