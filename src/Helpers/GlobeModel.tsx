@@ -24,10 +24,17 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
   const startupAxis = new THREE.Vector3(-1, 0, 0);
   const startupAngle = 1.5708;
 
+
   useFrame(() => {
+    // might make sense to redo this with a switch case based on frame count
+    // that way I can more clearly define the steps of the animation on the landing page.
+
     if (startup) {
       setStartup(false)
-      group.current.rotateOnAxis(startupAxis, startupAngle);      
+      group.current.rotateOnAxis(startupAxis, startupAngle);
+      console.log('GLOBE MODEL SETUP')
+      console.log(group.current)
+      console.log('---------------------------')
     }
     let location = window.location.pathname;
     if (location === '/go') {

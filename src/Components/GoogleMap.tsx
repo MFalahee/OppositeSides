@@ -11,6 +11,7 @@ import GlobeModel from "../Helpers/GlobeModel";
 import Stars from "../Helpers/Instances";
 import * as THREE from 'three'
 import generateStarPositions from '../Helpers/setupStars';
+import MiniModel from "../Helpers/MiniModel";
 
 const render = (status: Status) => {
   return <h1>{status}</h1>;
@@ -20,7 +21,7 @@ const { Suspense } = React;
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
 let ui = false;
-let cameraStart = new THREE.Vector3(10, 0, 0);
+let cameraStart = new THREE.Vector3(100, 0, 0);
 let base = new THREE.Vector3(0,0,0);
 
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
@@ -51,6 +52,9 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     },
   });
   const [stars, setStars] = React.useState<Float32Array>(generateStarPositions(1000));
+  const [boxBool, setBoxBool] = React.useState<boolean>(false);
+  let meshRef = React.useRef<THREE.Mesh>();
+
   /* 
         #TODO
         make a func that sends new antipode to the model, 
@@ -92,7 +96,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             lat: latitude,
             lng: longitude,
           });
-          flipButton(map); 
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter()!);
@@ -102,10 +105,10 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter()!);
     }
+    flipButton();
   };
 
   const findAntipode = (map: google.maps.Map) => {
-    // this isn't working properly yet for lng I believe
     console.log('find anti')
     // const antipode = {
     //   lat: pos.lat() * -1,
@@ -162,6 +165,18 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
 
   }
 
+  const sphereCoords = (coords: google.maps.LatLng)=> {
+    /*
+
+    relevant sphere equations?
+    coordinate conversion -> 
+    r = sqrt(x^2 + y^2 + z^2)
+    θ = arccos(z/sqrt(sqrt(x^2 + y^2 + z^2))) =  arccos(z/r) = arctan(sqrt(x^2 + y^2)/z)
+    φ = big switch case
+    */
+
+  }
+
   const createControlButton = (
     controls: Element,
     map: google.maps.Map,
@@ -175,21 +190,18 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     controls.appendChild(mapButton);
   };
 
-  const flipButton = (map: google.maps.Map) => {
-    console.log('flipButton')
+  const flipButton = () => {
     const activeButton = document.querySelector(".map-button");
-    activeButton.innerHTML = 'yolo'
+    console.log(activeButton.innerHTML)
+    if (activeButton.innerHTML == "Take me home") { 
+      activeButton.innerHTML = 'Find my Antipode'
+    }
   };
-
-
-  const moveStars = () => {
-
-  }
 
   const handleOnLoad = (map: google.maps.Map) => {
     // console.log('=============')
     // console.log('Map Loaded: ')
-    // console.log(map)
+    console.log(map)
     // console.log('=============')
 
     const controls = document.createElement("div");
@@ -209,13 +221,8 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   const MinimapRig = () => {
     let three = useThree();
     let {camera, scene} = three;
+    let vec = new THREE.Vector3()
     return useFrame(() => {
-      // console.log('===============')
-      // console.log('miniRig')
-      // console.log('===============')
-      // this is where we do the animation using the camera
-      // minimap starting coords ~~~ (0, -4.41) (Lng, Lat)
-      invalidate();
     })
   }
   if (api === "") {
@@ -254,9 +261,13 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
           >
             <Suspense>
-              <ambientLight intensity={0.5} castShadow={true} />
-              <GlobeModel scale={0.7}/>
-              <Stars radius={500} stars={stars} fn={moveStars}/>  
+              <ambientLight intensity={1} castShadow={false} />
+              <mesh ref={meshRef}>
+                <boxBufferGeometry attach={'geometry'} args={[10, 10, 10]} />
+                <meshStandardMaterial attach={'material'} metalness={0.5} color={new THREE.Color('#EF959C')} wireframe visible={boxBool} />
+              </mesh> 
+              <MiniModel scale={0.01} />
+              <Stars stars={stars}/>  
             </Suspense>
             <MinimapRig />
           </Canvas>
