@@ -24,7 +24,7 @@ const MainView : React.FC = (props) => {
                 title={"Opposite Sides"}
                 subTitle={"sides sides sides sides"}
                 />
-                <div className="upper-content-wrapper" role="group">
+                <div className="content-wrapper">
                     <GoogleMap api={mapsKey} />
                 </div>
             </>

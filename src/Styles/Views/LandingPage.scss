@@ -1,73 +1,95 @@
-.landing-page {
-    position: absolute;
-    top:0;
-    left:0;
-    margin: 0;
-    width: 100%;
-    justify-content: center;
+.view-wrapper {
+  .canvas-wrapper {
+    .canvas-element {
+      overflow-x: hidden;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+  }
+
+  .content-wrapper {
     .lp-title {
-        border: 1px solid $border-color;
-        position: relative;
-        align-self: flex-start;
-        display: inline-block;
-        text-transform: uppercase;
-        animation: slideInLeft 1s;
+      border: 1px solid $border-color;
+      position: relative;
+      align-self: flex-start;
+      display: inline-block;
+      text-transform: uppercase;
+      animation: slideInLeft 1s;
     }
     .lp-title {
-        @for $i from 0 through 13 {
-            .span-#{$i} {
-                position: relative;
-                display: inline-block;
-                animation: flip 2s 1;
-                animation-delay: #{$i * 3.1}s;
-            }
+      @for $i from 0 through 13 {
+        .span-#{$i} {
+          position: relative;
+          display: inline-block;
+          animation: flip 2s 1;
+          animation-delay: #{$i * 3.1}s;
         }
+      }
     }
     @keyframes slideInLeft {
-        from {
-            transform: translateX(-100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-            
-        }
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
     @keyframes flip {
-        0% {
-            transform: rotateY(0deg);
-        }
-        75% {
-            transform: rotateY(180deg);
-        }
-        100% {
-            transform: rotateY(360deg);
-        }
-    } 
+      0% {
+        transform: rotateY(0deg);
+      }
+      75% {
+        transform: rotateY(180deg);
+      }
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
 
     .lp-typo {
-        font-family: $font;
-        font-size: 1em;
-        font-weight: 520;
-        color:$text-color;
-        text-align: left;
-        display: flex;
-        flex-direction: column;
+      font-family: $font;
+      font-size: 1em;
+      font-weight: 520;
+      color: $text-color;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
     }
 
     .lp-button {
-        position: absolute;
-        right: 35%;
-        display: inline-block;
-        text-transform: uppercase;
-        &:hover {
-            color: $text-color;
-            background-color: $border-color;
+      position: absolute;
+      top: 0;
+    //   right: 35%;
+    //   display: inline-block;
+      text-transform: uppercase;
+      &:hover {
+        color: $text-color;
+        background-color: $border-color;
+      }
+    }
+  }
+}
+// breakpoints for the landing page
+@media screen and (max-width: $mobile-width) {
+  .content-wrapper {
+    border: 1px solid red;
+    width: 100%;
+    .style-div {
+        .lp-typo {
+            .slideshow-space {
+                width: 100%;
+                .slide-text {
+                    width:100%;
+                }
+            }
         }
     }
+  }
 }
-
 
 // $grey:#3D3D3E;
 // $light-grey: #6b6767;

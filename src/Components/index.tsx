@@ -9,3 +9,5 @@ export { default as Slide } from './Slide';
 export { default as Slideshow } from './Slideshow';
 export { default as Fallback } from './Fallback';
 export { default as MainViewTextField } from './MainViewTextField';
+export { default as Spinner } from './Spinner';
+export { default as ErrorComponent } from './ErrorComponent';

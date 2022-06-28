@@ -68,14 +68,17 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
             </Link>
                 )}  
     }
-
+    document.removeEventListener('keydown', () => {
+        
+    });
     document.addEventListener('keydown', (e) => {
         //    if they press enter or space, go forward a slide
-        console.log(e)
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
             nextSlideHandler();
         } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
             prevSlideHandler();
+        } else {
+            // console.log('key pressed: ', e.key);
         }
         })
 

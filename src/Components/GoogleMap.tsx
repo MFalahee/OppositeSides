@@ -1,26 +1,21 @@
 import * as React from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { MapComponent, Marker, MainViewTextField, Copyright } from "./index";
+import { MapComponent, Marker, MainViewTextField, Copyright, Spinner, ErrorComponent } from "./index";
 import {
   WrapperProps,
   ControlOptions,
-  MainViewTextFieldProps,
 } from "../Helpers/CustomTypesIndex";
 import { Canvas, invalidate, useFrame, useThree } from "@react-three/fiber";
-import GlobeModel from "../Helpers/GlobeModel";
 import Stars from "../Helpers/Instances";
 import * as THREE from 'three'
 import generateStarPositions from '../Helpers/setupStars';
 import MiniModel from "../Helpers/MiniModel";
-
-const render = (status: Status) => {
-  return <h1>{status}</h1>;
-};
+import { AutoComplete } from "antd";
 
 const { Suspense } = React;
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
-let ui = false;
+let ui = true;
 let cameraStart = new THREE.Vector3(100, 0, 0);
 let base = new THREE.Vector3(0,0,0);
 
@@ -41,10 +36,12 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     lng: 0,
   });
   const [style, setStyle] = React.useState({
-    width: "50%",
-    height: "100%",
-    flexGrow: "1",
+    height: '100vh',
+    width: '100%',
+    flexGrow: '1',
+    padding: '0',
   });
+  
   const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
     controlLabel: "Take me home",
     controlClick: (e) => {
@@ -95,7 +92,8 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
           setCenter({
             lat: latitude,
             lng: longitude,
-          });
+          })
+          setZoom(10);
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter()!);
@@ -225,33 +223,40 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return useFrame(() => {
     })
   }
+
+
+  
+const mapRender = (status: Status): JSX.Element => {
+  switch (status) {
+    case Status.LOADING:
+      return <Spinner />;
+    case Status.FAILURE:
+      return <ErrorComponent />;
+    case Status.SUCCESS:
+      return (<MapComponent
+                onClick={onClick}
+                onIdle={onIdle}
+                center={center}
+                zoom={zoom}
+                style={style}
+                disableDefaultUI={ui}
+                zoomControl={true}
+                streetViewControl={false}
+                fullscreenControl={false}
+                rotateControl={false}
+                onLoad={handleOnLoad}
+                />)
+  }
+};
+
   if (api === "") {
     return <div>Backend isn't currently live. Sorry about that!</div>;
   } else {
     return (
       <div
         className="wrapper-wrapper"
-        style={{ height: "100vh", width: "100vw" }}
       >
-        <Wrapper apiKey={api} render={render}>
-          <MapComponent
-            onClick={onClick}
-            onIdle={onIdle}
-            center={center}
-            zoom={zoom}
-            style={style}
-            disableDefaultUI={ui}
-            zoomControl={true}
-            streetViewControl={false}
-            fullscreenControl={false}
-            rotateControl={false}
-            onLoad={handleOnLoad}
-          >
-            {/* {clicks.map((latLng, i) => (
-              <Marker key={i} position={latLng} />
-            ))} */}
-          </MapComponent>
-        </Wrapper>
+        <Wrapper apiKey={api} render={mapRender} />
         <div className="sidebar">
           <Canvas
             className="minimap-canvas"

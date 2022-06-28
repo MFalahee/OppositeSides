@@ -21,7 +21,7 @@ export interface MapProps extends google.maps.MapOptions {
     onClick?: (event: google.maps.MapMouseEvent) => void
     onIdle?: (map: google.maps.Map) => void
     disableDefaultUI?: boolean
-    children: React.ReactNode
+    children?: React.ReactNode
     onLoad: (map: google.maps.Map) => void
 }
 

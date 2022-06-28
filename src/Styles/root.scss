@@ -3,25 +3,10 @@
 @import './components/index.scss';
 @import './views/index.scss';
 
-.canvas-wrapper {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: auto;
-  right: auto;
-  height: auto;
-  overflow-x: hidden;
-  .canvas-element {
-      overflow-x: hidden;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-  }
-}
 .view-wrapper {
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  height: 100vh;
   overflow-x: hidden;
   font-family: $font;
   margin: 0;
