@@ -1,15 +1,11 @@
 import * as React from "react"
-import { GoogleMap, Header, Copyright, MainViewTextField, ErrorBoundary } from "../Components/index"
-import GlobeModel from '../Helpers/GlobeModel';
-import Stars from '../Helpers/Instances';
+import { GoogleMap, Copyright } from "../Components/index"
 import { axiosWithAuth } from "../Helpers/axiosWithAuth";
-import { Canvas } from '@react-three/fiber';
+import { PageHeader } from 'antd';
 
-
-const { Suspense } = React;
 const MainView : React.FC = (props) => {
     const [mapsKey, setMapsKey] = React.useState('')
-    const [weatherKey, setWeatherKey] = React.useState('')
+
     React.useEffect(() => {
         if (process.env.NODE_ENV != 'test') {
             axiosWithAuth.get(`/api`)
@@ -19,20 +15,18 @@ const MainView : React.FC = (props) => {
             }).catch(err => {
                 console.error(err)
             })
-            axiosWithAuth.get(`/api/weather`).then(res => {
-                setWeatherKey(res.data)
-            }).catch(err => {
-                console.error(err)
-            })
         }
     }, [])
 
         return(<>
-                <Header title="Opposite Sides" subtitle="sides sides sides sides" />
-                <div className="upper-content-wrapper" role="group">
-                    <GoogleMap api={mapsKey} weather={weatherKey} />
+                <PageHeader 
+                className="site-page-header"
+                title={"Opposite Sides"}
+                subTitle={"sides sides sides sides"}
+                />
+                <div className="content-wrapper">
+                    <GoogleMap api={mapsKey} />
                 </div>
-                <Copyright />
             </>
         )
 }

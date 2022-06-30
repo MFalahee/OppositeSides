@@ -1,61 +1,63 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { MapComponent, Marker, MainViewTextField } from "./index";
+import { MapComponent, Marker, MainViewTextField, Copyright, Spinner, ErrorComponent } from "./index";
 import {
   WrapperProps,
   ControlOptions,
-  MainViewTextFieldProps,
 } from "../Helpers/CustomTypesIndex";
-import { Canvas } from "@react-three/fiber";
-import GlobeModel from "../Helpers/GlobeModel";
+import { Canvas, invalidate, useFrame, useThree } from "@react-three/fiber";
 import Stars from "../Helpers/Instances";
 import * as THREE from 'three'
-
-const render = (status: Status) => {
-  return <h1>{status}</h1>;
-};
+import generateStarPositions from '../Helpers/setupStars';
+import MiniModel from "../Helpers/MiniModel";
+import { AutoComplete } from "antd";
 
 const { Suspense } = React;
 let infoWindow: google.maps.InfoWindow;
 let map: google.maps.Map;
 let ui = true;
-let base = new THREE.Vector3(0, 0, 0);
-
-// const styleElement = (styles: Object, element: HTMLElement) => {
-//     for (let key in styles) {
-//         element.style[key] = styles[key];
-//     }
-// }
+let cameraStart = new THREE.Vector3(100, 0, 0);
+let base = new THREE.Vector3(0,0,0);
 
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([]);
-  const [zoom, setZoom] = React.useState(4);
+  const [zoom, setZoom] = React.useState(3);
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: -25.344,
-    lng: 131.031,
+    lat: 0,
+    lng: -4.5,
   });
+  const [buttonLabel, setButtonLabel] = React.useState<string>('')
+  const [prevCenter, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
+    lat: 0,
+    lng: 0,
+  })
   const [antipode, setAntipode] = React.useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0,
   });
   const [style, setStyle] = React.useState({
-    width: "50%",
-    height: "100%",
-    flexGrow: "1",
+    height: '100vh',
+    width: '100%',
+    flexGrow: '1',
+    padding: '0',
   });
+  
   const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
     controlLabel: "Take me home",
     controlClick: (e) => {
       geolocate(map);
     },
   });
-  const [directionalLightPos, setDirectionalLightPos] = React.useState<THREE.Vector3>(base);
+  const [stars, setStars] = React.useState<Float32Array>(generateStarPositions(1000));
+  const [boxBool, setBoxBool] = React.useState<boolean>(false);
+  let meshRef = React.useRef<THREE.Mesh>();
 
   /* 
         #TODO
         make a func that sends new antipode to the model, 
         and creates a visual effect of the antipode on the earth model.
+        limit zoom/view of map to contain solely their position and antipode
+        create heatmap with antipode data
         */
 
   const onClick = (event: google.maps.MapMouseEvent) => {
@@ -83,13 +85,15 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           const { latitude, longitude } = position.coords;
-
+          setPreviousCenter({
+            lat: center.lat,
+            lng: center.lng
+          })
           setCenter({
             lat: latitude,
             lng: longitude,
-          });
-
-          flipButton();
+          })
+          setZoom(10);
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter()!);
@@ -99,19 +103,18 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter()!);
     }
+    flipButton();
   };
 
   const findAntipode = (map: google.maps.Map) => {
-    // this isn't working properly yet for lng I believe
-    // console.log('findAntipode')
-    const pos = map.getCenter();
-    const antipode = {
-      lat: pos.lat() * -1,
-      lng: pos.lng() * -1 + 180,
-    };
-    setAntipode(antipode);
-    setCenter(antipode);
-    flipButton();
+    console.log('find anti')
+    // const antipode = {
+    //   lat: pos.lat() * -1,
+    //   lng: pos.lng() * -1 + 180,
+    // };
+    // setAntipode(antipode);
+    // setCenter(antipode);
+    // flipButton();
   };
 
   const onIdle = (map: google.maps.Map) => {
@@ -156,6 +159,22 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return output;
   };
 
+  const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {
+
+  }
+
+  const sphereCoords = (coords: google.maps.LatLng)=> {
+    /*
+
+    relevant sphere equations?
+    coordinate conversion -> 
+    r = sqrt(x^2 + y^2 + z^2)
+    θ = arccos(z/sqrt(sqrt(x^2 + y^2 + z^2))) =  arccos(z/r) = arctan(sqrt(x^2 + y^2)/z)
+    φ = big switch case
+    */
+
+  }
+
   const createControlButton = (
     controls: Element,
     map: google.maps.Map,
@@ -170,27 +189,19 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   };
 
   const flipButton = () => {
-    // console.log('flipButton')
     const activeButton = document.querySelector(".map-button");
-    if (activeButton) {
-      if (activeButton.innerHTML === "Take me home") {
-        setControlOptions({
-          controlLabel: "Antipode, please.",
-          controlClick: (e) => findAntipode(map),
-          prevClick: (e) => geolocate(map),
-        });
-      } else {
-        setControlOptions({
-          controlLabel: "Take me home",
-          controlClick: (e) => geolocate(map),
-          prevClick: (e) => findAntipode(map),
-        });
-      }
+    console.log(activeButton.innerHTML)
+    if (activeButton.innerHTML == "Take me home") { 
+      activeButton.innerHTML = 'Find my Antipode'
     }
   };
 
   const handleOnLoad = (map: google.maps.Map) => {
-    // console.log('handleOnLoad')
+    // console.log('=============')
+    // console.log('Map Loaded: ')
+    console.log(map)
+    // console.log('=============')
+
     const controls = document.createElement("div");
     if (map) {
       createControlButton(controls, map, controlOptions);
@@ -205,44 +216,65 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     }
   }, [controlOptions]);
 
+  const MinimapRig = () => {
+    let three = useThree();
+    let {camera, scene} = three;
+    let vec = new THREE.Vector3()
+    return useFrame(() => {
+    })
+  }
+
+
+  
+const mapRender = (status: Status): JSX.Element => {
+  switch (status) {
+    case Status.LOADING:
+      return <Spinner />;
+    case Status.FAILURE:
+      return <ErrorComponent />;
+    case Status.SUCCESS:
+      return (<MapComponent
+                onClick={onClick}
+                onIdle={onIdle}
+                center={center}
+                zoom={zoom}
+                style={style}
+                disableDefaultUI={ui}
+                zoomControl={true}
+                streetViewControl={false}
+                fullscreenControl={false}
+                rotateControl={false}
+                onLoad={handleOnLoad}
+                />)
+  }
+};
+
   if (api === "") {
-    return <div>Backend isn't live.</div>;
+    return <div>Backend isn't currently live. Sorry about that!</div>;
   } else {
     return (
       <div
         className="wrapper-wrapper"
-        style={{ height: "100vh", width: "100vw" }}
       >
-        <Wrapper apiKey={api} render={render}>
-          <MapComponent
-            onClick={onClick}
-            onIdle={onIdle}
-            center={center}
-            zoom={zoom}
-            style={style}
-            disableDefaultUI={ui}
-            zoomControl={true}
-            streetViewControl={true}
-            fullscreenControl={true}
-            rotateControl={true}
-            onLoad={handleOnLoad}
-          >
-            {clicks.map((latLng, i) => (
-              <Marker key={i} position={latLng} />
-            ))}
-          </MapComponent>
-        </Wrapper>
+        <Wrapper apiKey={api} render={mapRender} />
         <div className="sidebar">
           <Canvas
             className="minimap-canvas"
-            frameloop="always"
+            frameloop="demand"
             style={{ height: "fill", width: "fill", backgroundColor: "black" }}
+            camera={{fov: 10, position: cameraStart, near: 0.5, far: 1000}}
+            resize={{scroll: true, debounce: {scroll: 50, resize: 0}}}
           >
             <Suspense>
-              <GlobeModel scale={2.5} position={0}/>
-              <ambientLight intensity={0} castShadow={true} />
-              <directionalLight color={"94d2a5"} intensity={0.7} position={directionalLightPos}/>
+              <ambientLight intensity={1} castShadow={false} />
+              <mesh ref={meshRef}>
+                <boxBufferGeometry attach={'geometry'} args={[10, 10, 10]} />
+                <meshStandardMaterial attach={'material'} metalness={0.5} color={new THREE.Color('#EF959C')} wireframe visible={boxBool} />
+              </mesh> 
+              <MiniModel scale={0.01} />
+              <Stars stars={stars}/>  
             </Suspense>
+            <MinimapRig />
           </Canvas>
           <MainViewTextField
             text={["lalala"]}
@@ -255,7 +287,9 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             country={"USA"}
             temperature=""
           />
+          <Copyright />
         </div>
+
       </div>
     );
   }

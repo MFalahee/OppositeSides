@@ -14,7 +14,6 @@ export interface HeaderProps {
 
 export interface WrapperProps {
     api: string;
-    weather: string;
 }
 
 export interface MapProps extends google.maps.MapOptions {
@@ -22,7 +21,7 @@ export interface MapProps extends google.maps.MapOptions {
     onClick?: (event: google.maps.MapMouseEvent) => void
     onIdle?: (map: google.maps.Map) => void
     disableDefaultUI?: boolean
-    children: React.ReactNode
+    children?: React.ReactNode
     onLoad: (map: google.maps.Map) => void
 }
 
@@ -63,5 +62,21 @@ export interface MainViewTextFieldProps {
     city?: string,
     state?: string,
     country?: string,
+}
+
+
+// @Slideshow
+
+export interface SlideShowProps {
+    slides: Array<string>;
+}
+
+export interface SlideProps {
+    id: number;
+    nextClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+    prevClick: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+    content: string;
+    activeSlide: number;
+    count: number;
 }
 
