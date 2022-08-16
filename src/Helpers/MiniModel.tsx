@@ -24,9 +24,9 @@ export default function MiniModel({ ...props }: JSX.IntrinsicElements['group']) 
   })
   if (materials && nodes) {
     let mat = materials['Default OBJ']
-    console.log('bounding sphere for model geometry')
-    console.log(nodes.Cube001.geometry.boundingSphere)
-    console.log(nodes.Cube001.geometry.boundingBox)
+    // console.log('bounding sphere for model geometry')
+    // console.log(nodes.Cube001.geometry.boundingSphere)
+    // console.log(nodes.Cube001.geometry.boundingBox)
     return (
       <group ref={group} {...props} dispose={null}>
         <mesh geometry={nodes.Cube001.geometry} material={mat} />

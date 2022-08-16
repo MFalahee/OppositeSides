@@ -57,28 +57,26 @@ const Slideshow : React.FC<SlideShowProps> = (props) => {
                 </Link>
             )
         }
+    }
             // at end of slides, render go button
             // at half of slides render skip button
-        else  {
-                return (
-           <Link to="/go">
-                <Button className="lp-button" color="white">
-                   {'Skip ->'}
-                </Button>
-            </Link>
-                )}  
-    }
-    document.removeEventListener('keydown', () => {
-        
-    });
+    //     else  {
+    //             return (
+    //        <Link to="/go">
+    //             <Button className="lp-button" color="white">
+    //                {'Skip ->'}
+    //             </Button>
+    //         </Link>
+    //             )}  
+    // }
     document.addEventListener('keydown', (e) => {
+        e.preventDefault();
         //    if they press enter or space, go forward a slide
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
-            nextSlideHandler();
+            nextSlideHandler()
         } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
             prevSlideHandler();
         } else {
-            // console.log('key pressed: ', e.key);
         }
         })
 

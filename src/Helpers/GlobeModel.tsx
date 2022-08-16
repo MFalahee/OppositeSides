@@ -21,6 +21,7 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
   const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('scene.gltf') as GLTFResult
   const [startup, setStartup] = React.useState<Boolean>(true);
+  const [phase, setPhase] = React.useState<number>(0);
   const startupAxis = new THREE.Vector3(-1, 0, 0);
   const startupAngle = 1.5708;
 
@@ -32,21 +33,18 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
     if (startup) {
       setStartup(false)
       group.current.rotateOnAxis(startupAxis, startupAngle);
-      console.log('GLOBE MODEL SETUP')
-      console.log(group.current)
-      console.log('---------------------------')
+      // console.log('GLOBE MODEL SETUP')
+      // console.log(group.current)
+      // console.log('---------------------------')
     }
     let location = window.location.pathname;
-    if (location === '/go') {
-      // console.log(group.current.parent)
-      
-      // I think this is where we put the logic to move our mini globe.
-    } else {
+    if (location === '/') {
+      // switch (phase) { 
+
+      // }
       group.current.rotation.z += 0.001;
       invalidate();
-    }
-    // console.log(location)
-    
+    } 
   })
 
   if (nodes && materials) {

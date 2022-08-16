@@ -62,34 +62,38 @@
 
     .lp-button {
       position: absolute;
-      top: 0;
-    //   right: 35%;
-    //   display: inline-block;
+      width: 50%;
+      bottom: 10%;
+      left: auto;
+      right: 27%;
       text-transform: uppercase;
       &:hover {
         color: $text-color;
         background-color: $border-color;
       }
     }
+
+    @media screen and (max-width: $mobile-width) {
+      border: 1px solid red;
+      width: 100%;
+      .style-div {
+        top: auto;
+        bottom: 0;
+          .lp-typo {
+              .slideshow-space {
+                  width: 100%;
+                  .slide-text {
+                      width:100%;
+                  }
+              }
+          }
+      }
+    }
+  
   }
+
 }
 // breakpoints for the landing page
-@media screen and (max-width: $mobile-width) {
-  .content-wrapper {
-    border: 1px solid red;
-    width: 100%;
-    .style-div {
-        .lp-typo {
-            .slideshow-space {
-                width: 100%;
-                .slide-text {
-                    width:100%;
-                }
-            }
-        }
-    }
-  }
-}
 
 // $grey:#3D3D3E;
 // $light-grey: #6b6767;

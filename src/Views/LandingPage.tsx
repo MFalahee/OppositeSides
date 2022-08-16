@@ -29,23 +29,21 @@ const introSlides = [
   "Yet, we can't seem to come together to stop it.",
   // Transition
   "Aren't you sick of it?",
-  'I know I am.',
+  'I know I am. So, I made something to distract myself.',
   // Transition
-  "I don't know what to do about the uncertainty myself most days.",
-  'So, I made something a little pointless. Do you know what an [[Antipode]] is?',
-  'Your [[Antipode]] is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
-  'SKIP HERE--> TO ANTIPODE',
-  // Transition
-  "I'm sure you've noticed us inhabitants of planet earth have a tendency to divide eachother into groups;",
-  'Leaders and followers, politicians and their constituents, Landowners or immigrants, or teachers, even homeless.',
-  'All people, All named differently by us. All with different values and goals.',
-  'Except, we have one great thing in common no matter what- we are all on this beautiful planet.',
-  'WE ARE ALL ON THIS PLANET TOGETHER. That is fact.',
-  // Transition
-  "This is going to make it simple. You either have an antipode on land, or you don't."
-  // 'Unless you are accessing this website sometime in the not so distant future.',
-]
+  'Do you know what an antipode is?',
+  'Your antipode is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
+  'Shall we see if you are one of the lucky few with a bit of land on the opposite side of the planet?',]
+/*
 
+add later
+
+"I'm sure you've noticed us inhabitants of planet earth have a tendency to divide eachother into groups;",
+'Leaders and followers, politicians and their constituents, Landowners or immigrants, or teachers, even homeless.',
+'All people, All named differently by us. All with different values and goals.',
+'Except, we have one great thing in common no matter what- we are all on this beautiful planet.',
+'WE ARE ALL ON THIS PLANET TOGETHER. That is fact.',
+*/
 // Globe animation positions
 /* 
 @@@TODO
@@ -81,7 +79,7 @@ const LandingPage: React.FC = (props) => {
 
   function Rig() {
     const { camera, mouse, scene } = useThree()
-    console.log(scene)
+    // console.log(scene)
     const vec = new THREE.Vector3()
     return useFrame(() => camera.position.lerp(vec.set(camera.position.x, mouse.y * 0.5, mouse.x * 2), 0.02))
   }
@@ -100,8 +98,8 @@ const LandingPage: React.FC = (props) => {
   }
 
   return (
-    <div className="view-wrapper" role="group" aria-label="vw">
-      <div className="canvas-wrapper" role="group" aria-label="cw">
+    <div className="view-wrapper">
+      <div className="canvas-wrapper" >
         <Canvas
           gl={{ powerPreference: 'high-performance', antialias: false }}
           frameloop="always"
@@ -149,7 +147,7 @@ const LandingPage: React.FC = (props) => {
           <Rig />
         </Canvas>
       </div>
-      <Space className="content-wrapper" direction="vertical" size="large" style={{ width: '75%' }}>
+      <Space className="content-wrapper" direction="vertical" size="large">
         <div className="style-div">
           <Typography className="lp-typo">
             {titleBool ? <CustomTitle title="Opposite Sides" /> : null}
