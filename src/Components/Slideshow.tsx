@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Space, Button } from 'antd';
 import { Slide } from './index'
-import { SlideShowProps } from '../Helpers/CustomTypesIndex';
+import { SlideShowProps } from '../../custom';
 
 const Slideshow : React.FC<SlideShowProps> = (props) => {
     const [slideIndex, setSlideIndex] = React.useState(0);

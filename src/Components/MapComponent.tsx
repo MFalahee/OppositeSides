@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createCustomEqual } from "fast-equals";
-import { MapProps } from '../Helpers/CustomTypesIndex'
+import { MapProps } from '../../custom'
 import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
 
 

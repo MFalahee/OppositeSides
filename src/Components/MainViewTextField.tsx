@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MainViewTextFieldProps } from '../Helpers/CustomTypesIndex'
+import { MainViewTextFieldProps } from '../../custom'
 import { Descriptions } from 'antd'
 
 const MainViewTextField: React.FC<MainViewTextFieldProps> = (props) => {

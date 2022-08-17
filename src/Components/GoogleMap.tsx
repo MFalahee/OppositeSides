@@ -4,7 +4,7 @@ import { MapComponent, Marker, MainViewTextField, Copyright, Spinner, ErrorCompo
 import {
   WrapperProps,
   ControlOptions,
-} from "../Helpers/CustomTypesIndex";
+} from "../../custom";
 import { Canvas, invalidate, useFrame, useThree } from "@react-three/fiber";
 import Stars from "../Helpers/Instances";
 import * as THREE from 'three'

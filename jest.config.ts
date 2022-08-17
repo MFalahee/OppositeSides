@@ -14,7 +14,7 @@ const config: Config.InitialOptions = {
     testEnvironment: 'jsdom',
     testRegex: '\\.test\\.tsx?$',
     setupFilesAfterEnv: ['<rootDir>/jest.setup.d.ts', '<rootDir>/src/setupTests.ts'],
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', '.esm', 'json', 'node'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', '.esm', 'json', 'node','svg'],
     rootDir: '.',
     globals: {
         'ts-jest': {

@@ -2,7 +2,8 @@ import * as React from 'react'
 import * as THREE from 'three'
 import { Typography, Space, Button } from 'antd'
 import { Copyright, CustomTitle, Slideshow, ErrorBoundary } from '../Components/index'
-import { Link } from 'react-router-dom'
+
+import lpOverlay from '../Assets/lpOverlay.svg';
 
 // 3d imports
 
@@ -149,6 +150,7 @@ const LandingPage: React.FC = (props) => {
       </div>
       <Space className="content-wrapper" direction="vertical" size="large">
         <div className="style-div">
+          <img className="overlay" src={lpOverlay} ></img>
           <Typography className="lp-typo">
             {titleBool ? <CustomTitle title="Opposite Sides" /> : null}
             <Slideshow slides={introSlides} />

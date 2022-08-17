@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Typography } from 'antd';
 import { UpOutlined, DownOutlined } from '@ant-design/icons';
-import { SlideProps } from '../Helpers/CustomTypesIndex';
+import { SlideProps } from '../../custom';
 const {Paragraph, Title, Text} = Typography;
 
 

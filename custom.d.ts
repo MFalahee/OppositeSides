@@ -37,7 +37,7 @@ export interface ControlOptions {
     controlLabel?: string;
     prevClick?: (event: MouseEvent) => void;
 }
-export const posObj = {
+export interface mapPositionObj {
     TOP_LEFT: google.maps.ControlPosition,
     TOP_CENTER: google.maps.ControlPosition,
     TOP_RIGHT: google.maps.ControlPosition,
@@ -79,4 +79,3 @@ export interface SlideProps {
     activeSlide: number;
     count: number;
 }
-
