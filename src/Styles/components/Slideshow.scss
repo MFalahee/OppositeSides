@@ -9,13 +9,12 @@
     @extend .slide-wrapper;
     display: flex;
     flex-direction: column;
-    width: 100%;
     .slide-content {
-      border-bottom: 2rem solid $darker-blue-color;
+      text-align: start;
+      border-bottom: 3rem solid $darker-blue-color;
       position: absolute;
-      bottom: 20%;
+      bottom: 26%;
       opacity: 1;
-      visibility: visible;
       width: 100%;
       overflow-wrap: break-word;
       font-weight: 600;
@@ -43,6 +42,14 @@
         transform: rotate(90deg);
         position: absolute;
         left: 10%;
+      }
+
+      @supports (-webkit-text-stroke: 1px black) {
+        .slide-text {
+          -webkit-text-stroke: 1px solid white;
+          -webkit-text-fill-color: black;
+          text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+        }
       }
     }
   }

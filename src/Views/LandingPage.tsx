@@ -1,15 +1,11 @@
 import * as React from 'react'
 import * as THREE from 'three'
-import { Typography, Space, Button } from 'antd'
-import { Copyright, CustomTitle, Slideshow, ErrorBoundary } from '../Components/index'
-
-import lpOverlay from '../Assets/lpOverlay.svg'
-
+import { Typography, Space } from 'antd'
+import { Copyright, CustomTitle, Slideshow } from '../Components/index'
 // 3d imports
 
 import Stars from '../Helpers/Instances'
 import SunModel from '../Helpers/SunModel'
-import { animated, useSpring } from 'react-spring'
 import '@react-spring/three'
 import GlobeModel from '../Helpers/GlobeModel'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
@@ -24,13 +20,14 @@ const finalPos = new THREE.Vector3(-40, -5, -20)
 
 const introSlides = [
   'In a time of great uncertainty-',
-  'When our basic ideals are causing deadly fights between us,',
+  'When our most basic ideals are causing deadly fights between us,',
   // Transition
   'We know so much about what plagues the world and our society,',
   "Yet, we can't seem to come together to stop it.",
-  // Transition
+  // make earth turn red?
   "Aren't you sick of it?",
   'I know I am. So, I made something to distract myself.',
+  // really should be a break and change here
   // Transition
   'Do you know what an antipode is?',
   'Your antipode is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
@@ -54,11 +51,12 @@ I'd like to add a couple transitions w/ the animation synced to the text.
 
 const LandingPage: React.FC = (props) => {
   const [titleBool, setTitleBool] = useState(false)
+  const [globeStage, setGlobeStage] = useState(0)
   const [sunPosition, setSunPos] = useState<THREE.Vector3>(new THREE.Vector3(0, 0, 0))
   const [globePosition, setGlobePos] = useState<THREE.Vector3>(startingPos)
   const [cameraPosition, setCameraPos] = useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
   const [stars, setStars] = useState<Float32Array>(generateStarPositions(50000))
-
+  let delay = 500
   let geo = new THREE.SphereGeometry(0.05, 16, 16)
   let mat = new THREE.MeshBasicMaterial({
     color: '#ffea00',

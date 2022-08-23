@@ -41,15 +41,24 @@
     }
 
     .lp-button {
+      z-index: 1;
+      padding: 0;
+      margin: 0;
       position: absolute;
-      width: 50%;
-      bottom: 10%;
-      left: auto;
-      right: 27%;
+      background-color: $green-blue;
+      opacity: 0.7;
+      min-height: 100px;
+      width: 100%;
+      bottom: 30px;
       text-transform: uppercase;
       &:hover {
+        cursor: pointer;
+        background-color: $darker-blue-color;
         color: $text-color;
         background-color: $border-color;
+      }
+      &:active {
+        background-color: $darker-blue-color;
       }
     }
   }
