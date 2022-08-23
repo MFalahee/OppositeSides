@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Space, Button } from 'antd';
+import { Space, Button } from 'antd';
 import { Slide } from './index'
 import { SlideShowProps } from '../../custom';
 

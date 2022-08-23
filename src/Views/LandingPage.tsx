@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { Typography, Space, Button } from 'antd'
 import { Copyright, CustomTitle, Slideshow, ErrorBoundary } from '../Components/index'
 
-import lpOverlay from '../Assets/lpOverlay.svg';
+import lpOverlay from '../Assets/lpOverlay.svg'
 
 // 3d imports
 
@@ -34,7 +34,8 @@ const introSlides = [
   // Transition
   'Do you know what an antipode is?',
   'Your antipode is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
-  'Shall we see if you are one of the lucky few with a bit of land on the opposite side of the planet?',]
+  'Shall we see if you are one of the lucky few with a bit of land on the opposite side of the planet?'
+]
 /*
 
 add later
@@ -82,7 +83,7 @@ const LandingPage: React.FC = (props) => {
     const { camera, mouse, scene } = useThree()
     // console.log(scene)
     const vec = new THREE.Vector3()
-    return useFrame(() => camera.position.lerp(vec.set(camera.position.x, mouse.y * 0.5, mouse.x * 2), 0.02))
+    return useFrame(() => camera.position.lerp(vec.set(camera.position.x, mouse.y * 2, mouse.x * -2), 0.02))
   }
 
   function moveStars(event: MouseEvent, stars: THREE.Group) {
@@ -100,7 +101,7 @@ const LandingPage: React.FC = (props) => {
 
   return (
     <div className="view-wrapper">
-      <div className="canvas-wrapper" >
+      <div className="canvas-wrapper">
         <Canvas
           gl={{ powerPreference: 'high-performance', antialias: false }}
           frameloop="always"
@@ -150,7 +151,6 @@ const LandingPage: React.FC = (props) => {
       </div>
       <Space className="content-wrapper" direction="vertical" size="large">
         <div className="style-div">
-          <img className="overlay" src={lpOverlay} ></img>
           <Typography className="lp-typo">
             {titleBool ? <CustomTitle title="Opposite Sides" /> : null}
             <Slideshow slides={introSlides} />

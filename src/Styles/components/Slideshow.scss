@@ -9,57 +9,41 @@
     @extend .slide-wrapper;
     display: flex;
     flex-direction: column;
+    width: 100%;
     .slide-content {
+      border-bottom: 2rem solid $darker-blue-color;
       position: absolute;
-      top: 0;
+      bottom: 20%;
       opacity: 1;
       visibility: visible;
-      min-width: 40%;
-      max-width: 42%;
+      width: 100%;
       overflow-wrap: break-word;
       font-weight: 600;
       font-size: 2em;
-      background-color: $green-blue;
       .slide-text {
+        color: $green-blue;
         margin: 0;
         padding: 0.5em;
         padding-left: 1em;
-        height: 100%;
-        // border-right: 0.3em solid $lighter-salmon-color;
-        border-bottom: 0.5em solid $darker-blue-color;
       }
       .next-slide-arrow {
-        padding-top: 1em;
-        transform: rotate(90deg);
         position: absolute;
-        left: auto;
-        right: 0%;
+        transform: rotate(90deg);
+        right: 10%;
       }
       .slide-counter {
+        left: 49%;
+        right: auto;
         position: absolute;
-        left: 47%;
-        padding-top: 1em;
         font-size: 0.5em;
         font-weight: 400;
         color: $text-color;
       }
       .prev-slide-arrow {
-        padding-top: 1em;
         transform: rotate(90deg);
         position: absolute;
-        left: 5%;
-        right: auto;
+        left: 10%;
       }
-      
-    @media screen and (max-width: $mobile-width) {
-      min-width: 100%;
-      max-width: 100%;
-      }
-
-    @media screen and (min-width: $mobile-width) and (max-width: $tablet-width) {
-      min-width: 100%;
-      max-width: 100%;
-    }
     }
   }
 }

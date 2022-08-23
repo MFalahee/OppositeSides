@@ -1,18 +1,16 @@
 .view-wrapper {
-  width: 100%;
   .canvas-wrapper {
     .canvas-element {
       overflow-x: hidden;
       top: 0;
-      width: 100vw;
-      height: 100vh;
       z-index: 0;
     }
   }
 
   .content-wrapper {
-    width: 100vw;
+    width: 100%;
     .lp-title {
+      width: 100%;
       border: 1px solid $border-color;
       position: relative;
       align-self: flex-start;
@@ -30,35 +28,15 @@
         }
       }
     }
-    @keyframes slideInLeft {
-      from {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    @keyframes flip {
-      0% {
-        transform: rotateY(0deg);
-      }
-      75% {
-        transform: rotateY(180deg);
-      }
-      100% {
-        transform: rotateY(360deg);
-      }
-    }
 
     .lp-typo {
       font-family: $font;
       font-size: 1em;
       font-weight: 520;
       color: $text-color;
-      text-align: left;
+      text-align: start;
       display: flex;
+      flex-wrap: nowrap;
       flex-direction: column;
     }
 
@@ -74,25 +52,29 @@
         background-color: $border-color;
       }
     }
-
-    @media screen and (max-width: $mobile-width) {
-      width: 100%;
-      .style-div {
-        top: auto;
-        bottom: 0;
-          .lp-typo {
-              .slideshow-space {
-                  width: 100%;
-                  .slide-text {
-                      width:100%;
-                  }
-              }
-          }
-      }
-    }
-  
   }
+}
 
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  75% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
 }
 // breakpoints for the landing page
 
@@ -109,4 +91,3 @@
 // $white: #FFF;
 // $darker-blue-color: #2B313B;
 // $blackish: #282829;
-
