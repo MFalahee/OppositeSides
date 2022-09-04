@@ -1,4 +1,7 @@
 .wrapper-wrapper {
+  opacity: 0.5;
+  position: relative;
+  overflow: hidden;
   .map-button {
     font-weight: 550;
     font-size: 1.5em;
@@ -6,18 +9,10 @@
     padding: 1em 1.5em;
     margin: 1em;
     border-top: 0.5em solid $green-blue;
-    // border-left: .3em solid $salmon-color;
-    // border-right: .3em solid $lighter-salmon-color;
     border-bottom: 0.5em solid $darker-blue-color;
     &:hover {
       border-top: 0.5em solid $blue-color;
-      // border-left: .3em solid $green-blue;
-      // border-right: .3em solid $salmon-color;
       border-bottom: 0.5em solid $lighter-salmon-color;
-    }
-    git &:active {
-      background: $green-blue;
-      color: $white;
     }
   }
 }

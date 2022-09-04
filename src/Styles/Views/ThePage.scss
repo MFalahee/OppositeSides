@@ -1,23 +1,31 @@
-.the-page {
-  &.view-wrapper {
-    .canvas-wrapper {
-      position: fixed;
-      height: 100vh;
-      z-index: -1;
-      .canvas-element {
-        height: 100vh;
-      }
-    }
-    .item-wrapper {
-      position: absolute;
-      width: 100%;
-      height: auto;
-      :first-child {
-        position: relative;
-      }
-      &.slideshow-wrapper {
-        height: 500vh;
-      }
-    }
+@mixin scrollbar-remove($element) {
+  #{$element} {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+  }
+  #{$element}::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
   }
 }
+
+.view-wrapper {
+  height: 100%;
+  overflow: hidden;
+  .scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+  }
+  .canvas-wrapper {
+    position: fixed;
+    z-index: -1;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .item-wrapper {
+    position: relative;
+    width: 100%;
+  }
+}
+
+@include scrollbar-remove('.scroll-container');

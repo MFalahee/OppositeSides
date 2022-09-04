@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Typography, Space } from 'antd'
-import { Copyright, CustomTitle, Slideshow } from '../Components/index'
+import { CustomTitle, Slideshow } from '../Components/index'
 // 3d imports
 
 import Stars from '../Helpers/Instances'
@@ -155,7 +155,6 @@ const LandingPage: React.FC = (props) => {
           </Typography>
         </div>
       </Space>
-      <Copyright />
     </div>
   )
 }
