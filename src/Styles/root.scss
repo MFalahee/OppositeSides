@@ -1,15 +1,33 @@
-
 @import './variables.scss';
 @import './components/index.scss';
 @import './views/index.scss';
-
-.view-wrapper {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  overflow-x: hidden;
-  font-family: $font;
-  margin: 0;
-  padding: 0;
+@mixin nuke-scrollbar {
+  body {
+    margin: 0;
+    -webkit-box-sizing: border-box;
+  }
+  canvas {
+    display: block;
+  }
+  div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
 }
-
+.app-wrapper {
+  @include nuke-scrollbar();
+  .view-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    font-family: $font;
+    margin: 0;
+    padding: 0;
+    .canvas-wrapper {
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.the-page {
+  &.view-wrapper {
+    .canvas-wrapper {
+      position: fixed;
+      height: 100vh;
+      z-index: -1;
+      .canvas-element {
+        height: 100vh;
+      }
+    }
+    .item-wrapper {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      :first-child {
+        position: relative;
+      }
+      &.slideshow-wrapper {
+        height: 500vh;
+      }
+    }
+  }
+}

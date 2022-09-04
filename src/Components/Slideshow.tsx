@@ -56,20 +56,6 @@ const Slideshow: React.FC<SlideShowProps> = (props) => {
     }
   }
 
-  function click(e: React.MouseEvent<HTMLSpanElement, MouseEvent>, handler: () => void) {
-    handler()
-  }
-
-  function RenderButton() {
-    if (slideIndex === props.slides.length - 1) {
-      return (
-        <Link to="/go">
-          <button className="lp-button">GO -{'>'}</button>
-        </Link>
-      )
-    }
-  }
-
   document.addEventListener('keydown', (e) => {
     e.preventDefault()
     //    if they press enter or space, go forward a slide
@@ -85,19 +71,8 @@ const Slideshow: React.FC<SlideShowProps> = (props) => {
   return (
     <Space className="slideshow-space">
       {props.slides.map((slide, index) => {
-        return (
-          <Slide
-            key={index}
-            id={index}
-            content={slide}
-            count={slideCount}
-            activeSlide={slideIndex}
-            nextClick={(e?) => click(e, nextSlideHandler)}
-            prevClick={(e?) => click(e, prevSlideHandler)}
-          />
-        )
+        return <Slide key={index} id={index} content={slide} count={slideCount} activeSlide={slideIndex} />
       })}
-      <RenderButton />
     </Space>
   )
 }
