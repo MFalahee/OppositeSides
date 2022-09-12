@@ -1,22 +1,23 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { axiosWithAuth } from '../Helpers/axiosWithAuth'
-import { CustomTitle, Slideshow, GoogleMap } from '../Components/index'
+import { Slideshow, GoogleMap } from '../Components/index'
 
 // 3d imports
-import Stars from '../Helpers/Instances'
-import SunModel from '../Helpers/SunModel'
+import Stars from '../Components/Models/Stars'
+import SunModel from '../Components/Models/SunModel'
 import '@react-spring/three'
-import GlobeModel from '../Helpers/GlobeModel'
+import GlobeModel from '../Components/Models/GlobeModel'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { EffectComposer, Select, Selection, GodRays, Outline, Bloom, Noise } from '@react-three/postprocessing'
-import { BlendFunction, KernelSize } from 'postprocessing'
+import { BlendFunction } from 'postprocessing'
 import generateStarPositions from '../Helpers/setupStars'
 
 const ThePage: React.FC = (pageProps: Object) => {
   // I want to make a single page hiding the scroll, and using it to change the 3D canvas
   // as the page transitions from the globe scene to the map scene.
   const [cameraPosition, setCameraPos] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
+  const [toggleScroll, setStop] = React.useState<Boolean>(false)
   let key
   let geo = new THREE.SphereGeometry(0.05, 16, 16)
   let mat = new THREE.MeshBasicMaterial({
@@ -26,6 +27,15 @@ const ThePage: React.FC = (pageProps: Object) => {
     opacity: 1,
     visible: false
   })
+
+  // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
+  function toggScroll(isOn: boolean) {
+    if (isOn) {
+      setStop(false)
+    } else {
+      setStop(true)
+    }
+  }
 
   const introSlides = [
     'In a time of great uncertainty-',
@@ -46,21 +56,6 @@ const ThePage: React.FC = (pageProps: Object) => {
     'Virtually, of course.',
     'Lets go..'
   ]
-
-  React.useEffect(() => {
-    if (process.env.NODE_ENV != 'test') {
-      axiosWithAuth
-        .get(`/api`)
-        .then((res) => {
-          //
-          key = res.data
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  }, [])
-
   let godMesh = new THREE.Mesh(geo, mat)
   let godMesh2 = new THREE.Mesh(geo, mat)
 
@@ -77,17 +72,14 @@ const ThePage: React.FC = (pageProps: Object) => {
     return useFrame(() => camera.position.lerp(vec.set(camera.position.x, camera.position.y, camera.position.z), 0.02))
   }
 
-  function moveStars(event: MouseEvent, stars: THREE.Group) {
+  function moveStars(stars: THREE.Group) {
     let w = window.innerWidth
     let h = window.innerHeight
-    let x = event.clientX
-    let y = event.clientY
     if (stars) {
-      let x_pos = (x / w) * 2 + 1
-      let y_pos = (y / h) * 2 + 1
-      stars.rotation.x = y_pos * 0.4
-      stars.rotation.y = x_pos * 0.4
+      stars.rotation.x += 0.0001
+      stars.rotation.z += 0.00001
     }
+    return stars
   }
 
   return (
@@ -108,7 +100,7 @@ const ThePage: React.FC = (pageProps: Object) => {
               <React.Suspense fallback={null}>
                 <SunModel scale={0.05} position={0} />
                 <GlobeModel scale={3} position={0} />
-                <Stars radius={500} stars={generateStarPositions(500)} fn={moveStars} />
+                <Stars radius={500} stars={generateStarPositions(50000)} fn={moveStars} />
                 <EffectComposer>
                   <Bloom intensity={0.5} luminanceSmoothing={0.025} luminanceThreshold={0.4} />
                   <Noise premultiply={true} opacity={0.4} blendFunction={BlendFunction.ADD} />

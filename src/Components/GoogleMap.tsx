@@ -2,16 +2,10 @@ import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import { MapComponent, Spinner, ErrorComponent } from './index'
 import { WrapperProps, ControlOptions } from '../../custom'
-import { useFrame, useThree } from '@react-three/fiber'
-import * as THREE from 'three'
-import generateStarPositions from '../Helpers/setupStars'
-
-const { Suspense } = React
-let infoWindow: google.maps.InfoWindow
-let map: google.maps.Map
-let ui = true
-
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
+  let infoWindow: google.maps.InfoWindow
+  let map: google.maps.Map
+  let ui = true
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([])
   const [zoom, setZoom] = React.useState(3)
   const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
@@ -40,10 +34,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       geolocate(map)
     }
   })
-  const [stars, setStars] = React.useState<Float32Array>(generateStarPositions(1000))
-  const [boxBool, setBoxBool] = React.useState<boolean>(false)
-  let meshRef = React.useRef<THREE.Mesh>()
-
   /* 
         #TODO
         make a func that sends new antipode to the model, 

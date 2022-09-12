@@ -1,9 +1,8 @@
 import * as THREE from 'three'
 import * as React from 'react'
 import '@react-spring/three';
-import { invalidate, useFrame, useThree } from '@react-three/fiber'
-import { useSpring, a} from 'react-spring';
-import { Group } from 'antd/lib/avatar';
+import {  useFrame } from '@react-three/fiber'
+
 
 /* 
 

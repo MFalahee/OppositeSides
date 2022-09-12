@@ -36,7 +36,6 @@ const Slideshow: React.FC<SlideShowProps> = (props) => {
       setSlideIndex(slideIndex + 1)
     } else {
       // last slide reached
-      // need to change this to show options for next steps
       setPrevIndex(slideIndex)
       setSlideIndex(0)
     }
