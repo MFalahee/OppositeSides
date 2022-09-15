@@ -61,6 +61,16 @@ const ThePage: React.FC = (pageProps: Object) => {
     ]
   ]
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('intersection')
+      } else {
+        entry.target.classList.remove('intersection')
+      }
+    })
+  })
+
   function ScrollCamera() {
     const { camera } = useThree()
     const vec = new THREE.Vector3()
@@ -68,32 +78,12 @@ const ThePage: React.FC = (pageProps: Object) => {
   }
 
   React.useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('intersection')
-        } else {
-          entry.target.classList.remove('intersection')
-        }
-      })
-    })
-
-    const antiobs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('anti-intersection')
-        } else {
-          entry.target.classList.remove('anti-intersection')
-        }
-      })
-    })
     let text = document.querySelectorAll('.text-animation')
     text.forEach((line) => {
+      console.log(line)
       observer.observe(line)
     })
-    let antitext = document.querySelectorAll('.antipode-text')
-    antitext.forEach((ele) => {})
-  }, [])
+  }, [observer])
 
   function moveStars(stars: THREE.Group) {
     if (stars) {
@@ -102,6 +92,8 @@ const ThePage: React.FC = (pageProps: Object) => {
     }
     return stars
   }
+
+ 
   return (
     <div className="the-page view-wrapper">
       <div className="scroll-container">
@@ -135,6 +127,7 @@ const ThePage: React.FC = (pageProps: Object) => {
         <div className="the-page item-wrapper first"></div>
         <div className="the-page item-wrapper slideshow-wrapper">
           <Slideshow slides={introSlides} />
+          
         </div>
         <div className="the-page item-wrapper map-page-wrapper">
           <div className="content-wrapper">{apiKey ? <GoogleMap api={apiKey} /> : null}</div>
