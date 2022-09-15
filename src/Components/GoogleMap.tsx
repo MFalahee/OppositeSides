@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
-import { MapComponent, Spinner, ErrorComponent } from './index'
-import { WrapperProps, ControlOptions } from '../../custom'
+import { MapComponent, ErrorComponent, Loading } from './index'
+import { WrapperProps } from '../../custom'
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   let infoWindow: google.maps.InfoWindow
   let map: google.maps.Map
@@ -12,7 +12,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     lat: 0,
     lng: -4.5
   })
-  const [buttonLabel, setButtonLabel] = React.useState<string>('')
   const [prevCenter, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0
@@ -21,30 +20,15 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     lat: 0,
     lng: 0
   })
-  const [style, setStyle] = React.useState({
+  const [style] = React.useState({
     height: '100vh',
     width: '100%',
     flexGrow: '1',
     padding: '0'
   })
 
-  const [controlOptions, setControlOptions] = React.useState<ControlOptions>({
-    controlLabel: 'Take me home',
-    controlClick: (e) => {
-      geolocate(map)
-    }
-  })
-  /* 
-        #TODO
-        make a func that sends new antipode to the model, 
-        and creates a visual effect of the antipode on the earth model.
-        limit zoom/view of map to contain solely their position and antipode
-        create heatmap with antipode data
-        */
-
   const onClick = (event: google.maps.MapMouseEvent) => {
     // console.log('onClick')
-    //google says to avoid directly mutating state
     setClicks([...clicks, event.latLng])
   }
 
@@ -69,6 +53,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             lat: latitude,
             lng: longitude
           })
+          console.log('Your location: ', latitude, longitude)
           setZoom(10)
         },
         () => {
@@ -83,18 +68,14 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   }
 
   const findAntipode = (map: google.maps.Map) => {
-    console.log('find anti')
-    // const antipode = {
-    //   lat: pos.lat() * -1,
-    //   lng: pos.lng() * -1 + 180,
-    // };
-    // setAntipode(antipode);
-    // setCenter(antipode);
-    // flipButton();
+    const { lat, lng } = map.getCenter()
+    console.log('Find Antipode', lat(), lng())
+    setAntipode(antipode)
+    setCenter(antipode)
+    flipButton()
   }
 
   const onIdle = (map: google.maps.Map) => {
-    // console.log('onIdle')
     setZoom(map.getZoom())
     setCenter(map.getCenter().toJSON())
   }
@@ -135,7 +116,9 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return output
   }
 
-  const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {}
+  const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {
+    console.log('geocodeLatLng', geocoder)
+  }
 
   const sphereCoords = (coords: google.maps.LatLng) => {
     /*
@@ -148,41 +131,52 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     */
   }
 
-  const createControlButton = (controls: Element, map: google.maps.Map, controlOptions: ControlOptions) => {
+  const createControlButtons = (map: google.maps.Map) => {
+    const buttonDiv1 = document.createElement('div')
+    const buttonDiv2 = document.createElement('div')
     const mapButton = document.createElement('button')
-    mapButton.className = 'map-button'
-    mapButton.innerHTML = controlOptions.controlLabel
-    mapButton.addEventListener('click', controlOptions.controlClick)
-    controls.appendChild(mapButton)
+    const mapButton2 = document.createElement('button')
+    mapButton.type = 'button'
+    mapButton2.type = 'button'
+    mapButton.className = 'map-button geolocation-button active'
+    mapButton2.className = 'map-button antipode-button'
+    mapButton.innerHTML = 'Take me home'
+    mapButton2.innerHTML = 'Find my antipode'
+    mapButton.addEventListener('click', (e) => {
+      geolocate(map)
+    })
+    mapButton2.addEventListener('click', (e) => {
+      findAntipode(map)
+    })
+    buttonDiv1.appendChild(mapButton)
+    buttonDiv2.appendChild(mapButton2)
+
+    return [buttonDiv1, buttonDiv2]
   }
 
   const flipButton = () => {
-    const activeButton = document.querySelector('.map-button')
-    console.log(activeButton.innerHTML)
-    if (activeButton.innerHTML == 'Take me home') {
-      activeButton.innerHTML = 'Find my Antipode'
-    }
+    document.querySelectorAll('.map-button').forEach((button) => {
+      button.classList.toggle('active')
+    })
   }
 
   const handleOnLoad = (map: google.maps.Map) => {
-    const controls = document.createElement('div')
+    let buttons
     if (map) {
-      createControlButton(controls, map, controlOptions)
-      map.controls[overlaySpot('tr')].push(controls)
+      const divs = createControlButtons(map)
+      if (divs) buttons = document.querySelectorAll('.map-button')
+      if (buttons != null) {
+        divs.forEach((div) => {
+          map.controls[overlaySpot('tc')].push(div)
+        })
+      }
     }
   }
-
-  React.useEffect(() => {
-    const button = document.querySelector('.map-button')
-    if (button) {
-      button.addEventListener('click', controlOptions.controlClick)
-    }
-  }, [controlOptions])
 
   const mapRender = (status: Status): JSX.Element => {
     switch (status) {
       case Status.LOADING:
-        return <Spinner />
+        return <Loading />
       case Status.FAILURE:
         return <ErrorComponent />
       case Status.SUCCESS:

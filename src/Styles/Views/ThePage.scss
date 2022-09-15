@@ -20,6 +20,9 @@
     z-index: -1;
     height: 100vh;
     overflow: hidden;
+    &.at-map {
+      height: 50vh;
+    }
   }
   .item-wrapper {
     position: relative;

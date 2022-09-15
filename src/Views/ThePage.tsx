@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as THREE from 'three'
-import { axiosWithAuth } from '../Helpers/axiosWithAuth'
+import axios from 'axios'
 import { Slideshow, GoogleMap } from '../Components/index'
 
 // 3d imports
@@ -14,20 +14,24 @@ import { BlendFunction } from 'postprocessing'
 import generateStarPositions from '../Helpers/setupStars'
 
 const ThePage: React.FC = (pageProps: Object) => {
-  // I want to make a single page hiding the scroll, and using it to change the 3D canvas
-  // as the page transitions from the globe scene to the map scene.
   const [cameraPosition, setCameraPos] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
   const [toggleScroll, setStop] = React.useState<Boolean>(false)
-  let key
-  let geo = new THREE.SphereGeometry(0.05, 16, 16)
-  let mat = new THREE.MeshBasicMaterial({
-    color: '#ffea00',
-    wireframe: false,
-    transparent: true,
-    opacity: 1,
-    visible: false
-  })
+  const [apiKey, setapiKey] = React.useState<string>(null)
 
+  React.useEffect(() => {
+    // This will get the apiKey from the backend
+    async function getApi() {
+      const result = await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
+        (res) => {
+          setapiKey(res.data)
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+    }
+    getApi()
+  }, [])
   // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
   function toggScroll(isOn: boolean) {
     if (isOn) {
@@ -40,41 +44,44 @@ const ThePage: React.FC = (pageProps: Object) => {
   const introSlides = [
     'In a time of great uncertainty-',
     'When our most basic ideals are causing deadly fights between us,',
-    // Transition
     'We know so much about what plagues the world and our society,',
     "Yet, we can't seem to come together to stop it.",
-    // make earth turn red?
     "Aren't you sick of it?",
     'I know I am. So, I made something to distract myself.',
-    // really should be a break and change here
-    // Transition
-    'Do you know what an antipode is?',
-    'Your antipode is the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
-    "I'm not sure why, but as a kid I was obsessed with the idea of what was opposite from me on this blue marble.",
+    'Do you know what an antipode is? No? Same. Wait, well I used to not know. Now I know, though.',
+    'An antipode is the exact opposite of something. An antipode can be many things, anything really, but your antipode is a different story.',
+    'Finding your antipode is as simple as diving deep down through the earth to the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
+    'As a kid I would daydream that idea,',
     'I wanted so badly to dig straight down between my toes some days, just to see what was there.',
-    'Well, thanks to my adult brain and some new technology I can finally fulfill that dream.',
-    'Virtually, of course.',
-    'Lets go..'
+    'I thought it might be better than my own piece of the world, maybe at least a bit better than math class',
+    'But probably, it was just water.',
+    'Well anywas, thanks to my very grown up and adult brain and some new learning, I hope I can help you find yours. ',
+    'Virtually, of course.'
   ]
-  let godMesh = new THREE.Mesh(geo, mat)
-  let godMesh2 = new THREE.Mesh(geo, mat)
-
-  function Rig() {
-    const { camera, mouse, scene } = useThree()
-    // console.log(scene)
-    const vec = new THREE.Vector3()
-    return useFrame(() => camera.position.lerp(vec.set(camera.position.x, mouse.y * 2, mouse.x * -2), 0.02))
-  }
 
   function ScrollCamera() {
-    const { camera, mouse, scene } = useThree()
+    const { camera } = useThree()
     const vec = new THREE.Vector3()
     return useFrame(() => camera.position.lerp(vec.set(camera.position.x, camera.position.y, camera.position.z), 0.02))
   }
 
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('intersection')
+        } else {
+          entry.target.classList.remove('intersection')
+        }
+      })
+    })
+    let text = document.querySelectorAll('.text-animation')
+    text.forEach((line) => {
+      observer.observe(line)
+    })
+  }, [])
+
   function moveStars(stars: THREE.Group) {
-    let w = window.innerWidth
-    let h = window.innerHeight
     if (stars) {
       stars.rotation.x += 0.0001
       stars.rotation.z += 0.00001
@@ -109,7 +116,6 @@ const ThePage: React.FC = (pageProps: Object) => {
             </Selection>
             <hemisphereLight intensity={0.7} groundColor={'black'} color={'white'} />
             <ambientLight intensity={0.1} castShadow={true} />
-            <Rig />
             <ScrollCamera />
           </Canvas>
         </div>
@@ -118,9 +124,7 @@ const ThePage: React.FC = (pageProps: Object) => {
           <Slideshow slides={introSlides} />
         </div>
         <div className="the-page item-wrapper map-page-wrapper">
-          <div className="content-wrapper">
-            <GoogleMap api={key} />
-          </div>
+          <div className="content-wrapper">{apiKey ? <GoogleMap api={apiKey} /> : null}</div>
         </div>
       </div>
     </div>

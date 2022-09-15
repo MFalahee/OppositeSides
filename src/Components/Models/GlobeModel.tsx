@@ -57,29 +57,29 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
     if (phase >= 0) {
       switch (phase) {
         case 0:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.x += 0.0005
           group.current.position.z -= 0.01
           break
         case 1:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.x += 0.0005
           break
         case 2:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.x += 0.0005
           break
         case 3:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.z -= 0.0001
           break
         case 4:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.x += 0.0005
           group.current.position.z -= 0.0001
           break
         case 5:
-          console.log('go: phase: ', phase, ' time: ', timeRef.current)
+          // console.log('go: phase: ', phase, ' time: ', timeRef.current)
           group.current.position.z < 0 ? (group.current.position.z += 0.001) : (group.current.position.z -= -0.001)
           break
         default:

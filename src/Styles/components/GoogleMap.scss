@@ -1,9 +1,12 @@
 .wrapper-wrapper {
-  width: 70%;
+  width: 100%;
+  height: 90vh;
   opacity: 0.85;
-  position: relative;
+  position: absolute;
+  bottom: 0;
   overflow: hidden;
   .map-button {
+    visibility: hidden;
     font-size: 3em;
     background: $blue-color;
     padding: 1em 1.5em;
@@ -13,6 +16,9 @@
     &:hover {
       border-top: 0.5em solid $blue-color;
       border-bottom: 0.5em solid $lighter-salmon-color;
+    }
+    &.active {
+      visibility: visible;
     }
   }
 }

@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { createCustomEqual } from "fast-equals";
+import { createCustomEqual } from 'fast-equals'
 import { MapProps } from '../../custom'
-import  { isLatLngLiteral } from '@googlemaps/typescript-guards'
-
+import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 
 /*
 I don't know exactly how deepCompareEquals works yet.
@@ -16,106 +15,81 @@ This allows for the map to update when the map changes
 I need to take a closer look at this stuff to really learn this type of fix for the limitations of useEffect
 */
 
-const deepCompareEqualsForMaps = createCustomEqual(
-    (deepEqual) => (a: any, b: any) => {
-      if (
-        isLatLngLiteral(a) ||
-        a instanceof google.maps.LatLng ||
-        isLatLngLiteral(b) ||
-        b instanceof google.maps.LatLng
-      ) {
-        return new google.maps.LatLng(a).equals(new google.maps.LatLng(b));
+const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
+  if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
+    return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
+  }
+
+  return deepEqual(a, b)
+})
+
+function useDeepCompareMemoize(value: any) {
+  const ref = React.useRef()
+
+  if (!deepCompareEqualsForMaps(value, ref.current)) {
+    ref.current = value
+  }
+
+  return ref.current
+}
+
+function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
+  React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
+}
+
+const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom, children, onLoad, ...options }) => {
+  const [map, setMap] = React.useState<google.maps.Map>()
+  const ref = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    //this uses the google maps api to load the map only when the ref has changed
+    if (ref.current && !map) {
+      setMap(new window.google.maps.Map(ref.current, {}))
+    }
+  }, [ref, map])
+
+  React.useEffect(() => {
+    if (map) {
+      try {
+        onLoad(map)
+      } catch (error) {
+        console.log(error)
       }
-  
-      return deepEqual(a, b);
     }
-  );
-  
-  function useDeepCompareMemoize(value: any) {
-    const ref = React.useRef();
-  
-    if (!deepCompareEqualsForMaps(value, ref.current)) {
-      ref.current = value;
+  }, [map])
+
+  useDeepCompareEffectForMaps(() => {
+    if (map) {
+      map.setCenter(center)
+      map.setZoom(zoom)
+      map.setOptions(options)
     }
-  
-    return ref.current;
-  }
-  
-  function useDeepCompareEffectForMaps(
-    callback: React.EffectCallback,
-    dependencies: any[]
-  ) {
-    React.useEffect(callback, dependencies.map(useDeepCompareMemoize));
-  }
+  }, [map, center, zoom, options])
 
-const MapComponent : React.FC<MapProps> = ({
-    onClick,
-    onIdle,
-    style,
-    center,
-    zoom,
-    children,
-    onLoad,
-    ...options
-}) => {
-    const [map, setMap] = React.useState<google.maps.Map>()
-    const ref = React.useRef<HTMLDivElement>(null)
-    React.useEffect(() => {
-        //this uses the google maps api to load the map only when the ref has changed
-        if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, {}))
-            }
-  
-        }, [ref, map])
+  React.useEffect(() => {
+    if (map) {
+      ;['click', 'idle'].forEach((eventName) => google.maps.event.clearListeners(map, eventName))
 
-      React.useEffect(() => {
-        if (map) {
-          console.log('map loaded')
-          try {
-            onLoad(map)
-          }
-          catch (error) {
-            console.log(error)
-          }
-        }
-      }, [map])
+      if (onClick) {
+        map.addListener('click', onClick)
+      }
 
-        useDeepCompareEffectForMaps(() => {
-            if (map) {
-                map.setCenter(center)
-                map.setZoom(zoom)
-                map.setOptions(options)
-            }
-        }, [map, center, zoom, options])
+      if (onIdle) {
+        map.addListener('idle', () => onIdle(map))
+      }
+    }
+  }, [map, onClick, onIdle])
 
-
-        React.useEffect(() => {
-            if (map) {
-              ["click", "idle"].forEach((eventName) =>
-                google.maps.event.clearListeners(map, eventName)
-              );
-        
-              if (onClick) {
-                map.addListener("click", onClick);
-              }
-        
-              if (onIdle) {
-                map.addListener("idle", () => onIdle(map));
-              }
-            }
-          }, [map, onClick, onIdle]);
-
-          
-    return ( 
+  return (
     <>
-    <div ref={ref} style={style}/>
-    {React.Children.map(children, (child) => {
+      <div ref={ref} style={style} />
+      {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           //sets the map prop on the child component
-            return React.cloneElement(child, { map })
+          return React.cloneElement(child, { map })
         }
-    })}
-    </>)
+      })}
+    </>
+  )
 }
 
 export default MapComponent

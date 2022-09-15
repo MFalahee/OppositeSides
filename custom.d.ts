@@ -70,6 +70,4 @@ export interface SlideShowProps {
 export interface SlideProps {
   id: number
   content: string
-  activeSlide: number
-  count: number
 }
