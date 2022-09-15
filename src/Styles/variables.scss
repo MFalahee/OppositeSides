@@ -1,21 +1,19 @@
-
-
 /* https://coolors.co/94d2a5-8ab4f8-768bae-616163-6b6767-756d6b-ffbfa0-f7aa9e-ef959c-f09fa5 */
 // other greys to try: 3D3D3E #616163
 
 // Color Variables
-$grey:#3D3D3E;
+$grey: #3d3d3e;
 $light-grey: #6b6767;
-$lighter-grey: #756D6B;
+$lighter-grey: #756d6b;
 $green-color: #94d2a5;
-$green-blue: #8FC3CF;
+$green-blue: #8fc3cf;
 $blue-color: #768bae;
-$lighter-blue-color:#8ab4f8;
-$salmon-color: #EF959C;
+$lighter-blue-color: #8ab4f8;
+$salmon-color: #ef959c;
 $lighter-salmon-color: #f7aa9e;
-$pink-color: #F09FA5;
-$white: #FFF;
-$darker-blue-color: #2B313B;
+$pink-color: #f09fa5;
+$white: #fff;
+$darker-blue-color: #2b313b;
 $blackish: #282829;
 
 // Style Sets
@@ -35,29 +33,4 @@ $border-color: $green-color;
 $button-color: $salmon-color;
 $text-color: $white;
 
-
-
-// Fonts
-// font-family: 'Josefin Sans', sans-serif;
 $font: 'Josefin Sans', sans-serif;
-
-/* 
-
-Ant D Defaults
-
-@primary-color: #1890ff; // primary color for all components
-@link-color: #1890ff; // link color
-@success-color: #52c41a; // success state color
-@warning-color: #faad14; // warning state color
-@error-color: #f5222d; // error state color
-@font-size-base: 14px; // major text font size
-@heading-color: rgba(0, 0, 0, 0.85); // heading text color
-@text-color: rgba(0, 0, 0, 0.65); // major text color
-@text-color-secondary: rgba(0, 0, 0, 0.45); // secondary text color
-@disabled-color: rgba(0, 0, 0, 0.25); // disable state color
-@border-radius-base: 2px; // major border radius
-@border-color-base: #d9d9d9; // major border color
-@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
-  0 9px 28px 8px rgba(0, 0, 0, 0.05); // major shadow for layers
-
-*/

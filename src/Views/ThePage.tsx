@@ -44,19 +44,21 @@ const ThePage: React.FC = (pageProps: Object) => {
   const introSlides = [
     'In a time of great uncertainty-',
     'When our most basic ideals are causing deadly fights between us,',
-    'We know so much about what plagues the world and our society,',
-    "Yet, we can't seem to come together to stop it.",
-    "Aren't you sick of it?",
-    'I know I am. So, I made something to distract myself.',
-    'Do you know what an antipode is? No? Same. Wait, well I used to not know. Now I know, though.',
+    ['We know so much about what plagues the world and our society,', "Yet, we can't seem to come together to stop it."],
+    ["Aren't you sick of it?", 'I know I am. So, I made something to distract myself.'],
+    ['Do you know what an antipode is?', 'No? Same. Wait, well I used to not know.', 'Now I know, though.'],
     'An antipode is the exact opposite of something. An antipode can be many things, anything really, but your antipode is a different story.',
     'Finding your antipode is as simple as diving deep down through the earth to the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
-    'As a kid I would daydream that idea,',
-    'I wanted so badly to dig straight down between my toes some days, just to see what was there.',
-    'I thought it might be better than my own piece of the world, maybe at least a bit better than math class',
-    'But probably, it was just water.',
-    'Well anywas, thanks to my very grown up and adult brain and some new learning, I hope I can help you find yours. ',
-    'Virtually, of course.'
+    [
+      'As a kid I would daydream about the idea,',
+      'I wanted so badly to dig straight down between my toes some days, just to see what was there.',
+      'I thought it might be better than my own piece of the world, maybe at least a bit better than math class',
+      'But probably, it was just water.'
+    ],
+    [
+      'Well anyways, thanks to my very grown up and adult brain and some new learning, I hope I can help you find yours. ',
+      'Virtually, of course.'
+    ]
   ]
 
   function ScrollCamera() {
@@ -75,10 +77,22 @@ const ThePage: React.FC = (pageProps: Object) => {
         }
       })
     })
+
+    const antiobs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('anti-intersection')
+        } else {
+          entry.target.classList.remove('anti-intersection')
+        }
+      })
+    })
     let text = document.querySelectorAll('.text-animation')
     text.forEach((line) => {
       observer.observe(line)
     })
+    let antitext = document.querySelectorAll('.antipode-text')
+    antitext.forEach((ele) => {})
   }, [])
 
   function moveStars(stars: THREE.Group) {
@@ -88,7 +102,6 @@ const ThePage: React.FC = (pageProps: Object) => {
     }
     return stars
   }
-
   return (
     <div className="the-page view-wrapper">
       <div className="scroll-container">
