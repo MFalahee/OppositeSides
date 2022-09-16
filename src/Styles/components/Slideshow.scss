@@ -13,10 +13,17 @@
       font-weight: 600;
       font-size: 2em;
       padding-left: 10px;
+      .slide-text {
+        padding-right: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: left;
+      }
       .text-animation {
         transition: all 1.3s ease-in-out;
         opacity: 0;
-        line-height: 2em;
+        line-height: 0.1em;
         display: inline;
         filter: blur(5px);
         &.intersection {
@@ -26,13 +33,13 @@
           line-height: 1.5em;
           filter: blur(0);
           &:nth-of-type(2) {
-            transition-delay: 400ms;
+            transition-delay: 600ms;
           }
           &:nth-of-type(3) {
-            transition-delay: 800ms;
+            transition-delay: 1200ms;
           }
           &:nth-of-type(4) {
-            transition-delay: 1200ms;
+            transition-delay: 1600ms;
           }
           &:nth-of-type(5) {
             transition-delay: 1600ms;

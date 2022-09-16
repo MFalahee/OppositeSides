@@ -12,6 +12,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     lat: 0,
     lng: -4.5
   })
+  const [home, setHome] = React.useState<google.maps.LatLngLiteral>()
   const [prevCenter, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0
@@ -53,8 +54,11 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             lat: latitude,
             lng: longitude
           })
-          console.log('Your location: ', latitude, longitude)
-          setZoom(10)
+          setHome({
+            lat: latitude,
+            lng: longitude
+          })
+          setZoom(15)
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter()!)
@@ -68,8 +72,10 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   }
 
   const findAntipode = (map: google.maps.Map) => {
+    // home or center
     const { lat, lng } = map.getCenter()
-    console.log('Find Antipode', lat(), lng())
+
+    // console.log('Find Antipode', lat(), lng())
     setAntipode(antipode)
     setCenter(antipode)
     flipButton()
@@ -117,7 +123,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   }
 
   const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {
-    console.log('geocodeLatLng', geocoder)
+    // console.log('geocodeLatLng', geocoder)
   }
 
   const sphereCoords = (coords: google.maps.LatLng) => {
@@ -154,6 +160,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return [buttonDiv1, buttonDiv2]
   }
 
+
   const flipButton = () => {
     document.querySelectorAll('.map-button').forEach((button) => {
       button.classList.toggle('active')
@@ -167,7 +174,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       if (divs) buttons = document.querySelectorAll('.map-button')
       if (buttons != null) {
         divs.forEach((div) => {
-          map.controls[overlaySpot('tc')].push(div)
+          map.controls[overlaySpot('tl')].push(div)
         })
       }
     }
@@ -189,7 +196,8 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             style={style}
             disableDefaultUI={ui}
             zoomControl={true}
-            maxZoom={5}
+            maxZoom={15}
+            minZoom={5}
             streetViewControl={false}
             fullscreenControl={false}
             rotateControl={false}
@@ -198,7 +206,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
         )
     }
   }
-
   if (api === '') {
     return <div>Backend isn't currently live. Sorry about that!</div>
   } else {
