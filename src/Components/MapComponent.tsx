@@ -70,7 +70,7 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           //sets the map prop on the child component
-          return React.cloneElement(child, { map })
+          return React.cloneElement(child, map)
         }
       })}
     </>
