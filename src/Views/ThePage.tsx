@@ -46,13 +46,18 @@ const ThePage: React.FC = (pageProps: Object) => {
     'When our most basic ideals are causing deadly fights between us,',
     ['We know so much about what plagues the world and our society,', "Yet, we can't seem to come together to stop it."],
     ["Aren't you sick of it?", 'I know I am. So, I made something to distract myself.'],
-    ['Do you know what an antipode is?', 'No? Same. Wait, well I used to not know.', 'Now I know, though.'],
+    [
+      'Do you know what an antipode is?',
+      'No? Same. Wait, well now at this moment I know, but I used to not know, too.',
+      'Now I definitely know, though...',
+      'Opposite Sides?'
+    ],
     'An antipode is the exact opposite of something. An antipode can be many things, anything really, but your antipode is a different story.',
     'Finding your antipode is as simple as diving deep down through the earth to the opposite side of the {planet} from where you are standing (or most likely sitting) right now.',
     [
-      'As a kid I would daydream about the idea,',
-      'I wanted so badly to dig straight down between my toes some days, just to see what was there.',
-      'I thought it might be better than my own piece of the world, maybe at least a bit better than math class',
+      'As a kid I would daydream about the idea, bored in class.',
+      'I wanted to burrow beneath my desk,',
+      'Just to see if anything was interesting,',
       'But probably, it was just water.'
     ],
     [
@@ -60,7 +65,6 @@ const ThePage: React.FC = (pageProps: Object) => {
       'Virtually, of course.'
     ]
   ]
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -80,7 +84,6 @@ const ThePage: React.FC = (pageProps: Object) => {
   React.useEffect(() => {
     let text = document.querySelectorAll('.text-animation')
     text.forEach((line) => {
-      console.log(line)
       observer.observe(line)
     })
   }, [observer])
@@ -92,8 +95,6 @@ const ThePage: React.FC = (pageProps: Object) => {
     }
     return stars
   }
-
- 
   return (
     <div className="the-page view-wrapper">
       <div className="scroll-container">
@@ -127,7 +128,6 @@ const ThePage: React.FC = (pageProps: Object) => {
         <div className="the-page item-wrapper first"></div>
         <div className="the-page item-wrapper slideshow-wrapper">
           <Slideshow slides={introSlides} />
-          
         </div>
         <div className="the-page item-wrapper map-page-wrapper">
           <div className="content-wrapper">{apiKey ? <GoogleMap api={apiKey} /> : null}</div>

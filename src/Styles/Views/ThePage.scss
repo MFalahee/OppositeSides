@@ -35,4 +35,41 @@
   }
 }
 
+#arrow-to-top {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: auto;
+  .top {
+    padding: 1em 1em;
+    &-img {
+      display: none;
+    }
+    &-btn {
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      font-size: 0.8em;
+      color: white;
+      transition: all 0.7s ease-in-out;
+      background: $blue-color;
+      &:hover {
+        height: 120px;
+        width: 120px;
+        cursor: pointer;
+        .top-text-span {
+          display: none;
+        }
+        .top-img {
+          display: block;
+          width: 80%;
+          height: 80%;
+        }
+      }
+    }
+  }
+}
+
 @include scrollbar-remove('.scroll-container');
