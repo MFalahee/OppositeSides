@@ -160,6 +160,13 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return [buttonDiv1, buttonDiv2]
   }
 
+  const createMapInfoWindow = (map: google.maps.Map) => {
+    const infoDiv = document.createElement('div')
+    const content = document.createElement('p')
+    infoDiv.id = 'map-info-window'
+    content.className = 'map-info-content'
+    map.controls[overlaySpot('br')].push(infoDiv)
+  }
 
   const flipButton = () => {
     document.querySelectorAll('.map-button').forEach((button) => {
@@ -171,6 +178,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     let buttons
     if (map) {
       const divs = createControlButtons(map)
+      createMapInfoWindow(map)
       if (divs) buttons = document.querySelectorAll('.map-button')
       if (buttons != null) {
         divs.forEach((div) => {

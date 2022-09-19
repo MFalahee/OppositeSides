@@ -1,19 +1,24 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "allowJs": true,
-        "noEmit": true,
-        "checkJs": true,
-        "noImplicitAny": true,
-        "jsx": "react",
-        "esModuleInterop": true,
-        "typeRoots": [
-            "custom.d.ts",
-            "node_modules/@types"
-        ],
-        "experimentalDecorators": true,
-        "target": "es6",
-    },
-    "include" :["./src/**/*.ts", "src/**/*.tsx", "jest.setup.d.ts","CustomTypesIndex", "./src/custom.d.ts", "./src/Helpers/svgmodule.d.ts"],
-    "exclude": ["./node_modules/", "**/*.test.ts"]
+  "compilerOptions": {
+    "module": "esnext",
+    "allowJs": true,
+    "noEmit": true,
+    "checkJs": true,
+    "noImplicitAny": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "typeRoots": ["custom.d.ts", "node_modules/@types"],
+    "experimentalDecorators": true,
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["./src/**/*.ts", "src/**/*.tsx", "jest.setup.d.ts", "CustomTypesIndex", "./src/custom.d.ts", "./src/Helpers/svgmodule.d.ts"],
+  "exclude": ["./node_modules/", "**/*.test.ts"]
 }
