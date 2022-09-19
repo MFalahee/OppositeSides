@@ -12,8 +12,12 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     lat: 0,
     lng: -4.5
   })
-  const [home, setHome] = React.useState<google.maps.LatLngLiteral>()
-  const [prevCenter, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
+  const [, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
+    lat: 0,
+    lng: 0
+  })
+
+  const [home, setHome] = React.useState<google.maps.LatLngLiteral>({
     lat: 0,
     lng: 0
   })
@@ -29,8 +33,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   })
 
   const onClick = (event: google.maps.MapMouseEvent) => {
-    // console.log('onClick')
-    setClicks([...clicks, event.latLng])
+    if (event && event.latLng) setClicks([...clicks, event.latLng])
   }
 
   function handleLocationError(browserHasGeolocation: boolean, infoWindow: google.maps.InfoWindow, pos: google.maps.LatLng) {
@@ -73,17 +76,25 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
 
   const findAntipode = (map: google.maps.Map) => {
     // home or center
-    const { lat, lng } = map.getCenter()
-
-    // console.log('Find Antipode', lat(), lng())
-    setAntipode(antipode)
-    setCenter(antipode)
-    flipButton()
+    if (map && map.getCenter) {
+      // console.log('Find Antipode', lat(), lng())
+      setAntipode(antipode)
+      setCenter(antipode)
+      flipButton()
+    }
   }
 
   const onIdle = (map: google.maps.Map) => {
-    setZoom(map.getZoom())
-    setCenter(map.getCenter().toJSON())
+    let currentZoom
+    let currentCenter
+    if (map) {
+      currentZoom = map.getZoom()
+      currentCenter = map.getCenter()
+    }
+    if (currentZoom !== null && currentCenter !== null) {
+      setZoom(currentZoom)
+      setCenter(currentCenter.toJSON())
+    }
   }
 
   const overlaySpot = (direction: string) => {
@@ -122,21 +133,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return output
   }
 
-  const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {
-    // console.log('geocodeLatLng', geocoder)
-  }
-
-  const sphereCoords = (coords: google.maps.LatLng) => {
-    /*
-
-    relevant sphere equations?
-    coordinate conversion -> 
-    r = sqrt(x^2 + y^2 + z^2)
-    θ = arccos(z/sqrt(sqrt(x^2 + y^2 + z^2))) =  arccos(z/r) = arctan(sqrt(x^2 + y^2)/z)
-    φ = big switch case
-    */
-  }
-
   const createControlButtons = (map: google.maps.Map) => {
     const buttonDiv1 = document.createElement('div')
     const buttonDiv2 = document.createElement('div')
@@ -148,10 +144,10 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     mapButton2.className = 'map-button antipode-button'
     mapButton.innerHTML = 'Take me home'
     mapButton2.innerHTML = 'Find my antipode'
-    mapButton.addEventListener('click', (e) => {
+    mapButton.addEventListener('click', () => {
       geolocate(map)
     })
-    mapButton2.addEventListener('click', (e) => {
+    mapButton2.addEventListener('click', () => {
       findAntipode(map)
     })
     buttonDiv1.appendChild(mapButton)
@@ -160,6 +156,28 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     return [buttonDiv1, buttonDiv2]
   }
 
+  const createMapInfoWindow = (map: google.maps.Map) => {
+    let infoDiv = document.createElement('div')
+    infoDiv.id = 'map-info-window'
+    infoDiv = mapInfoWindowGuts(infoDiv)
+    map.controls[overlaySpot('br')].push(infoDiv)
+  }
+  const mapInfoWindowGuts = (parentDiv: HTMLDivElement) => {
+    // this function creates the innards for the coordinate display over the map.
+    // I want to create a card, with 2 divs for the coordinate display
+
+    const containerDiv = document.createElement('div')
+    containerDiv.className = 'map-info-window-container'
+    const coordinatesDisplay = document.createElement('h3')
+    coordinatesDisplay.className = 'map-info-window-coordinates home'
+    const coordinatesDisplay2 = document.createElement('h3')
+    coordinatesDisplay2.className = 'map-info-window-coordinates antipode'
+
+    containerDiv.appendChild(coordinatesDisplay)
+    containerDiv.appendChild(coordinatesDisplay2)
+    parentDiv.appendChild(containerDiv)
+    return parentDiv
+  }
 
   const flipButton = () => {
     document.querySelectorAll('.map-button').forEach((button) => {
@@ -171,6 +189,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
     let buttons
     if (map) {
       const divs = createControlButtons(map)
+      createMapInfoWindow(map)
       if (divs) buttons = document.querySelectorAll('.map-button')
       if (buttons != null) {
         divs.forEach((div) => {
