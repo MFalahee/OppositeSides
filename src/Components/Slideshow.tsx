@@ -5,7 +5,9 @@ import { SlideShowProps } from '../../custom'
 const Slideshow: React.FC<SlideShowProps> = (props) => {
   function downArrow(e: React.MouseEvent) {
     let target = document.querySelector('.map-page-wrapper')
-    target.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
   }
 
   return (

@@ -3,15 +3,16 @@ import { ThePage } from './Views/index'
 import './Styles/root.scss'
 
 const App: React.FC = () => {
-  const t = document.body.getBoundingClientRect().top
   // for the top of the page button
   const goToTop = () => {
     let t = document.querySelector('.scroll-container')
-    t.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
+    if (t !== null) {
+      t.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+    }
   }
   const createArrowButton = () => {
     let b = document.createElement('button')
@@ -30,22 +31,24 @@ const App: React.FC = () => {
     b.appendChild(img)
     return b
   }
-  const clearButton = () => {
-    let b = document.getElementById('arrow-to-top-btn')
-    document.getElementById('arrow-to-top').removeChild(b)
+
+  const clearButton = (button: HTMLButtonElement) => {
+    let div = document.getElementById('arrow-to-top')
+    if (div !== null) {
+      div.removeChild(button)
+    }
   }
 
   React.useEffect(() => {
     //create button and scroll obs
     let button = createArrowButton()
-    document.querySelector('#arrow-to-top').appendChild(button)
+    document.querySelector('#arrow-to-top')?.appendChild(button)
     return () => {
-      clearButton()
+      clearButton(button)
     }
-  }, [])
+  }, [createArrowButton])
   return (
     <div className="app-wrapper" id="app-wrapper">
-      <div id="arrow-to-top"></div>
       <ThePage />
     </div>
   )

@@ -2,21 +2,19 @@ import * as React from 'react'
 import * as THREE from 'three'
 import axios from 'axios'
 import { Slideshow, GoogleMap } from '../Components/index'
-
 // 3d imports
 import Stars from '../Components/Models/Stars'
 import SunModel from '../Components/Models/SunModel'
 import '@react-spring/three'
 import GlobeModel from '../Components/Models/GlobeModel'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { EffectComposer, Select, Selection, GodRays, Outline, Bloom, Noise } from '@react-three/postprocessing'
+import { EffectComposer, Selection, Bloom, Noise } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import generateStarPositions from '../Helpers/setupStars'
 
 const ThePage: React.FC = (pageProps: Object) => {
-  const [cameraPosition, setCameraPos] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
-  const [toggleScroll, setStop] = React.useState<Boolean>(false)
-  const [apiKey, setapiKey] = React.useState<string>(null)
+  const [cameraPosition] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
+  const [apiKey, setapiKey] = React.useState<string>('')
 
   React.useEffect(() => {
     // This will get the apiKey from the backend
@@ -33,13 +31,6 @@ const ThePage: React.FC = (pageProps: Object) => {
     getApi()
   }, [])
   // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
-  function toggScroll(isOn: boolean) {
-    if (isOn) {
-      setStop(false)
-    } else {
-      setStop(true)
-    }
-  }
 
   const introSlides = [
     'In a time of great uncertainty-',
@@ -97,6 +88,7 @@ const ThePage: React.FC = (pageProps: Object) => {
   }
   return (
     <div className="the-page view-wrapper">
+      <div id="arrow-to-top" />
       <div className="scroll-container">
         <div className="the-page canvas-wrapper">
           <Canvas
