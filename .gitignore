@@ -35,3 +35,5 @@ yarn-error.log*
 
 notes.js
 #where do i store an api key? encrypted in the backend. Only use when user is authenticated.
+# Local Netlify folder
+.netlify
