@@ -14,24 +14,6 @@ const App: React.FC = () => {
       })
     }
   }
-  const createArrowButton = () => {
-    let b = document.createElement('button')
-    let s = document.createElement('span')
-    let img = document.createElement('img')
-    b.className = 'top-btn'
-    b.id = 'arrow-to-top-btn'
-    b.addEventListener('click', () => {
-      goToTop()
-    })
-    s.className = 'top-text-span'
-    img.className = 'top-img'
-    s.innerText = 'to Top'
-    img.src = '/up-arrow.png'
-    b.appendChild(s)
-    b.appendChild(img)
-    return b
-  }
-
   const clearButton = (button: HTMLButtonElement) => {
     let div = document.getElementById('arrow-to-top')
     if (div !== null) {
@@ -40,13 +22,31 @@ const App: React.FC = () => {
   }
 
   React.useEffect(() => {
+    const createArrowButton = () => {
+      let b = document.createElement('button')
+      let s = document.createElement('span')
+      let img = document.createElement('img')
+      b.className = 'top-btn'
+      b.id = 'arrow-to-top-btn'
+      b.addEventListener('click', () => {
+        goToTop()
+      })
+      s.className = 'top-text-span'
+      img.className = 'top-img'
+      s.innerText = 'to Top'
+      img.src = '/up-arrow.png'
+      b.appendChild(s)
+      b.appendChild(img)
+      return b
+    }
+
     //create button and scroll obs
     let button = createArrowButton()
     document.querySelector('#arrow-to-top')?.appendChild(button)
     return () => {
       clearButton(button)
     }
-  }, [createArrowButton])
+  })
   return (
     <div className="app-wrapper" id="app-wrapper">
       <ThePage />

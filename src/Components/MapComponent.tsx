@@ -1,6 +1,8 @@
 import * as React from 'react'
+// @ts-ignore
 import { createCustomEqual } from 'fast-equals'
 import { MapProps } from '../../custom'
+// @ts-ignore
 import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 
 const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
@@ -22,7 +24,7 @@ function useDeepCompareMemoize(value: any) {
 }
 
 function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
-  React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
+  React.useEffect(callback, [callback, ...dependencies.map(useDeepCompareMemoize)])
 }
 
 const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom, children, onLoad, ...options }) => {
@@ -42,13 +44,13 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
         console.log(error)
       }
     }
-  }, [map])
+  }, [map, onLoad])
 
   useDeepCompareEffectForMaps(() => {
     if (map) {
-      map.setCenter(center)
-      map.setZoom(zoom)
-      map.setOptions(options)
+      if (center) map.setCenter(center)
+      if (zoom) map.setZoom(zoom)
+      if (options) map.setOptions(options)
     }
   }, [map, center, zoom, options])
 
