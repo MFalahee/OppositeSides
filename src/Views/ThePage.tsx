@@ -19,7 +19,7 @@ const ThePage: React.FC = (pageProps: Object) => {
   React.useEffect(() => {
     // This will get the apiKey from the backend
     async function getApi() {
-      const result = await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
+      await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
         (res) => {
           setapiKey(res.data)
         },
@@ -56,6 +56,13 @@ const ThePage: React.FC = (pageProps: Object) => {
       'Virtually, of course.'
     ]
   ]
+
+  function ScrollCamera() {
+    const { camera } = useThree()
+    const vec = new THREE.Vector3()
+    return useFrame(() => camera.position.lerp(vec.set(camera.position.x, camera.position.y, camera.position.z), 0.02))
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -66,19 +73,12 @@ const ThePage: React.FC = (pageProps: Object) => {
     })
   })
 
-  function ScrollCamera() {
-    const { camera } = useThree()
-    const vec = new THREE.Vector3()
-    return useFrame(() => camera.position.lerp(vec.set(camera.position.x, camera.position.y, camera.position.z), 0.02))
-  }
-
   React.useEffect(() => {
     let text = document.querySelectorAll('.text-animation')
     text.forEach((line) => {
       observer.observe(line)
     })
-  }, [observer])
-
+  })
   function moveStars(stars: THREE.Group) {
     if (stars) {
       stars.rotation.x += 0.0001

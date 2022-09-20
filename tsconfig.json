@@ -10,7 +10,9 @@
     "typeRoots": [
       "custom.d.ts",
       "./node_modules/@googlemaps/typescript-guards/dist/index.d.ts",
-      "./node_modules@googlemaps\react-wrapperdistsrcindex.d.ts"
+      "./node_modules@googlemaps\react-wrapperdistsrcindex.d.ts",
+      "./node_modules/@react-three/drei/index.d.ts",
+      "./node_modules/postprocessing/types/postprocessing.d.ts"
     ],
     "experimentalDecorators": true,
     "target": "es6",

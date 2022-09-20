@@ -16,7 +16,7 @@ const Slideshow: React.FC<SlideShowProps> = (props) => {
         return <Slide key={index} id={index} content={slide} />
       })}
       <button className="arrow-button down" onClick={(e) => downArrow(e)}>
-        <img src="up-arrow.png" />
+        <img src="up-arrow.png" alt="arrow button to return to the top of the page" />
       </button>
     </div>
   )
