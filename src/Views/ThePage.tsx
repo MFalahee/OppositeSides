@@ -14,22 +14,31 @@ import generateStarPositions from '../Helpers/setupStars'
 
 const ThePage: React.FC = (pageProps: Object) => {
   const [cameraPosition] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
-  const [apiKey, setapiKey] = React.useState<string>('')
+  const [apiKey, setapiKey] = React.useState<string>()
 
   React.useEffect(() => {
     // This will get the apiKey from the backend
     async function getApi() {
-      await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
-        (res) => {
-          setapiKey(res.data)
-        },
-        (err) => {
-          console.log(err)
-        }
-      )
+      if (process.env.NODE_ENV !== 'production' && !apiKey) {
+        await axios.get(`${'http://localhost:5555/api'}`).then(
+          (res) => {
+            setapiKey(res.data)
+          },
+          (err) => console.log(err)
+        )
+      } else {
+        await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
+          (res) => {
+            setapiKey(res.data)
+          },
+          (err) => {
+            console.log(err)
+          }
+        )
+      }
     }
     getApi()
-  }, [])
+  }, [apiKey])
   // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
 
   const introSlides = [
@@ -52,7 +61,7 @@ const ThePage: React.FC = (pageProps: Object) => {
       'But probably, it was just water.'
     ],
     [
-      'Well anyways, thanks to my very grown up and adult brain and some new learning, I hope I can help you find yours. ',
+      "Now, thanks to many others' adult brains and some new learning of my own, I hope I can help you find yours. ",
       'Virtually, of course.'
     ]
   ]

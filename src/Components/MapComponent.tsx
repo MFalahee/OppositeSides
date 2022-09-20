@@ -32,7 +32,11 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
   const ref = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}))
+      setMap(
+        new window.google.maps.Map(ref.current, {
+          center: new google.maps.LatLng(0, 0)
+        })
+      )
     }
   }, [ref, map])
 
@@ -48,9 +52,9 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
 
   useDeepCompareEffectForMaps(() => {
     if (map) {
-      if (center) map.setCenter(center)
-      if (zoom) map.setZoom(zoom)
-      if (options) map.setOptions(options)
+      if (center && center !== null) map.setCenter(center)
+      if (zoom && zoom !== null) map.setZoom(zoom)
+      if (options && options !== null) map.setOptions(options)
     }
   }, [map, center, zoom, options])
 
