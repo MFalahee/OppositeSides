@@ -128,25 +128,28 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       }
       flipButton()
     },
-    [center]
+    [home]
   )
   // find antipode onClick
 
-  const findAntipode = React.useCallback((map: google.maps.Map) => {
-    // home or center
-    if (map) {
-      let c = map.getCenter()
-      // console.log('Find Antipode', lat(), lng())
-      if (c) {
-        let { lng, lat } = c
-        let coords = new google.maps.LatLng(lat(), lng())
-        console.log('Find Antipode', coords)
-        setAntipode(coords)
-        setCenter(coords)
-        flipButton()
+  const findAntipode = React.useCallback(
+    (map: google.maps.Map) => {
+      // home or center
+      if (map) {
+        let c = map.getCenter()
+        // console.log('Find Antipode', lat(), lng())
+        if (c) {
+          let { lng, lat } = c
+          let coords = new google.maps.LatLng(lat(), lng())
+          console.log('Find Antipode', coords)
+          setAntipode(coords)
+          setCenter(coords)
+          flipButton()
+        }
       }
-    }
-  }, [])
+    },
+    [antipode]
+  )
 
   /*
    */
@@ -170,7 +173,7 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
         }
         const createControlButtons = (map: google.maps.Map) => {
           if (map !== null) {
-            let classNames = ['geolocation-button', 'antipode-button']
+            let classNames = ['geolocation-button active', 'antipode-button']
             let divs = []
             for (let k in classNames) {
               let div = document.createElement('div')
