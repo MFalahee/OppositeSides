@@ -22,5 +22,5 @@ Hopefully by the end of it, I'll have something that's made with many mistakes, 
 | [React-Three]                                                                        | React FC library for ThreeJS                                                   |
 
 ---
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/847b68b5-39c8-44c6-868a-18f4479eaf2c/deploy-status)](https://app.netlify.com/sites/sweet-macaron-fd7a61/deploys)
 If you have comments or want to contribute to the project, please contact me!
