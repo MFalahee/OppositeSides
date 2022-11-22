@@ -22,7 +22,7 @@ const Stars: React.FC<StarsProps> = (props) => {
   })
 
   return (
-    <group ref={ref}>
+    <group {...props} ref={ref}>
       <Points limit={10000} positions={props.stars} scale={Math.random() + 1}>
         <PointMaterial size={1} scale={0.1} color="white" sizeAttenuation={false} />
       </Points>

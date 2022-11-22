@@ -10,7 +10,7 @@ const Slide: React.FC<SlideProps> = (props) => {
         <div className="slide-content">
           {t.map((i, l) => {
             return (
-              <div className="antipode-text-container text-animation">
+              <div key={i}className="antipode-text-container text-animation">
                 <p className="slide-text">{i}</p>
                 {l < i.length - 1 ? <p className="antipode-text">antipode</p> : null}
               </div>

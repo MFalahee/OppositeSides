@@ -15,28 +15,6 @@ This allows for the map to update when the map changes
 I need to take a closer look at this stuff to really learn this type of fix for the limitations of useEffect
 */
 
-const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
-  if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
-    return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
-  }
-
-  return deepEqual(a, b)
-})
-
-function useDeepCompareMemoize(value: any) {
-  const ref = React.useRef()
-
-  if (!deepCompareEqualsForMaps(value, ref.current)) {
-    ref.current = value
-  }
-
-  return ref.current
-}
-
-function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
-  React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
-}
-
 const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom, children, onLoad, ...options }) => {
   const [map, setMap] = React.useState<google.maps.Map>()
   const ref = React.useRef<HTMLDivElement>(null)
@@ -56,6 +34,28 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
       }
     }
   }, [map])
+
+  const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
+    if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
+      return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
+    }
+
+    return deepEqual(a, b)
+  })
+
+  function useDeepCompareMemoize(value: any) {
+    const ref = React.useRef()
+
+    if (!deepCompareEqualsForMaps(value, ref.current)) {
+      ref.current = value
+    }
+
+    return ref.current
+  }
+
+  function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
+    React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
+  }
 
   useDeepCompareEffectForMaps(() => {
     if (map) {
@@ -84,7 +84,7 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
       <div ref={ref} style={style} />
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          //sets the map prop on the child component
+          // @ts-ignore
           return React.cloneElement(child, { map })
         }
       })}
