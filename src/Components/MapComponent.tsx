@@ -5,27 +5,12 @@ import { MapProps } from '../../custom'
 // @ts-ignore
 import { isLatLngLiteral } from '@googlemaps/typescript-guards'
 
-const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
-  if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
-    return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
-  }
-
-  return deepEqual(a, b)
-})
-
-function useDeepCompareMemoize(value: any) {
-  const ref = React.useRef()
-
-  if (!deepCompareEqualsForMaps(value, ref.current)) {
-    ref.current = value
-  }
-
-  return ref.current
-}
-
-function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
-  React.useEffect(callback, [callback, ...dependencies.map(useDeepCompareMemoize)])
-}
+/*
+I don't know exactly how deepCompareEquals works yet.
+useEffect info : https://reactjs.org/docs/hooks-effect.html
+custom hooks info: https://reactjs.org/docs/hooks-custom.html
+Copied from the google maps docs reference: https://developers.google.com/maps/documentation/javascript/react-maps
+*/
 
 const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom, children, onLoad, ...options }) => {
   const [map, setMap] = React.useState<google.maps.Map>()
@@ -49,6 +34,28 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
       }
     }
   }, [map, onLoad])
+
+  const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
+    if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
+      return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
+    }
+
+    return deepEqual(a, b)
+  })
+
+  function useDeepCompareMemoize(value: any) {
+    const ref = React.useRef()
+
+    if (!deepCompareEqualsForMaps(value, ref.current)) {
+      ref.current = value
+    }
+
+    return ref.current
+  }
+
+  function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
+    React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
+  }
 
   useDeepCompareEffectForMaps(() => {
     if (map) {
@@ -75,8 +82,8 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
       <div ref={ref} style={style} />
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          //sets the map prop on the child component
-          return React.cloneElement(child, map)
+          // @ts-ignore
+          return React.cloneElement(child, { map })
         }
       })}
     </>

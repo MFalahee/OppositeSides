@@ -7,26 +7,33 @@ Drei.useGLTF.preload('sun.gltf')
 type GLTFResult = GLTF & {
   nodes: {
     Sphere: THREE.Mesh
-    'Cube.001:': THREE.Mesh
+    'Cube.001:'?: THREE.Mesh
   }
   materials: {
     ['Material.001']: THREE.MeshStandardMaterial
     ['Smoke Domain Material']: THREE.MeshStandardMaterial
   }
 }
+
 const SunModel: React.FC<JSX.IntrinsicElements['group']> = (props) => {
-  const group = React.useRef<THREE.Group | null>(null)
+  const group = React.useRef<THREE.Group>()
   const { nodes, materials } = Drei.useGLTF('sun.gltf') as GLTFResult
   useFrame(() => {
-    if (group && group.current) {
-      group.current.rotation.z += 0.01
-    }
+    group.current.rotation.z += 0.01
+    invalidate()
   })
-  return (
-    <group {...props} ref={group} dispose={null}>
-      <mesh geometry={nodes.Sphere.geometry} material={materials['Material.001']} />
-    </group>
-  )
+  if (nodes && materials) {
+    materials['Material.001'].transparent = false
+    return (
+      <group {...props} ref={group} dispose={null}>
+        <mesh position={props.position} geometry={nodes.Sphere.geometry} material={materials['Material.001']} />
+      </group>
+    )
+  } else {
+    return null
+  }
 }
+
+Drei.useGLTF.preload('sun.gltf')
 
 export default SunModel
