@@ -64,10 +64,18 @@ export interface MainViewTextFieldProps {
 // @Slideshow
 
 export interface SlideShowProps {
-  slides: Array<string>
+  slides: (string | string[])[]
 }
 
 export interface SlideProps {
   id: number
-  content: string
+  content: string | string[]
+}
+
+export interface StarsProps {
+  radius?: number
+  radius2?: number
+  scale?: number
+  stars?: Float32Array
+  fn?: (stars: THREE.Group) => void
 }

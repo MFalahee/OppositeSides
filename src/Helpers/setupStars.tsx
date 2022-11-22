@@ -7,6 +7,7 @@ export default function generateStarPositions(numStars: number) {
     if (pos <= -2 || pos >= 2) {
       return pos * (Math.random() * 100)
     }
+    return undefined
   })
   return actualBuffer
 }

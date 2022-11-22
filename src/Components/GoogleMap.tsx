@@ -2,24 +2,15 @@ import * as React from 'react'
 import { Wrapper, Status } from '@googlemaps/react-wrapper'
 import { MapComponent, ErrorComponent, Loading } from './index'
 import { WrapperProps } from '../../custom'
+
 const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
-  let infoWindow: google.maps.InfoWindow
-  let map: google.maps.Map
   let ui = true
   const [clicks, setClicks] = React.useState<google.maps.LatLng[]>([])
-  const [zoom, setZoom] = React.useState(3)
-  const [center, setCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: 0,
-    lng: -4.5
-  })
-  const [prevCenter, setPreviousCenter] = React.useState<google.maps.LatLngLiteral>({
-    lat: 0,
-    lng: 0
-  })
-  const [antipode, setAntipode] = React.useState<google.maps.LatLngLiteral>({
-    lat: 0,
-    lng: 0
-  })
+  const [zoom, setZoom] = React.useState<google.maps.MapOptions['zoom']>(5)
+  const [center, setCenter] = React.useState<google.maps.LatLng>()
+  const [previousCenter, setPreviousCenter] = React.useState<google.maps.LatLng>()
+  const [home, setHome] = React.useState<google.maps.LatLng>()
+  const [antipode, setAntipode] = React.useState<google.maps.LatLng>()
   const [style] = React.useState({
     height: '100vh',
     width: '100%',
@@ -28,56 +19,21 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
   })
 
   const onClick = (event: google.maps.MapMouseEvent) => {
-    // console.log('onClick')
-    setClicks([...clicks, event.latLng])
-  }
-
-  function handleLocationError(browserHasGeolocation: boolean, infoWindow: google.maps.InfoWindow, pos: google.maps.LatLng) {
-    infoWindow.setPosition(pos)
-    infoWindow.setContent(
-      browserHasGeolocation ? 'Error: The Geolocation service failed.' : "Error: Your browser doesn't support geolocation."
-    )
-    infoWindow.open(map)
-  }
-
-  const geolocate = (map: google.maps.Map) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          const { latitude, longitude } = position.coords
-          setPreviousCenter({
-            lat: center.lat,
-            lng: center.lng
-          })
-          setCenter({
-            lat: latitude,
-            lng: longitude
-          })
-          console.log('Your location: ', latitude, longitude)
-          setZoom(10)
-        },
-        () => {
-          handleLocationError(true, infoWindow, map.getCenter()!)
-        }
-      )
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter()!)
-    }
-    flipButton()
-  }
-
-  const findAntipode = (map: google.maps.Map) => {
-    const { lat, lng } = map.getCenter()
-    console.log('Find Antipode', lat(), lng())
-    setAntipode(antipode)
-    setCenter(antipode)
-    flipButton()
+    if (event && event.latLng) setClicks([...clicks, event.latLng])
   }
 
   const onIdle = (map: google.maps.Map) => {
-    setZoom(map.getZoom())
-    setCenter(map.getCenter().toJSON())
+    let currentZoom = null
+    let currentCenter = null
+    if (map) {
+      currentZoom = map.getZoom()
+      currentCenter = map.getCenter()
+    }
+    if (currentZoom && currentZoom !== null && currentCenter !== null && currentCenter) {
+      setZoom(currentZoom)
+      setCenter(currentCenter)
+      updateCoordinatesDisplay(currentCenter.toJSON())
+    }
   }
 
   const overlaySpot = (direction: string) => {
@@ -107,71 +63,155 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
       case 'rc':
         output = window.google.maps.ControlPosition['RIGHT_CENTER']
         break
-      case 'bc':
-        output = window.google.maps.ControlPosition['BOTTOM_CENTER']
-        break
       default:
         output = window.google.maps.ControlPosition['BOTTOM_CENTER']
     }
     return output
   }
-
-  const geocodeLatLng = (geocoder: google.maps.Geocoder, map: google.maps.Map) => {
-    console.log('geocodeLatLng', geocoder)
-  }
-
-  const sphereCoords = (coords: google.maps.LatLng) => {
-    /*
-
-    relevant sphere equations?
-    coordinate conversion -> 
-    r = sqrt(x^2 + y^2 + z^2)
-    θ = arccos(z/sqrt(sqrt(x^2 + y^2 + z^2))) =  arccos(z/r) = arctan(sqrt(x^2 + y^2)/z)
-    φ = big switch case
-    */
-  }
-
-  const createControlButtons = (map: google.maps.Map) => {
-    const buttonDiv1 = document.createElement('div')
-    const buttonDiv2 = document.createElement('div')
-    const mapButton = document.createElement('button')
-    const mapButton2 = document.createElement('button')
-    mapButton.type = 'button'
-    mapButton2.type = 'button'
-    mapButton.className = 'map-button geolocation-button active'
-    mapButton2.className = 'map-button antipode-button'
-    mapButton.innerHTML = 'Take me home'
-    mapButton2.innerHTML = 'Find my antipode'
-    mapButton.addEventListener('click', (e) => {
-      geolocate(map)
-    })
-    mapButton2.addEventListener('click', (e) => {
-      findAntipode(map)
-    })
-    buttonDiv1.appendChild(mapButton)
-    buttonDiv2.appendChild(mapButton2)
-
-    return [buttonDiv1, buttonDiv2]
-  }
-
   const flipButton = () => {
     document.querySelectorAll('.map-button').forEach((button) => {
       button.classList.toggle('active')
     })
   }
 
-  const handleOnLoad = (map: google.maps.Map) => {
-    let buttons
-    if (map) {
-      const divs = createControlButtons(map)
-      if (divs) buttons = document.querySelectorAll('.map-button')
-      if (buttons != null) {
-        divs.forEach((div) => {
-          map.controls[overlaySpot('tc')].push(div)
-        })
-      }
+  /* 
+  Coordinates display
+  */
+
+  const mapInfoWindowGuts = (parentDiv: HTMLDivElement) => {
+    const containerDiv = document.createElement('div')
+    containerDiv.className = 'map-info-window-container'
+    let displays = ['home', 'antipode', 'center']
+    for (let i = 0; i < displays.length; i++) {
+      let display = document.createElement('h3')
+      display.id = `coordinates-${displays[i]}`
+      containerDiv.appendChild(display)
+    }
+    parentDiv.appendChild(containerDiv)
+    return parentDiv
+  }
+
+  const updateCoordinatesDisplay = (input: google.maps.LatLngLiteral) => {
+    let homeC = document.getElementById('coordinates-home')
+    let antiC = document.getElementById('coordinates-antipode')
+    let currentC = document.getElementById('coordinates-center')
+    if (homeC && antiC && currentC) {
     }
   }
+
+  function handleLocationError(browserHasGeolocation: boolean, pos: google.maps.LatLng) {
+    return {
+      message: browserHasGeolocation ? 'Error: The Geolocation service failed.' : "Error: Your browser doesn't support geolocation.",
+      position: pos
+    }
+  }
+  // geolocation onClick
+  const geolocate = React.useCallback(
+    (map: google.maps.Map) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position: GeolocationPosition) => {
+            const { latitude, longitude } = position.coords
+            const output = new google.maps.LatLng(latitude, longitude)
+            setPreviousCenter(center)
+            setCenter(output)
+            setHome(output)
+            setZoom(15)
+          },
+          () => {
+            handleLocationError(true, map.getCenter()!)
+          }
+        )
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, map.getCenter()!)
+      }
+      flipButton()
+    },
+    [home]
+  )
+  // find antipode onClick
+
+  const findAntipode = React.useCallback(
+    (map: google.maps.Map) => {
+      // home or center
+      if (map) {
+        let c = map.getCenter()
+        // console.log('Find Antipode', lat(), lng())
+        if (c) {
+          let { lng, lat } = c
+          let coords = new google.maps.LatLng(lat(), lng())
+          console.log('Find Antipode', coords)
+          setAntipode(coords)
+          setCenter(coords)
+          flipButton()
+        }
+      }
+    },
+    [antipode]
+  )
+
+  /*
+   */
+
+  // giant callback function for google maps to create the overlayed display
+  const handleOnLoad = React.useCallback(
+    (map: google.maps.Map) => {
+      let buttons
+      if (map) {
+        console.log('handleOnLoad map callback')
+        function cleanUpButtons() {
+          while (map.controls[overlaySpot('tl')].getLength() >= 1) {
+            map.controls[overlaySpot('tl')].pop()
+          }
+        }
+        cleanUpButtons()
+        const createMapInfoWindow = (map: google.maps.Map) => {
+          let infoDiv = document.createElement('div')
+          infoDiv.id = 'map-info-window'
+          infoDiv = mapInfoWindowGuts(infoDiv)
+        }
+        const createControlButtons = (map: google.maps.Map) => {
+          if (map !== null) {
+            let classNames = ['geolocation-button active', 'antipode-button']
+            let divs = []
+            for (let k in classNames) {
+              let div = document.createElement('div')
+              let button = document.createElement('button')
+              button.className = `map-button ${classNames[k]}`
+              if (k === 'geolocation-button') {
+                button.innerHTML = 'Take me home'
+                button.addEventListener('click', () => {
+                  geolocate(map)
+                })
+              } else {
+                button.innerHTML = 'Find my Antipode'
+                button.addEventListener('click', () => {
+                  findAntipode(map)
+                })
+              }
+              div.appendChild(button)
+              divs.push(div)
+            }
+            return divs
+          }
+        }
+
+        const buttonDivs = createControlButtons(map)
+        createMapInfoWindow(map)
+        if (buttonDivs && buttonDivs !== null) buttons = document.querySelectorAll('.map-button')
+        if (buttonDivs && buttons != null) {
+          buttonDivs.forEach((div) => {
+            if (div.parentElement) div.parentElement.removeChild(div)
+            // map.controls[overlaySpot('tl')].pop()
+            console.log(div)
+            map.controls[overlaySpot('tl')].push(div)
+          })
+        }
+      }
+    },
+    [geolocate, findAntipode]
+  )
 
   const mapRender = (status: Status): JSX.Element => {
     switch (status) {
@@ -189,7 +229,8 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
             style={style}
             disableDefaultUI={ui}
             zoomControl={true}
-            maxZoom={5}
+            maxZoom={15}
+            minZoom={5}
             streetViewControl={false}
             fullscreenControl={false}
             rotateControl={false}
@@ -198,7 +239,6 @@ const GoogleMap: React.FC<WrapperProps> = ({ api }) => {
         )
     }
   }
-
   if (api === '') {
     return <div>Backend isn't currently live. Sorry about that!</div>
   } else {

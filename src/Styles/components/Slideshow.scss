@@ -3,11 +3,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
   .slide-wrapper {
-    display: flex;
-    flex-direction: column;
     // distance between slides
     margin-top: 60vh;
     .slide-content {
@@ -16,29 +12,65 @@
       position: relative;
       font-weight: 600;
       font-size: 2em;
-      filter: blur(10px);
-      transition: all 1.3s;
-      transition-delay: 200ms;
-      transform: translateX(-105%);
       padding-left: 10px;
-      opacity: 0;
-    }
-
-    div {
-      &.intersection {
-        opacity: 1;
-        filter: blur(0);
-        transform: translateX(0);
+      .slide-text {
+        padding-right: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: left;
+      }
+      .text-animation {
+        transition: all 1.3s ease-in-out;
+        opacity: 0;
+        line-height: 0.1em;
+        display: inline;
+        filter: blur(5px);
+        &.intersection {
+          transform: translateX(0);
+          transition-delay: 200ms;
+          opacity: 1;
+          line-height: 1.5em;
+          filter: blur(0);
+          &:nth-of-type(2) {
+            transition-delay: 600ms;
+          }
+          &:nth-of-type(3) {
+            transition-delay: 1200ms;
+          }
+          &:nth-of-type(4) {
+            transition-delay: 1600ms;
+          }
+          &:nth-of-type(5) {
+            transition-delay: 1600ms;
+          }
+        }
       }
     }
   }
-}
-
-@keyframes first-text-fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
+  .arrow-button {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    &.down {
+      margin: 0;
+      border: 0;
+      transform: rotate(180deg);
+      padding-top: 50vh;
+    }
+    &.up {
+      transform: rotate(0deg);
+    }
+    img {
+      max-width: 50vw;
+      opacity: 0.8;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
   }
 }

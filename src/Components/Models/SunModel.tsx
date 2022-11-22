@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import * as React from 'react'
 import * as Drei from '@react-three/drei'
-import { invalidate, useFrame } from '@react-three/fiber'
-
+import { useFrame } from '@react-three/fiber'
+Drei.useGLTF.preload('sun.gltf')
 // @ts-ignore
 type GLTFResult = GLTF & {
   nodes: {
