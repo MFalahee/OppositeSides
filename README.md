@@ -1,4 +1,4 @@
-### Hi!
+###
 
 This is a small project, that I'm currently working on. <br>
 Not sure where it's headed totally, but I'll update this as it plots a course. <br>
