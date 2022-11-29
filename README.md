@@ -2,8 +2,9 @@
 
 This is a small project, that I'm currently working on. <br>
 Not sure where it's headed totally, but I'll update this as it plots a course. <br>
-API keys are privately stored on a local backend right now as I can't grant everyone access to google API
+API keys are privately stored on a local backend right now as I can't grant everyone access to google API, so a local build won't work without adding a .env with your own dev key.
 Hopefully by the end of it, I'll have something that's made with many mistakes, a will to learn, and some fun too. <br>
+also I really hope it's complete with testing..
 
 ---
 
