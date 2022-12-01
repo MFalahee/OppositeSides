@@ -5,15 +5,14 @@ const Slide: React.FC<SlideProps> = (props) => {
   let slideContent = props.content
 
   const SlideText: React.FC<{ content: string | string[] }> = (zzz) => {
-    let c = zzz.content
-    if (typeof c === 'object') {
+    let content = zzz.content
+    if (typeof content === 'object') {
       return (
         <p className="slide-text">
-          {c.map((item, index) => {
+          {content.map((item, index) => {
             return (
-              <div key={i}className="antipode-text-container text-animation">
-                <p className="slide-text">{i}</p>
-                {l < i.length - 1 ? <p className="antipode-text">antipode</p> : null}
+              <div key={index} className="antipode-text-container text-animation">
+                <p className="slide-text">{item}</p>
               </div>
             )
           })}
@@ -21,7 +20,7 @@ const Slide: React.FC<SlideProps> = (props) => {
       )
     }
     // default case
-    return <p className="slide-text text-animation">{c}</p>
+    return <p className="slide-text text-animation">{content}</p>
   }
 
   return (
