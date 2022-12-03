@@ -11,15 +11,22 @@ import { EffectComposer, Selection, Bloom, Noise, GodRays } from '@react-three/p
 import { BlendFunction } from 'postprocessing'
 import generateStarPositions from '../Helpers/setupStars'
 
-const ThePage: React.FC = (pageProps: Object) => {
+const ThePage: React.FC = () => {
   const [cameraPosition] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
   const [apiKey, setapiKey] = React.useState<string>()
-  const godRayMaterial = new THREE.MeshBasicMaterial({ color: 'orange' })
-  const godRayGeo = new THREE.ConeGeometry(0.5, 0.2, 16)
-  godRayGeo.rotateX(Math.PI / 2)
-  godRayGeo.rotateY(Math.PI / 2)
-  godRayGeo.rotateZ((Math.PI / 2) * -0.3)
-  const godRaySun = new THREE.Mesh(godRayGeo, godRayMaterial)
+  const godRayGeo = new THREE.SphereGeometry(0.4, 16, 32)
+
+  let sunImg = `${process.env.REACT_APP_AWS_URL}/8k_sun.jpg`
+  if (process.env.NODE_ENV !== 'production') {
+    sunImg = './textures/8k_sun.jpg'
+  }
+  const godRaySun = new THREE.Mesh(
+    godRayGeo,
+    new THREE.MeshBasicMaterial({
+      color: 'orange',
+      alphaMap: new THREE.TextureLoader().load(sunImg)
+    })
+  )
   React.useEffect(() => {
     // This will get the apiKey from the backend
     async function getApi() {
@@ -47,7 +54,7 @@ const ThePage: React.FC = (pageProps: Object) => {
 
   const introSlides = [
     'In a time of great uncertainty-',
-    'When our most basic ideals are causing deadly fights between us,',
+    'When our most basic differences are forming rifts between us,',
     ['We know so much about what plagues the world and our civilization,', "Yet, we can't seem to work together to stop it."],
     ["Aren't you sick of it?", 'I know I am. So, I started to make something a while ago.'],
     ['Do you know what an antipode is?', 'No? Same here.', "Wait, no. That's not right. I do know what an antipode is."],
@@ -65,10 +72,10 @@ const ThePage: React.FC = (pageProps: Object) => {
       'But probably, it was just water.'
     ],
     [
-      "Now, thanks to many others' adult brains and some new learning of my own, I hope I can help you find yours. ",
+      'Now, thanks to many contributing adult brains, and some learning of my own, I hope I can help you find yours. ',
       'Virtually, of course.',
-      "Maybe someday I'll be able to make this educational in some way, to help us learn about our opposite spaces and how they are different from us.",
-      "But for now, I'm just going to show you yours, and you can decide what to do with it."
+      'Someday I hope to make this educational in some way. ',
+      'Maybe a little something to bring us all a little closer.'
     ]
   ]
 
@@ -127,12 +134,12 @@ const ThePage: React.FC = (pageProps: Object) => {
                   sun={godRaySun}
                   width={window.innerWidth}
                   height={window.innerHeight}
-                  samples={150}
+                  samples={100}
                   density={0.95}
                   decay={0.95}
-                  weight={0.5}
-                  exposure={0.5}
-                  blendFunction={BlendFunction.SCREEN}
+                  weight={0.6}
+                  exposure={0.4}
+                  blendFunction={BlendFunction.ADD}
                 />
                 <Bloom intensity={0.5} luminanceSmoothing={0.025} luminanceThreshold={0.4} />
                 <Noise premultiply={true} opacity={0.4} blendFunction={BlendFunction.ADD} />
