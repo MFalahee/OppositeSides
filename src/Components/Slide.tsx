@@ -11,9 +11,9 @@ const Slide: React.FC<SlideProps> = (props) => {
         <p className="slide-text">
           {content.map((item, index) => {
             return (
-              <div key={index} className="antipode-text-container text-animation">
-                <p className="slide-text">{item}</p>
-              </div>
+              <span key={index} className="antipode-text-container text-animation">
+                <span className="slide-text">{item}</span>
+              </span>
             )
           })}
         </p>

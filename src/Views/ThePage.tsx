@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as THREE from 'three'
 import axios from 'axios'
 import { Slideshow, GoogleMap } from '../Components/index'
-// 3d imports
 import Stars from '../Components/Models/Stars'
 import '@react-spring/three'
 import GlobeModel from '../Components/Models/GlobeModel'
@@ -15,11 +14,10 @@ const ThePage: React.FC = () => {
   const [cameraPosition] = React.useState<THREE.Vector3>(new THREE.Vector3(10, 0, 0))
   const [apiKey, setapiKey] = React.useState<string>()
   const godRayGeo = new THREE.SphereGeometry(0.4, 16, 32)
-
-  let sunImg = `${process.env.REACT_APP_AWS_URL}/8k_sun.jpg`
-  if (process.env.NODE_ENV !== 'production') {
-    sunImg = './textures/8k_sun.jpg'
-  }
+  let sunImg: string = ''
+  if (process.env.REACT_APP_AWS_URL !== undefined && process.env.NODE_ENV === 'production')
+    sunImg = `${process.env.REACT_APP_AWS_URL}/8k_sun.jpg`
+  else sunImg = './textures/8k_sun.jpg'
   const godRaySun = new THREE.Mesh(
     godRayGeo,
     new THREE.MeshBasicMaterial({
@@ -27,8 +25,9 @@ const ThePage: React.FC = () => {
       alphaMap: new THREE.TextureLoader().load(sunImg)
     })
   )
+
+  // get api key from server
   React.useEffect(() => {
-    // This will get the apiKey from the backend
     async function getApi() {
       if (process.env.NODE_ENV !== 'production' && !apiKey) {
         await axios.get(`${'http://localhost:5555/api'}`).then(
@@ -51,7 +50,6 @@ const ThePage: React.FC = () => {
     getApi()
   }, [apiKey])
   // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
-
   const introSlides = [
     'In a time of great uncertainty-',
     'When our most basic differences are forming rifts between us,',
@@ -63,8 +61,8 @@ const ThePage: React.FC = () => {
       'An antipode is the opposite of something. ',
       'An antipode can be many things, some would argue any- things, but your antipode is a different story.'
     ],
-    'Finding your antipode is simple. Just look at a map and find the exact opposite point of where you are right now.',
-    "Wait, that sounded a little complicated? Don't worry, I can help you.",
+    'Finding your antipode is simple. Just look at a map and find the diametrically opposite point from where you are now, on the surface of this big blue marble.',
+    "Wait, I agree; That sounded a little complicated? Don't worry, I can help you.",
     [
       'As a kid I would daydream about the idea, bored in class.',
       'I wanted to burrow beneath my desk,',

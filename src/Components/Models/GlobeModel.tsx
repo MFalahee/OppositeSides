@@ -32,6 +32,8 @@ const GlobeModel: React.FC<JSX.IntrinsicElements['group']> = (props?) => {
     if (timeRef)
       timeRef.current = setTimeout(() => {
         if (phase < 5) setPhase(phase + 1)
+        if (group.current) console.log('phase: ' + phase)
+        if (group.current) console.log(group.current.position)
       }, delay)
     return () => {
       resetTimeout()

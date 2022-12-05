@@ -35,25 +35,24 @@ const MapComponent: React.FC<MapProps> = ({ onClick, onIdle, style, center, zoom
     }
   }, [map, onLoad])
 
+  // google maps api docs supplied these next few functions
   const deepCompareEqualsForMaps = createCustomEqual((deepEqual) => (a: any, b: any) => {
     if (isLatLngLiteral(a) || a instanceof google.maps.LatLng || isLatLngLiteral(b) || b instanceof google.maps.LatLng) {
       return new google.maps.LatLng(a).equals(new google.maps.LatLng(b))
     }
-
     return deepEqual(a, b)
   })
 
   function useDeepCompareMemoize(value: any) {
     const ref = React.useRef()
-
     if (!deepCompareEqualsForMaps(value, ref.current)) {
       ref.current = value
     }
-
     return ref.current
   }
 
   function useDeepCompareEffectForMaps(callback: React.EffectCallback, dependencies: any[]) {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(callback, dependencies.map(useDeepCompareMemoize))
   }
 
