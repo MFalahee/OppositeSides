@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ThePage } from './Views/index'
 import './Styles/root.scss'
+import { ModuleKind } from 'typescript'
 
 const App: React.FC = () => {
   // for the top of the page button

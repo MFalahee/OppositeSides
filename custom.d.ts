@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 export interface ButtonProps {
   onClick?: (event: React.MouseEvent) => void
   visible: boolean //is the button rendered?

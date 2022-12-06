@@ -50,6 +50,7 @@ const ThePage: React.FC = () => {
     getApi()
   }, [apiKey])
   // function that will toggle the ability to 'freeze' the scroll when the user gets to the google map portion.
+  // TODO refactor text presentation into its own component with more customization options, word emphasis, etc.
   const introSlides = [
     'In a time of great uncertainty-',
     'When our most basic differences are forming rifts between us,',
