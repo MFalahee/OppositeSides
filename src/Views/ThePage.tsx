@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import axios from 'axios'
-import { Slideshow, GoogleMap } from '../Components/index'
+import { Slideshow, GoogleMap, BlinkingArrow } from '../Components/index'
 import Stars from '../Components/Models/Stars'
 import '@react-spring/three'
 import GlobeModel from '../Components/Models/GlobeModel'
@@ -146,7 +146,9 @@ const ThePage: React.FC = () => {
             </Selection>
           </Canvas>
         </div>
-        <div className="the-page item-wrapper first"></div>
+        <div className="the-page item-wrapper first">
+          <BlinkingArrow />
+        </div>
         <div className="the-page item-wrapper slideshow-wrapper">
           <Slideshow slides={introSlides} />
         </div>
