@@ -11,13 +11,16 @@ module.export = {
   module: {
     rules: [
       {
-        test: /\.?js$/,
+        test: /\.test.tsx$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'ts-loader'
         }
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   // tells webpack to inject <script> tags
   plugins: [

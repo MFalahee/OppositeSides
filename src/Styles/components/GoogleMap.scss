@@ -1,25 +1,46 @@
-.wrapper-wrapper {
+#google-map-container {
   width: 100%;
   opacity: 0.85;
   position: absolute;
   bottom: 0;
-  .map-button {
-    display: none;
-    visibility: hidden;
-    width: 100%;
-    font-size: 2em;
-    background: $blue-color;
-    padding: 1em 1.5em;
-    margin: 1em;
-    border-top: 0.5em solid $green-blue;
-    border-bottom: 0.5em solid $darker-blue-color;
-    &:hover {
-      border-top: 0.5em solid $blue-color;
-      border-bottom: 0.5em solid $lighter-salmon-color;
+
+  #map-info-window {
+    margin-bottom: 200px;
+    .map-info-window-container {
+      width: 250px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: center;
+      background-color: $blue-color;
+      border: 0.5em solid $green-blue;
+      .coordinates {
+        font-size: 2.5em;
+        color: white;
+        padding: 5px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
     }
-    &.active {
+  }
+
+  #map-button-container {
+    display: flex;
+    .map-button {
       visibility: visible;
-      display: inline-block;
+      width: 50%;
+      font-size: 2em;
+      background: $blue-color;
+      padding: 1em 1em;
+      margin: 1em;
+      color: white;
+      font-weight: 600;
+      border-top: 0.5em solid $green-blue;
+      border-bottom: 0.5em solid $darker-blue-color;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      &:hover {
+        border-top: 0.5em solid $blue-color;
+        border-bottom: 0.5em solid $lighter-salmon-color;
+      }
     }
   }
 }
