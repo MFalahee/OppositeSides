@@ -37,7 +37,7 @@ const ThePage: React.FC = () => {
           (err) => console.log(err)
         )
       } else {
-        await axios.get(`${process.env.REACT_APP_API_URL}/api`).then(
+        await axios.get(`${process.env?.REACT_APP_API_URL}/api`).then(
           (res) => {
             setapiKey(res.data)
           },
@@ -79,6 +79,7 @@ const ThePage: React.FC = () => {
   ]
 
   function ScrollCamera() {
+    // TODO add movement to camera when user clicks and holds on the canvas
     const { camera } = useThree() || {}
     const vec = new THREE.Vector3()
     return useFrame(() => camera.position.lerp(vec.set(camera.position.x, camera.position.y, camera.position.z), 0.02))
